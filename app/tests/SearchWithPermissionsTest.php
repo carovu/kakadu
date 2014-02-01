@@ -32,7 +32,7 @@ class SearchWithPermissionsTest extends TestCaseUser {
      * Test ajax search user with no data
      */
     public function testUserAjaxWithNoData() {
-        $response = $this->call('POST', 'users/search', [], [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/users/search', [], [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -47,7 +47,7 @@ class SearchWithPermissionsTest extends TestCaseUser {
         $post_data = array(
             'search'    => 'lex'
         );
-        $response = $this->call('POST', 'users/search', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/users/search', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Ok"', $content);
@@ -60,7 +60,7 @@ class SearchWithPermissionsTest extends TestCaseUser {
      * Test ajax search group with no data
      */
     public function testGroupAjaxWithNoData() {
-        $response = $this->call('POST', 'groups/search', [], [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/groups/search', [], [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -75,7 +75,7 @@ class SearchWithPermissionsTest extends TestCaseUser {
         $post_data = array(
             'search'    => 'Group x'
         );
-        $response = $this->call('POST', 'groups/search', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/groups/search', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
 
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();

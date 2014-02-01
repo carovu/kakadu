@@ -30,7 +30,7 @@
 		
 		//Initialise the JavaScript File with the base url and the groupId.
 		//Function can be found in add_user.js
-		initialiseAddUser("{{Request::root()}}", "{{ $group['id'] }}", "{{trans('group.drag')}}");
+		initialiseAddUser("{{URL::to('/api/v1')}}", "{{ $group['id'] }}", "{{trans('group.drag')}}");
 		
 		$('#number').text($count++);
 		$('#notfound').hide();
@@ -120,7 +120,7 @@
 			</div>
 			@if($roleLearngroup == ConstRole::ADMIN || $roleLearngroup == ConstRole::GROUPADMIN)	
 				<div id="edit">
-					{{ Form::open(array('url' => 'group/edit', 'method' => 'post')) }} 	
+					{{ Form::open(array('url' => 'api/v1/group/edit', 'method' => 'post')) }} 	
 						{{ Form::hidden('id', $group['id']) }}		
 						<legend>
 							{{ Form::text('name', $group['name']) }}

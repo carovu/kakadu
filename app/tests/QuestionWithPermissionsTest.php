@@ -30,7 +30,7 @@ class QuestionWithPermissionsTest extends TestCaseCourse {
      * Test the view to show a existing question
      */
     public function testCourseViewExistingID() {
-        $response = $this->call('GET', 'question/' . $this->question->id);
+        $response = $this->call('GET', 'api/v1/question/' . $this->question->id);
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -40,7 +40,7 @@ class QuestionWithPermissionsTest extends TestCaseCourse {
      */
     public function testCourseViewNotExistingID() {
         $id = $this->getNotExistingID('Question');
-        $response = $this->call('GET', 'question/' . $id);
+        $response = $this->call('GET', 'api/v1/question/' . $id);
         $this->assertEquals('404', $response->getStatusCode());
     }
 
@@ -49,7 +49,7 @@ class QuestionWithPermissionsTest extends TestCaseCourse {
      * Test the view to create a question
      */
     public function testQuestionCreateView() {
-        $response = $this->call('GET', 'course/' . $this->course->id . '/question/create');
+        $response = $this->call('GET', 'api/v1/course/' . $this->course->id . '/question/create');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -67,7 +67,7 @@ class QuestionWithPermissionsTest extends TestCaseCourse {
             'answer' => '',
             'catalogs' => ''
         );
-        $response = $this->call('POST', 'question/create', $post_data);
+        $response = $this->call('POST', 'api/v1/question/create', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('course//question/create', $response);
         ////$this->checkIfErrorsExist();
@@ -96,7 +96,7 @@ class QuestionWithPermissionsTest extends TestCaseCourse {
             'answer'    => 'Question y',
             'catalogs'  => $ids
         );
-        $response = $this->call('POST', 'question/create', $post_data);
+        $response = $this->call('POST', 'api/v1/question/create', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('course/' . $this->course->id . '/question/create', $response);
         //$this->checkIfNoErrorsExist();
@@ -130,7 +130,7 @@ class QuestionWithPermissionsTest extends TestCaseCourse {
      * Test the view to edit a existing question
      */
     public function testQuestionEditExistingID() {
-        $response = $this->call('GET', 'question/' . $this->question->id . '/edit');
+        $response = $this->call('GET', 'api/v1/question/' . $this->question->id . '/edit');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -140,7 +140,7 @@ class QuestionWithPermissionsTest extends TestCaseCourse {
      */
     public function testQuestionEditNotExistingID() {
         $id = $this->getNotExistingID('Question');
-        $response = $this->call('GET', 'question/' . $id . '/edit');
+        $response = $this->call('GET', 'api/v1/question/' . $id . '/edit');
         $this->assertEquals('404', $response->getStatusCode());
     }
 
@@ -159,7 +159,7 @@ class QuestionWithPermissionsTest extends TestCaseCourse {
             'answer'    => 'Test',
             'catalogs'  => array(1, 2)
         );
-        $response = $this->call('POST', 'question/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/question/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('question/' . $id . '/edit', $response);
     }
@@ -179,7 +179,7 @@ class QuestionWithPermissionsTest extends TestCaseCourse {
             'answer' => '',
             'catalogs' => ''
         );
-        $response = $this->call('POST', 'question/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/question/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkIfErrorsExist();
     }
@@ -209,7 +209,7 @@ class QuestionWithPermissionsTest extends TestCaseCourse {
             'answer'    => 'Question z',
             'catalogs'  => $ids
         );
-        $response = $this->call('POST', 'question/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/question/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('question/' . $this->question->id, $response);
         //$this->checkIfNoErrorsExist();
@@ -246,7 +246,7 @@ class QuestionWithPermissionsTest extends TestCaseCourse {
      */
     public function testQuestionDeleteNotExistingID() {
         $id = $this->getNotExistingID('Question');
-        $response = $this->call('GET', 'question/' . $id . '/delete');
+        $response = $this->call('GET', 'api/v1/question/' . $id . '/delete');
         $this->assertEquals('404', $response->getStatusCode());
     }
 
@@ -259,7 +259,7 @@ class QuestionWithPermissionsTest extends TestCaseCourse {
     public function testQuestionDeleteWithValidData() {
         $catalog = $this->question->catalogs()->first();
 
-        $response = $this->call('GET', 'question/' . $this->question->id . '/delete');
+        $response = $this->call('GET', 'api/v1/question/' . $this->question->id . '/delete');
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('catalog/' . $catalog->id, $response);
 
@@ -273,7 +273,7 @@ class QuestionWithPermissionsTest extends TestCaseCourse {
      * Test the view to show a question was deleted
      */
     public function testQuestionDeletedView() {
-        //$response = $this->call('GET', 'question/deleted');
+        //$response = $this->call('GET', 'api/v1/question/deleted');
         //$this->assertEquals('200', $response->getStatusCode());
     }
 

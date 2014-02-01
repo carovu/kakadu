@@ -30,7 +30,7 @@ class GroupWithoutPermissionsTest extends TestCaseCourse {
      */
     public function testGroupCreateView() {
         Sentry::logout();
-        $response = $this->call('GET', 'group/create');
+        $response = $this->call('GET', 'api/v1/group/create');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -44,7 +44,7 @@ class GroupWithoutPermissionsTest extends TestCaseCourse {
             'name'        => 'Group Test yz',
             'description' => 'This is a testgroup that shows the right functionality of the controller.'
         );
-        $response = $this->call('POST', 'group/create', $post_data);
+        $response = $this->call('POST', 'api/v1/group/create', $post_data);
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }
@@ -54,7 +54,7 @@ class GroupWithoutPermissionsTest extends TestCaseCourse {
      * Test the view to edit a existing group
      */
     public function testGroupEditExistingID() {
-        $response = $this->call('GET', 'group/' . $this->group->id . '/edit');
+        $response = $this->call('GET', 'api/v1/group/' . $this->group->id . '/edit');
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }
@@ -69,7 +69,7 @@ class GroupWithoutPermissionsTest extends TestCaseCourse {
             'name'          => 'Group Test yz',
             'description'   => 'This is a testgroup that shows the right functionality of the controller.'
         );
-        $response = $this->call('POST', 'group/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/group/edit', $post_data);
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }
@@ -79,7 +79,7 @@ class GroupWithoutPermissionsTest extends TestCaseCourse {
      * Test delete group with valid data
      */
     public function testGroupDeleteWithValidData() {
-        $response = $this->call('GET', 'group/' . $this->group->id . '/delete');
+        $response = $this->call('GET', 'api/v1/group/' . $this->group->id . '/delete');
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }

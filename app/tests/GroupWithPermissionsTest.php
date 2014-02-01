@@ -44,7 +44,7 @@ class GroupWithPermissionsTest extends TestCaseCourse {
      * Test the view to show all groups
      */
     public function testGroupsView() {
-        $response = $this->call('GET', 'groups');
+        $response = $this->call('GET', 'api/v1/groups');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -53,7 +53,7 @@ class GroupWithPermissionsTest extends TestCaseCourse {
      * Test the view to show all groups with ajax
      */
     public function testGroupsViewWithAjax() {
-        $response = $this->call('GET', 'groups',  [], [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('GET', 'api/v1/groups',  [], [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -68,7 +68,7 @@ class GroupWithPermissionsTest extends TestCaseCourse {
             'sort'      => 'created_at',
             'sort_dir'  => 'desc'
         );
-        $response = $this->call('GET', 'groups', $get_data);
+        $response = $this->call('GET', 'api/v1/groups', $get_data);
         $this->assertEquals('200', $response->getStatusCode());
         //$data = $response->getContent()->data['content']->data();
         //$this->assertArrayHasKey('groups', $data);
@@ -86,7 +86,7 @@ class GroupWithPermissionsTest extends TestCaseCourse {
             'sort'      => 'created_at',
             'sort_dir'  => 'desc'
         );
-        $response = $this->call('GET', 'groups',  $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('GET', 'api/v1/groups',  $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         //$data = $response->getContent()->data['content']->data();
         //$this->assertArrayHasKey('groups', $data);
@@ -98,7 +98,7 @@ class GroupWithPermissionsTest extends TestCaseCourse {
      * Test the view to show a existing group
      */
     public function testGroupViewExistingID() {
-        $response = $this->call('GET', 'group/' . $this->group->id);
+        $response = $this->call('GET', 'api/v1/group/' . $this->group->id);
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -108,7 +108,7 @@ class GroupWithPermissionsTest extends TestCaseCourse {
      */
     public function testGroupViewNotExistingID() {
         $id = $this->getNotExistingID('Group');
-        $response = $this->call('GET', 'group/' . $id);
+        $response = $this->call('GET', 'api/v1/group/' . $id);
         $this->assertEquals('404', $response->getStatusCode());
     }
 
@@ -117,7 +117,7 @@ class GroupWithPermissionsTest extends TestCaseCourse {
      * Test the view to create a group
      */
     public function testGroupCreateView() {
-        $response = $this->call('GET', 'group/create');
+        $response = $this->call('GET', 'api/v1/group/create');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -132,7 +132,7 @@ class GroupWithPermissionsTest extends TestCaseCourse {
             'name'        => 'Test',
             'description' => 'Test'
         );
-        $response = $this->call('POST', 'group/create', $post_data);
+        $response = $this->call('POST', 'api/v1/group/create', $post_data);
 
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('group/create', $response);
@@ -150,7 +150,7 @@ class GroupWithPermissionsTest extends TestCaseCourse {
             'name'        => 'Group Test yz',
             'description' => 'This is a testgroup that shows the right functionality of the controller.'
         );
-        $response = $this->call('POST', 'group/create', $post_data);
+        $response = $this->call('POST', 'api/v1/group/create', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('group/[0-9]+', $response);
         //$this->checkIfNoErrorsExist();
@@ -177,7 +177,7 @@ class GroupWithPermissionsTest extends TestCaseCourse {
      * Test the view to edit a existing group
      */
     public function testGroupEditExistingID() {
-        $response = $this->call('GET', 'group/' . $this->group->id . '/edit');
+        $response = $this->call('GET', 'api/v1/group/' . $this->group->id . '/edit');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -187,7 +187,7 @@ class GroupWithPermissionsTest extends TestCaseCourse {
      */
     public function testGroupEditNotExistingID() {
         $id = $this->getNotExistingID('Group');
-        $response = $this->call('GET', 'group/' . $id . '/edit');
+        $response = $this->call('GET', 'api/v1/group/' . $id . '/edit');
         $this->assertEquals('404', $response->getStatusCode());
     }
 
@@ -202,7 +202,7 @@ class GroupWithPermissionsTest extends TestCaseCourse {
             'name'          => 'Test yz',
             'description'   => 'This is a testgroup that shows the right functionality of the controller.'
         );
-        $response = $this->call('POST', 'group/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/group/edit', $post_data);
         $this->assertEquals('404', $response->getStatusCode());
     }
 
@@ -218,7 +218,7 @@ class GroupWithPermissionsTest extends TestCaseCourse {
             'name'          => 'Test',
             'description'   => 'Test'
         );
-        $response = $this->call('POST', 'group/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/group/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkIfErrorsExist();
     }
@@ -235,7 +235,7 @@ class GroupWithPermissionsTest extends TestCaseCourse {
             'name'          => 'Group Test yz',
             'description'   => 'This is a testgroup that shows the right functionality of the controller.'
         );
-        $response = $this->call('POST', 'group/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/group/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('group/' . $this->group->id, $response);
         //$this->checkIfNoErrorsExist();
@@ -256,7 +256,7 @@ class GroupWithPermissionsTest extends TestCaseCourse {
      */
     public function testGroupDeleteNotExistingID() {
         $id = $this->getNotExistingID('Group');
-        $response = $this->call('GET', 'group/' . $id . '/delete');
+        $response = $this->call('GET', 'api/v1/group/' . $id . '/delete');
         $this->assertEquals('404', $response->getStatusCode());
     }
 
@@ -267,7 +267,7 @@ class GroupWithPermissionsTest extends TestCaseCourse {
      * @depends testGroupDeleteNotExistingID
      */
     public function testGroupDeleteWithValidData() {
-        $response = $this->call('GET', 'group/' . $this->group->id . '/delete');
+        $response = $this->call('GET', 'api/v1/group/' . $this->group->id . '/delete');
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('groups', $response);
 
@@ -296,7 +296,7 @@ class GroupWithPermissionsTest extends TestCaseCourse {
         $course = Course::where('name', 'LIKE', 'Course 1 of group Test xy')->first();
         $course->learngroups()->attach($group);
 
-        $response = $this->call('GET', 'group/' . $this->group->id . '/delete');
+        $response = $this->call('GET', 'api/v1/group/' . $this->group->id . '/delete');
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('groups', $response);
 
@@ -315,7 +315,7 @@ class GroupWithPermissionsTest extends TestCaseCourse {
      * Test the view to show a group was deleted
      */
     public function testGroupDeletedView() {
-        //$response = $this->call('GET', 'group/deleted');
+        //$response = $this->call('GET', 'api/v1/group/deleted');
         //$this->assertEquals('200', $response->getStatusCode());
     }
 

@@ -22,8 +22,8 @@
 	<script>
 
 		$(document).ready(function() {	
-			initialiseFavorites("{{Request::root()}}", "{{trans('favorites.learn')}}");
-			initialiseQuestionType("{{$course['id']}}", "{{Request::root()}}");
+			initialiseFavorites("{{URL::to('/api/v1')}}", "{{trans('favorites.learn')}}");
+			initialiseQuestionType("{{$course['id']}}", "{{URL::to('/api/v1')}}");
 			$("#added").hide();
 		});
 		
@@ -32,14 +32,14 @@
 
 		function linkShow(id, catalog, name){
 			console.log("Katalog:" + catalog);
-			var url = "{{URL::to('question')}}";
+			var url = "{{URL::to('api/v1/question')}}";
 			setTimeout(function(){
 				window.location=url+"/"+id+"?navcatalog="+catalog;
 			}, 300);
 		}
 
 		function linkEdit(id){
-			var url = "{{URL::to('question')}}";
+			var url = "{{URL::to('api/v1/question')}}";
 			setTimeout(function(){
 				window.location=url+"/"+id+"/edit";
 			}, 300);
@@ -59,7 +59,7 @@
 				"label" : "{{trans('general.yes')}}",
 				"class" : "btn-success",
 				"callback": function() {
-					var urldelete = "{{ URL::to('catalog/delete', array($catalog['id'])) }}";
+					var urldelete = "{{ URL::to('api/v1/catalog/delete', array($catalog['id'])) }}";
 					window.location=urldelete;
 				}
 		
@@ -80,7 +80,7 @@
 				"label" : "{{trans('general.yes')}}",
 				"class" : "btn-success",
 				"callback": function() {
-					var urldelete = "{{ URL::to('question')}}";
+					var urldelete = "{{ URL::to('api/v1/question')}}";
 					window.location=urldelete+"/"+id+"/delete";
 				}
 		
@@ -174,7 +174,7 @@
 			</div>
 			@if($roleLearngroup == ConstRole::ADMIN || $roleLearngroup == ConstRole::GROUPADMIN)
 				<div id="edit">
-					{{ Form::open(array('url' => 'catalog/edit', 'method' => 'post')) }}
+					{{ Form::open(array('url' => 'api/v1/catalog/edit', 'method' => 'post')) }}
 					{{ Form::hidden('course', $course['id']) }}
 					{{ Form::hidden('id', $catalog['id']) }}
 						
@@ -262,7 +262,7 @@
 								<div id="edit{{$question['id']}}" style="display: none">
 									<div id="editQuestion{{$question['id']}}">
 										@if($question['type'] === 'simple' || $question['type'] === 'UndefType')
-											{{ Form::open(array('url' => 'question/edit', 'method' => 'post', 'id' => 'formSimple')) }}
+											{{ Form::open(array('url' => 'api/v1/question/edit', 'method' => 'post', 'id' => 'formSimple')) }}
 			
 												{{ Form::hidden('course', $course['id']) }}
 												{{ Form::hidden('type', 'simple') }}
@@ -278,7 +278,7 @@
 												<button class="btn" onclick="switchView({{$question['id']}});return false;">{{trans('general.abort')}}</button>
 											{{ Form::close() }}	
 										@else
-											{{ Form::open(array('url' => 'question/edit', 'method' => 'post', 'id' => 'formMultiple')) }}
+											{{ Form::open(array('url' => 'api/v1/question/edit', 'method' => 'post', 'id' => 'formMultiple')) }}
 		
 												{{ Form::hidden('course', $course['id']) }}
 												{{ Form::hidden('type', 'multiple') }}

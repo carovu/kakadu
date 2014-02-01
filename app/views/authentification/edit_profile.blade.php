@@ -14,7 +14,7 @@
 					</div>
 					<div id="collapseOne" class="accordion-body collapse">
 						<div class="accordion-inner">
-							{{ Form::open(array('url' => 'profile/edit', 'method' => 'post')) }}
+							{{ Form::open(array('url' => 'api/v1/profile/edit', 'method' => 'post')) }}
 								<fieldset>
 									<ol>
 										{{ Form::label('displayname', 'Displayname') }}
@@ -49,7 +49,7 @@
 					</div>
 					<div id="collapseTwo" class="accordion-body collapse">
 						<div class="accordion-inner">
-							{{ Form::open(array('url' => 'profile/changepassword', 'method' => 'post')) }}
+							{{ Form::open(array('url' => 'api/v1/profile/changepassword', 'method' => 'post')) }}
 								<fieldset>
 									<ol>
 										{{ Form::label('password_old', trans('profile.old_password')) }}

@@ -20,7 +20,7 @@ class SearchWithoutPermissionsTest extends TestCaseUser {
         $post_data = array(
             'search'    => 'lex'
         );
-        $response = $this->call('POST', 'users/search', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/users/search', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -35,7 +35,7 @@ class SearchWithoutPermissionsTest extends TestCaseUser {
         $post_data = array(
             'search'    => 'group'
         );
-        $response = $this->call('POST', 'groups/search', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/groups/search', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);

@@ -7,7 +7,7 @@
 	<script>
 	$(document).ready(function() {
 		//initialises the js-file addGroup (can be found in public/js/addGroup).
-		initialiseAddGroup("{{Request::root()}}");
+		initialiseAddGroup("{{URL::to('/api/v1')}}");
 	});
 	
 	</script>
@@ -20,7 +20,7 @@
 	<div class="offset1">
 		<div class="span12">
 			<legend>{{trans('course.edit_course')}}</legend>
-			{{ Form::open(array('url' => 'course/edit', 'method' => 'post')) }} 	
+			{{ Form::open(array('url' => 'api/v1/course/edit', 'method' => 'post')) }} 	
 	
 			{{ Form::hidden('id', $course['id']) }}
 			

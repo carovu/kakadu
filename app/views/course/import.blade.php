@@ -18,7 +18,7 @@
 		<div class="offset1">
 			<div class="span12">
 				<legend>{{trans('import.import_questions')}}</legend>
-				{{ Form::open(array('url' => 'import/check', 'method' => 'post', 'files' => true)) }}
+				{{ Form::open(array('url' => 'api/v1/import/check', 'method' => 'post', 'files' => true)) }}
 				
 					{{ Form::hidden('id', $course['id']) }}
 					

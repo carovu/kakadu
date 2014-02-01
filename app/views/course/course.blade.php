@@ -32,9 +32,9 @@
 		$(document).ready(function() {	
 	
 			//initialises the js-file addGroup (can be found in public/js/addGroup).
-			initialiseAddGroup("{{Request::root()}}", set);
+			initialiseAddGroup("{{URL::to('/api/v1')}}", set);
 			//initialises the js-file addGroup (can be found in public/js/favorites).
-			initialiseFavorites("{{Request::root()}}", "{{trans('favorites.learn')}}")
+			initialiseFavorites("{{URL::to('/api/v1')}}", "{{trans('favorites.learn')}}")
 			
 			$("#added").hide();
 			$(".pagination").addClass('pagination-centered');
@@ -116,7 +116,7 @@
 			</div>
 			@if($roleLearngroup == ConstRole::ADMIN || $roleLearngroup == ConstRole::GROUPADMIN)
 				<div id="edit">
-					{{ Form::open(array('url' => 'course/edit', 'method' => 'post', 'id' => 'courseCreate')) }}
+					{{ Form::open(array('url' => 'api/v1/course/edit', 'method' => 'post', 'id' => 'courseCreate')) }}
 					{{ Form::hidden('id', $course['id']) }}
 					
 					<legend>
@@ -191,7 +191,7 @@
            @include('course.iterator')
            <table>
            	<tbody>
-           		<?php iterate($catalogs, 0, URL::to('/'), $course['id'], trans('question.create'))?>
+           		<?php iterate($catalogs, 0, URL::to('api/v1//'), $course['id'], trans('question.create'))?>
            	</tbody>
            </table>
 		</div>

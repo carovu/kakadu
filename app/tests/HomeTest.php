@@ -16,7 +16,7 @@ class HomeTest extends TestCaseUser {
      * Test the home view
      */
     public function testHomeView() {
-        $response = $this->call('GET', '/');
+        $response = $this->call('GET', 'api/v1');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -25,7 +25,7 @@ class HomeTest extends TestCaseUser {
      * Test the help view
      */
     public function testHelpView() {
-        $response = $this->call('GET', 'help');
+        $response = $this->call('GET', 'api/v1/help');
         $this->assertEquals('200', $response->getStatusCode());
     }
 

@@ -83,7 +83,7 @@
 						</tbody>
 					</table>
 					
-						{{ Form::open(array('url' => 'import/save', 'method' => 'post')) }} 					
+						{{ Form::open(array('url' => 'api/v1/import/save', 'method' => 'post')) }} 					
 
 					    {{ Form::hidden('answer', 'true') }}
 					

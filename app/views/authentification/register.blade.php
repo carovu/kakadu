@@ -5,7 +5,7 @@
 <div class="row-fluid">
 	<div class="offset1">
 		<legend><h1>{{trans('authentification.registration_label')}}</h1></legend>
-		{{ Form::open(array('url' => 'auth/register', 'method' => 'post')) }}
+		{{ Form::open(array('url' => 'api/v1/auth/register', 'method' => 'post')) }}
 					{{Form::label('displayname', trans('authentification.displayname_label')) }}
 					{{Form::text('displayname', Input::old('displayname')) }}
 					{{Form::label('email', 'Email') }}

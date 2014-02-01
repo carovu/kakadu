@@ -46,7 +46,7 @@ class GroupMemberWithPermissionsTest extends TestCaseCourse {
         $post_data = array(
             'id'    => $this->group->id
         );
-        $response = $this->call('POST', 'group/user/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/group/user/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -66,7 +66,7 @@ class GroupMemberWithPermissionsTest extends TestCaseCourse {
             'id'    => $id,
             'user'  => 'georg@example.com'
         );
-        $response = $this->call('POST', 'group/user/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/group/user/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -84,7 +84,7 @@ class GroupMemberWithPermissionsTest extends TestCaseCourse {
             'id'    => $this->group->id,
             'user'  => 'g@example.com'
         );
-        $response = $this->call('POST', 'group/user/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/group/user/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -102,7 +102,7 @@ class GroupMemberWithPermissionsTest extends TestCaseCourse {
             'id'    => $this->group->id,
             'user'  => 'georg@example.com'
         );
-        $response = $this->call('POST', 'group/user/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/group/user/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Ok"', $content);
@@ -131,7 +131,7 @@ class GroupMemberWithPermissionsTest extends TestCaseCourse {
         $post_data = array(
             'id'    => $this->group->id
         );
-        $response = $this->call('POST', 'group/user/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/group/user/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -151,7 +151,7 @@ class GroupMemberWithPermissionsTest extends TestCaseCourse {
             'id'    => $id,
             'user'  => 'georg@example.com'
         );
-        $response = $this->call('POST', 'group/user/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/group/user/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -169,7 +169,7 @@ class GroupMemberWithPermissionsTest extends TestCaseCourse {
             'id'    => $this->group->id,
             'user'  => 'g@example.com'
         );
-        $response = $this->call('POST', 'group/user/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/group/user/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -198,7 +198,7 @@ class GroupMemberWithPermissionsTest extends TestCaseCourse {
             'id'    => $this->group->id,
             'user'  => 'georg@example.com'
         );
-        $response = $this->call('POST', 'group/user/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/group/user/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Ok"', $content);
@@ -250,7 +250,7 @@ class GroupMemberWithPermissionsTest extends TestCaseCourse {
             'id'    => $this->group->id,
             'user'  => 'georg@example.com'
         );
-        $response = $this->call('POST', 'group/user/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/group/user/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Ok"', $content);
@@ -268,7 +268,7 @@ class GroupMemberWithPermissionsTest extends TestCaseCourse {
         $post_data = array(
             'id'    => $this->group->id
         );
-        $response = $this->call('POST', 'group/admin/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/group/admin/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -288,7 +288,7 @@ class GroupMemberWithPermissionsTest extends TestCaseCourse {
             'id'    => $id,
             'user'  => 'georg@example.com'
         );
-        $response = $this->call('POST', 'group/admin/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/group/admin/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -306,7 +306,7 @@ class GroupMemberWithPermissionsTest extends TestCaseCourse {
             'id'    => $this->group->id,
             'user'  => 'g@example.com'
         );
-        $response = $this->call('POST', 'group/admin/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/group/admin/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -324,7 +324,7 @@ class GroupMemberWithPermissionsTest extends TestCaseCourse {
             'id'    => $this->group->id,
             'user'  => 'georg@example.com'
         );
-        $response = $this->call('POST', 'group/admin/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/group/admin/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
 
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
@@ -354,7 +354,7 @@ class GroupMemberWithPermissionsTest extends TestCaseCourse {
         $post_data = array(
             'id'    => $this->group->id
         );
-        $response = $this->call('POST', 'group/admin/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/group/admin/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -374,7 +374,7 @@ class GroupMemberWithPermissionsTest extends TestCaseCourse {
             'id'    => $id,
             'user'  => 'georg@example.com'
         );
-        $response = $this->call('POST', 'group/admin/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/group/admin/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -392,7 +392,7 @@ class GroupMemberWithPermissionsTest extends TestCaseCourse {
             'id'    => $this->group->id,
             'user'  => 'g@example.com'
         );
-        $response = $this->call('POST', 'group/admin/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/group/admin/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -415,7 +415,7 @@ class GroupMemberWithPermissionsTest extends TestCaseCourse {
             'id'    => $this->group->id,
             'user'  => 'georg@example.com'
         );
-        $response = $this->call('POST', 'group/admin/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/group/admin/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Ok"', $content);

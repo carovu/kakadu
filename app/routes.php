@@ -10,14 +10,20 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+// Route group for API versioning 
+Route::group(array('prefix' => 'api/v1'), function()
+{
+
 //Install
-//Route::get('install', array('as' => 'install', 'uses' => 'InstallController@getIndex'));
-//Route::post('install', array('uses' => 'InstallController@postInstall'));
-//Route::get('install/finished', array('as' => 'install/finished', 'uses' => 'InstallController@getFinished'));
-//Route::any('(.*)', function() {
-//    return Redirect::route('install');
-//});
-//return;
+/*
+Route::get('install', array('as' => 'install', 'uses' => 'InstallController@getIndex'));
+Route::post('install', array('uses' => 'InstallController@postInstall'));
+Route::get('install/finished', array('as' => 'install/finished', 'uses' => 'InstallController@getFinished'));
+Route::any('(.*)', function() {
+    return Redirect::route('install');
+});
+return;
+*/
 
 //Home
 Route::get('/', array('as' => 'home', 'uses' => 'HomeController@getIndex')); 
@@ -112,4 +118,4 @@ Route::get('catalog/{num}/learning', array('as' => 'catalog/learning', 'uses' =>
 Route::get('favorites/learning', array('as' => 'favorites/learning', 'uses' => 'LearningController@getFavorites'));
 Route::post('learning/next', array('uses' => 'LearningController@postNext'));
 
-
+});

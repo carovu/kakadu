@@ -5,7 +5,7 @@
 	<div class="offset1">
 		<div class="span12">
 		<legend><h3>{{trans('question.edit')}}</h3></legend>
-		{{ Form::open(array('url' => 'question/edit', 'method' => 'post')) }} 
+		{{ Form::open(array('url' => 'api/v1/question/edit', 'method' => 'post')) }} 
 			{{ Form::hidden('course', $course['id']) }}
 			{{ Form::hidden('id', $question['id']) }}
 			

@@ -17,7 +17,7 @@
 <script>
 
 $(document).ready(function(){
-	initialiseQuestionType("{{$course['id']}}", "{{Request::root()}}");
+	initialiseQuestionType("{{$course['id']}}", "{{URL::to('/api/v1')}}");
 });
 
 //function which is called on delete
@@ -105,7 +105,7 @@ function deletequestion(){
 
 			@if($roleLearngroup == ConstRole::ADMIN || $roleLearngroup == ConstRole::GROUPADMIN)
 				<div id="edit">		
-					{{ Form::open(array('url' => 'question/edit', 'method' => 'post', 'id' => 'formMultiple')) }} 							
+					{{ Form::open(array('url' => 'api/v1/question/edit', 'method' => 'post', 'id' => 'formMultiple')) }} 							
 					<legend>
 						{{trans('question.question')}}
 						<div class="btn-group pull-right">

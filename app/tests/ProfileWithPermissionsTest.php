@@ -18,7 +18,7 @@ class ProfileWithPermissionsTest extends TestCaseUser {
      * Test the profile edit view.
      */
     public function testProfileEditView() {
-        $response = $this->call('GET', 'profile/edit');
+        $response = $this->call('GET', 'api/v1/profile/edit');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -29,7 +29,7 @@ class ProfileWithPermissionsTest extends TestCaseUser {
      * @depends testProfileEditView
      */
     public function testProfileEditWithNoData() {
-        $response = $this->call('POST', 'profile/edit');
+        $response = $this->call('POST', 'api/v1/profile/edit');
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('profile/edit', $response);
         ////$this->checkIfErrorsExist();
@@ -47,7 +47,7 @@ class ProfileWithPermissionsTest extends TestCaseUser {
             'email'         => 'email',
             'language'      => 'en'
         );
-        $response = $this->call('POST', 'profile/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/profile/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('profile/edit', $response);
         ////$this->checkIfErrorsExist();
@@ -65,7 +65,7 @@ class ProfileWithPermissionsTest extends TestCaseUser {
             'email'         => 'georg@example.com',
             'language'      => 'en'
         );
-        $response = $this->call('POST', 'profile/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/profile/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('profile/edit', $response);
         ////$this->checkIfErrorsExist();
@@ -83,7 +83,7 @@ class ProfileWithPermissionsTest extends TestCaseUser {
             'email'         => 'georg@example.com',
             'language'      => 'de'
         );
-        $response = $this->call('POST', 'profile/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/profile/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('profile/edit', $response);
         ////$this->checkIfNoErrorsExist();
@@ -96,7 +96,7 @@ class ProfileWithPermissionsTest extends TestCaseUser {
      * @depends testProfileEditWithValidData
      */
     public function testProfileChangePasswordWithNoData() {
-        $response = $this->call('POST', 'profile/changepassword');
+        $response = $this->call('POST', 'api/v1/profile/changepassword');
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('profile/edit', $response);
         ////$this->checkIfErrorsExist();
@@ -114,7 +114,7 @@ class ProfileWithPermissionsTest extends TestCaseUser {
             'password' => 'new_password',
             'password_confirmation' => 'new_password'
         );
-        $response = $this->call('POST', 'profile/changepassword', $post_data);
+        $response = $this->call('POST', 'api/v1/profile/changepassword', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('profile/edit', $response);
         ////$this->checkIfErrorsExist();
@@ -132,7 +132,7 @@ class ProfileWithPermissionsTest extends TestCaseUser {
             'password' => 'new_password',
             'password_confirmation' => 'new_pass'
         );
-        $response = $this->call('POST', 'profile/changepassword', $post_data);
+        $response = $this->call('POST', 'api/v1/profile/changepassword', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('profile/edit', $response);
         ////$this->checkIfErrorsExist();
@@ -150,7 +150,7 @@ class ProfileWithPermissionsTest extends TestCaseUser {
             'password' => 'new_password',
             'password_confirmation' => 'new_password'
         );
-        $response = $this->call('POST', 'profile/changepassword', $post_data);
+        $response = $this->call('POST', 'api/v1/profile/changepassword', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('profile/edit', $response);
         ////$this->checkIfNoErrorsExist();
@@ -161,7 +161,7 @@ class ProfileWithPermissionsTest extends TestCaseUser {
      * Test the profile delete view.
      */
     public function testProfileDeleteView() {
-        $response = $this->call('GET', 'profile/delete');
+        $response = $this->call('GET', 'api/v1/profile/delete');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -172,7 +172,7 @@ class ProfileWithPermissionsTest extends TestCaseUser {
      * @depends testProfileDeleteView
      */
     public function testProfileDelete() {
-        $response = $this->call('DELETE', 'profile/delete');
+        $response = $this->call('DELETE', 'api/v1/profile/delete');
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('/', $response);
         ////$this->checkIfNoErrorsExist();

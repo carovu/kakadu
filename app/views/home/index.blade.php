@@ -7,7 +7,7 @@
 <script>
 	$(document).ready(function() {	
 		$("#home").addClass('active');
-		initialiseFavorites("{{Request::root()}}", "{{trans('favorites.learn')}}");
+		initialiseFavorites("{{URL::to('/api/v1')}}", "{{trans('favorites.learn')}}");
 		$('.carousel').carousel({
 			  interval: 5000
 		})

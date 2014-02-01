@@ -7,7 +7,7 @@
 	<div class="offset1">
 		<div class="span12">
 			<legend>{{trans('catalog.edit')}}</legend>
-			{{ Form::open(array('url' => 'catalog/edit', 'method' => 'post')) }}			
+			{{ Form::open(array('url' => 'api/v1/catalog/edit', 'method' => 'post')) }}			
 	
 			{{ Form::hidden('course', $course['id']) }}
 			{{ Form::hidden('id', $catalog['id']) }}

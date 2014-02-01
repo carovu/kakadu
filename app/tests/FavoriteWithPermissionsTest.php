@@ -41,7 +41,7 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
 
 
         //Send get request
-        $response = $this->call('GET', 'profile/favorites');
+        $response = $this->call('GET', 'api/v1/profile/favorites');
         $this->assertEquals('200', $response->getStatusCode());
         $data = $response->getContent();
         $this->assertContains('courses', $data);
@@ -59,7 +59,7 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
             'id'    => '1',
             'type'  => 'question'
         );
-        $response = $this->call('POST', 'favorites/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/favorites/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -77,7 +77,7 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
             'id'    => $id,
             'type'  => 'course'
         );
-        $response = $this->call('POST', 'favorites/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/favorites/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -95,7 +95,7 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
             'id'    => $id,
             'type'  => 'catalog'
         );
-        $response = $this->call('POST', 'favorites/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/favorites/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -111,7 +111,7 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
             'id'    => $this->course->id,
             'type'  => 'course'
         );
-        $response = $this->call('POST', 'favorites/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/favorites/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Ok"', $content);
@@ -134,7 +134,7 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
             'id'    => $catalog2->id,
             'type'  => 'catalog'
         );
-        $response = $this->call('POST', 'favorites/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/favorites/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Ok"', $content);
@@ -153,7 +153,7 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
             'id'    => '1',
             'type'  => 'question'
         );
-        $response = $this->call('POST', 'favorites/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/favorites/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -171,7 +171,7 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
             'id'    => $id,
             'type'  => 'course'
         );
-        $response = $this->call('POST', 'favorites/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/favorites/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -189,7 +189,7 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
             'id'    => $id,
             'type'  => 'catalog'
         );
-        $response = $this->call('POST', 'favorites/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/favorites/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -213,7 +213,7 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
             'id'    => $course->id,
             'type'  => 'course'
         );
-        $response = $this->call('POST', 'favorites/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/favorites/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Ok"', $content);
@@ -241,7 +241,7 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
             'id'    => $catalog2->id,
             'type'  => 'catalog'
         );
-        $response = $this->call('POST', 'favorites/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/favorites/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Ok"', $content);

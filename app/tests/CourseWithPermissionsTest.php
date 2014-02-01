@@ -39,7 +39,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
      * Test the view to show all courses
      */
     public function testCoursesView() {
-        $response = $this->call('GET', 'courses');
+        $response = $this->call('GET', 'api/v1/courses');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -48,7 +48,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
      * Test the view to show all courses with ajax
      */
     public function testCoursesViewWithAjax() {
-        $response = $this->call('GET', 'courses', [], [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('GET', 'api/v1/courses', [], [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -63,7 +63,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'sort'      => 'created_at',
             'sort_dir'  => 'desc'
         );
-        $response = $this->call('GET', 'courses', $get_data);
+        $response = $this->call('GET', 'api/v1/courses', $get_data);
         $this->assertEquals('200', $response->getStatusCode());
         //$data = $response->getContent()->data['content']->data();
         //$this->assertArrayHasKey('courses', $data);
@@ -81,7 +81,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'sort'      => 'created_at',
             'sort_dir'  => 'desc'
         );
-        $response = $this->call('GET', 'courses', $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('GET', 'api/v1/courses', $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         //$data = $response->getContent()->data();
         //$this->assertArrayHasKey('courses', $data);
@@ -93,7 +93,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
      * Test the view to show a existing course
      */
     public function testCourseViewExistingID() {
-        $response = $this->call('GET', 'course/' . $this->course->id);
+        $response = $this->call('GET', 'api/v1/course/' . $this->course->id);
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -103,7 +103,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
      */
     public function testCourseViewNotExistingID() {
         $id = $this->getNotExistingID('Course');
-        $response = $this->call('GET', 'course/' . $id);
+        $response = $this->call('GET', 'api/v1/course/' . $id);
         $this->assertEquals('404', $response->getStatusCode());
     }
 
@@ -116,7 +116,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'search'        => 'xy',
             'csrf_token'    => Session::token()
         );
-        $response = $this->call('GET', 'courses/search', $get_data);
+        $response = $this->call('GET', 'api/v1/courses/search', $get_data);
         $this->assertEquals('200', $response->getStatusCode());
         //$data = $response->getContent()->data['content']->data();
         //$this->assertArrayHasKey('courses', $data);
@@ -133,7 +133,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'search'        => 'xy',
             'csrf_token'    => Session::token()
         );
-        $response = $this->call('GET', 'courses/search', $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('GET', 'api/v1/courses/search', $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         //$data = $response->getContent()->data();
         //$this->assertArrayHasKey('courses', $data);
@@ -150,7 +150,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'search'        => 'wxyz',
             'csrf_token'    => Session::token()
         );
-        $response = $this->call('GET', 'courses/search', $get_data);
+        $response = $this->call('GET', 'api/v1/courses/search', $get_data);
         $this->assertEquals('200', $response->getStatusCode());
         //$data = $response->getContent()->data['content']->data();
         //$this->assertArrayHasKey('courses', $data);
@@ -167,7 +167,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'search'        => 'wxyz',
             'csrf_token'    => Session::token()
         );
-        $response = $this->call('GET', 'courses/search', $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('GET', 'api/v1/courses/search', $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         //$data = $response->getContent()->data();
         //$this->assertArrayHasKey('courses', $data);
@@ -180,7 +180,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
      * Test the view to create a course
      */
     public function testCourseCreateView() {
-        $response = $this->call('GET', 'course/create');
+        $response = $this->call('GET', 'api/v1/course/create');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -195,7 +195,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'name'        => 'Test',
             'description' => 'Test'
         );
-        $response = $this->call('POST', 'course/create', $post_data);
+        $response = $this->call('POST', 'api/v1/course/create', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('course/create', $response); 
         ////$this->checkIfErrorsExist();
@@ -212,7 +212,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'name'        => 'Test yz',
             'description' => 'This is a testcourse that shows the right functionality of the controller.'
         );
-        $response = $this->call('POST', 'course/create', $post_data);
+        $response = $this->call('POST', 'api/v1/course/create', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('course/[0-9]+', $response);
         //$this->checkIfNoErrorsExist();
@@ -232,7 +232,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'description' => 'This is a testcourse that shows the right functionality of the controller.',
             'groups'       => array($group->id)
         );
-        $response = $this->call('POST', 'course/create', $post_data);
+        $response = $this->call('POST', 'api/v1/course/create', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('course/[0-9]+', $response);
         //$this->checkIfNoErrorsExist();
@@ -253,7 +253,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'description' => 'This is a testcourse that shows the right functionality of the controller.',
             'groups'       => array($group1->id, $group2->id)
         );
-        $response = $this->call('POST', 'course/create', $post_data);
+        $response = $this->call('POST', 'api/v1/course/create', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('course/[0-9]+', $response);
         //$this->checkIfNoErrorsExist();
@@ -264,7 +264,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
      * Test the view to edit a existing course
      */
     public function testCourseEditExistingID() {
-        $response = $this->call('GET', 'course/' . $this->course->id . '/edit');
+        $response = $this->call('GET', 'api/v1/course/' . $this->course->id . '/edit');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -274,7 +274,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
      */
     public function testCourseEditNotExistingID() {
         $id = $this->getNotExistingID('Course');
-        $response = $this->call('GET', 'course/' . $id . '/edit');
+        $response = $this->call('GET', 'api/v1/course/' . $id . '/edit');
         $this->assertEquals('404', $response->getStatusCode());
     }
 
@@ -290,7 +290,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'name'          => 'Test yz',
             'description'   => 'This is a testcourse that shows the right functionality of the controller.'
         );
-        $response = $this->call('POST', 'course/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/course/edit', $post_data);
         $this->assertEquals('404', $response->getStatusCode());
     }
 
@@ -306,7 +306,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'name'          => 'Test',
             'description'   => 'Test'
         );
-        $response = $this->call('POST', 'course/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/course/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkIfErrorsExist();
     }
@@ -326,7 +326,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'description'   => 'This is a testcourse that shows the right functionality of the controller.',
             'groups'         => array($group->id)
         );
-        $response = $this->call('POST', 'course/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/course/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('course/' . $this->course->id, $response);
         //$this->checkIfNoErrorsExist();
@@ -370,7 +370,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'description'   => 'This is a testcourse that shows the right functionality of the controller.',
             'groups'         => array($group_new->id)
         );
-        $response = $this->call('POST', 'course/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/course/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('course/' . $this->course->id, $response);
         //$this->checkIfNoErrorsExist();
@@ -411,7 +411,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'description'   => 'This is a testcourse that shows the right functionality of the controller.',
             'groups'         => array($group_new1->id, $group_new2->id)
         );
-        $response = $this->call('POST', 'course/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/course/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('course/' . $this->course->id, $response);
         //$this->checkIfNoErrorsExist();
@@ -449,7 +449,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'description'   => 'This is a testcourse that shows the right functionality of the controller.',
             'groups'         => ''
         );
-        $response = $this->call('POST', 'course/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/course/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('course/' . $this->course->id, $response);
         //$this->checkIfNoErrorsExist();
@@ -486,7 +486,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'description'   => 'This is a testcourse that shows the right functionality of the controller.',
             'groups'         => array($group_new->id)
         );
-        $response = $this->call('POST', 'course/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/course/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('course/' . $this->course->id, $response);
         //$this->checkIfNoErrorsExist();
@@ -525,7 +525,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'description'   => 'This is a testcourse that shows the right functionality of the controller.',
             'groups'         => array($group_new1->id, $group_new2->id)
         );
-        $response = $this->call('POST', 'course/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/course/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('course/' . $this->course->id, $response);
         //$this->checkIfNoErrorsExist();
@@ -556,7 +556,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
      */
     public function testCourseDeleteNotExistingID() {
         $id = $this->getNotExistingID('Course');
-        $response = $this->call('GET', 'course/' . $id . '/delete');
+        $response = $this->call('GET', 'api/v1/course/' . $id . '/delete');
         $this->assertEquals('404', $response->getStatusCode());
     }
 
@@ -567,7 +567,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
      * @depends testCourseDeleteNotExistingID
      */
     public function testCourseDeleteWithValidData() {
-        $response = $this->call('GET', 'course/' . $this->course->id . '/delete');
+        $response = $this->call('GET', 'api/v1/course/' . $this->course->id . '/delete');
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('courses', $response);
 
@@ -593,7 +593,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
         $catalog2 = $catalog->children()->first();
         $user->favorites()->attach($catalog2);
 
-        $response = $this->call('GET', 'course/' . $course->id . '/delete');
+        $response = $this->call('GET', 'api/v1/course/' . $course->id . '/delete');
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('courses', $response);
 
@@ -610,7 +610,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
      * Test the view to show a course was deleted
      */
     public function testCourseDeletedView() {
-        //$response = $this->call('GET', 'course/deleted');
+        //$response = $this->call('GET', 'api/v1/course/deleted');
         //$this->assertEquals('200', $response->getStatusCode());
     }
 

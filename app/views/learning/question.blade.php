@@ -13,7 +13,7 @@ $(document).ready(function(){
 	
 	//Create View
 	var question = <?php echo json_encode($question); ?>;
-	view = new QuizView('{{$course["id"]}}', '{{Request::root()}}', '{{$section}}', question, '{{$catalog["id"]}}');
+	view = new QuizView('{{$course["id"]}}', '{{URL::to('/api/v1')}}', '{{$section}}', question, '{{$catalog["id"]}}');
 
 	//Hides the alerts when clicking close
 	$('.alert .close').live('click',function(){

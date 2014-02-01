@@ -59,7 +59,7 @@ class LearningWithPermissionsTest extends TestCaseCourse {
      * Test the view to learn a course
      */
     public function testCoursesView() {
-        $response = $this->call('GET', 'course/' . $this->course->id . '/learning');
+        $response = $this->call('GET', 'api/v1/course/' . $this->course->id . '/learning');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -67,7 +67,7 @@ class LearningWithPermissionsTest extends TestCaseCourse {
      * Test the view to learn a catalog
      */
     public function testCatalogView() {
-        $response = $this->call('GET', 'catalog/' . $this->course->catalog()->first()->id . '/learning');
+        $response = $this->call('GET', 'api/v1/catalog/' . $this->course->catalog()->first()->id . '/learning');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -75,7 +75,7 @@ class LearningWithPermissionsTest extends TestCaseCourse {
      * Test the view to learn favorites
      */
     public function testFavoriteView() {
-        $response = $this->call('GET', 'favorites/learning');
+        $response = $this->call('GET', 'api/v1/favorites/learning');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -91,7 +91,7 @@ class LearningWithPermissionsTest extends TestCaseCourse {
             'course'    => $this->course->id,
             'section'   => 'course'
         );
-        $response = $this->call('POST', 'learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -114,7 +114,7 @@ class LearningWithPermissionsTest extends TestCaseCourse {
             'answer'    => 'true',
             'section'   => 'course'
         );
-        $response = $this->call('POST', 'learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -137,7 +137,7 @@ class LearningWithPermissionsTest extends TestCaseCourse {
             'answer'    => 'true',
             'section'   => 'course'
         );
-        $response = $this->call('POST', 'learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Ok"', $content);
@@ -168,7 +168,7 @@ class LearningWithPermissionsTest extends TestCaseCourse {
             'answer'    => 'false',
             'section'   => 'course'
         );
-        $response = $this->call('POST', 'learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Ok"', $content);
@@ -199,7 +199,7 @@ class LearningWithPermissionsTest extends TestCaseCourse {
             'answer'    => 'true',
             'section'   => 'course'
         );
-        $response = $this->call('POST', 'learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode()); 
         $this->assertContains('"status":"Ok"', $response->getContent());
 
@@ -230,7 +230,7 @@ class LearningWithPermissionsTest extends TestCaseCourse {
             'answer'    => 'false',
             'section'   => 'course'
         );
-        $response = $this->call('POST', 'learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Ok"', $content);
@@ -261,7 +261,7 @@ class LearningWithPermissionsTest extends TestCaseCourse {
             'answer'    => 'true',
             'section'   => 'catalog'
         );
-        $response = $this->call('POST', 'learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Ok"', $content);
@@ -295,7 +295,7 @@ class LearningWithPermissionsTest extends TestCaseCourse {
             'answer'    => 'true',
             'section'   => 'favorites'
         );
-        $response = $this->call('POST', 'learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Error"', $content);
@@ -316,7 +316,7 @@ class LearningWithPermissionsTest extends TestCaseCourse {
             'answer'    => 'true',
             'section'   => 'favorites'
         );
-        $response = $this->call('POST', 'learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('POST', 'api/v1/learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Ok"', $content);

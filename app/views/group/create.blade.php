@@ -6,7 +6,7 @@
 	<div class="offset1">
 		<div class="span12">
 			<legend>{{trans('group.create')}}</legend>
-			{{ Form::open(array('url' => 'group/create', 'method' => 'post')) }} 
+			{{ Form::open(array('url' => 'api/v1/group/create', 'method' => 'post')) }} 
 			{{ Form::label('name', trans('group.name')) }}
 			{{ Form::text('name', Form::old('name'), array('class' => 'row-fluid', 'rows' => '1')) }}
 			

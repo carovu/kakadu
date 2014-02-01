@@ -8,13 +8,13 @@
 	<script>
 	$(document).ready(function() {	
 		$("#courses").addClass('active');
-		initialise_links("{{URL::to('courses')}}");
-		initialiseFavorites("{{Request::root()}}", "{{trans('favorites.learn')}}");
+		initialise_links("{{URL::to('api/v1/courses')}}");
+		initialiseFavorites("{{URL::to('/api/v1')}}", "{{trans('favorites.learn')}}");
 	});
 
 
 	function linkcourse(id){
-		var url = "{{URL::to('course')}}";
+		var url = "{{URL::to('api/v1/course')}}";
 		setTimeout(function(){
 			window.location.href=url+"/"+id;	
 		}, 300);
@@ -23,7 +23,7 @@
 	}
 
 	function linktest(id){
-		var url = "{{URL::to('course')}}";
+		var url = "{{URL::to('api/v1/course')}}";
 		setTimeout(function(){
 			window.location.href=url+"/"+id+"/learning";	
 		}, 300);

@@ -25,7 +25,7 @@ class CatalogWithoutPermissionsTest extends TestCaseCourse {
      * Test the view to show a existing catalog
      */
     public function testCatalogViewExistingID() {
-        $response = $this->call('GET', 'catalog/' . $this->catalog->id);
+        $response = $this->call('GET', 'api/v1/catalog/' . $this->catalog->id);
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->original);
     }
@@ -35,7 +35,7 @@ class CatalogWithoutPermissionsTest extends TestCaseCourse {
      * Test the view to create a catalog
      */
     public function testCatalogCreateView() {
-        $response = $this->call('GET', 'course/' . $this->course->id . '/catalog/create');
+        $response = $this->call('GET', 'api/v1/course/' . $this->course->id . '/catalog/create');
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }
@@ -51,7 +51,7 @@ class CatalogWithoutPermissionsTest extends TestCaseCourse {
             'number' => '4',
             'parent' => $this->catalog->id
         );
-        $response = $this->call('POST', 'catalog/create', $post_data);
+        $response = $this->call('POST', 'api/v1/catalog/create', $post_data);
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }
@@ -62,7 +62,7 @@ class CatalogWithoutPermissionsTest extends TestCaseCourse {
      */
     public function testCatalogEditWithExistingID() {
         $subcatalog = Catalog::where('name', 'LIKE', 'Catalog of course 1 -  group Test xy - chapter 1')->first();
-        $response = $this->call('GET', 'catalog/'. $subcatalog->id . '/edit');
+        $response = $this->call('GET', 'api/v1/catalog/'. $subcatalog->id . '/edit');
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }
@@ -81,7 +81,7 @@ class CatalogWithoutPermissionsTest extends TestCaseCourse {
             'number' => '1',
             'parent' => $this->catalog->id
         );
-        $response = $this->call('POST', 'catalog/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/catalog/edit', $post_data);
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }
@@ -93,7 +93,7 @@ class CatalogWithoutPermissionsTest extends TestCaseCourse {
     public function testCatalogDeleteWithValidData() {
         $subcatalog = Catalog::where('name', 'LIKE', 'Catalog of course 1 -  group Test xy - chapter 1')->first();
 
-        $response = $this->call('GET', 'catalog/' . $subcatalog->id . '/delete');
+        $response = $this->call('GET', 'api/v1/catalog/' . $subcatalog->id . '/delete');
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }

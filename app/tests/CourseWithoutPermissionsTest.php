@@ -55,7 +55,7 @@ class CourseWithoutPermissionsTest extends TestCaseCourse {
      */
     public function testCourseCreateView() {
         Sentry::logout();
-        $response = $this->call('GET', 'course/create');
+        $response = $this->call('GET', 'api/v1/course/create');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -69,7 +69,7 @@ class CourseWithoutPermissionsTest extends TestCaseCourse {
             'name'        => 'Test yz',
             'description' => 'This is a testcourse that shows the right functionality of the controller.'
         );
-        $response = $this->call('POST', 'course/create', $post_data);
+        $response = $this->call('POST', 'api/v1/course/create', $post_data);
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }
@@ -86,7 +86,7 @@ class CourseWithoutPermissionsTest extends TestCaseCourse {
             'description' => 'This is a testcourse that shows the right functionality of the controller.',
             'groups'      => array($group->id)
         );
-        $response = $this->call('POST', 'course/create', $post_data);
+        $response = $this->call('POST', 'api/v1/course/create', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('course/create', $response); 
         ////$this->checkIfErrorsExist();
@@ -97,7 +97,7 @@ class CourseWithoutPermissionsTest extends TestCaseCourse {
      * Test the view to edit a existing course
      */
     public function testCourseEditExistingID() {
-        $response = $this->call('GET', 'course/' . $this->course->id . '/edit');
+        $response = $this->call('GET', 'api/v1/course/' . $this->course->id . '/edit');
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }
@@ -112,7 +112,7 @@ class CourseWithoutPermissionsTest extends TestCaseCourse {
             'name'          => 'Test yz',
             'description'   => 'This is a testcourse that shows the right functionality of the controller.'
         );
-        $response = $this->call('POST', 'course/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/course/edit', $post_data);
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }
@@ -130,7 +130,7 @@ class CourseWithoutPermissionsTest extends TestCaseCourse {
             'description'   => 'This is a testcourse that shows the right functionality of the controller.',
             'groups'        => array($group->id)
         );
-        $response = $this->call('POST', 'course/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/course/edit', $post_data);
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }
@@ -148,7 +148,7 @@ class CourseWithoutPermissionsTest extends TestCaseCourse {
             'description'   => 'This is a testcourse that shows the right functionality of the controller.',
             'groups'        => array($group_new->id)
         );
-        $response = $this->call('POST', 'course/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/course/edit', $post_data);
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }
@@ -164,7 +164,7 @@ class CourseWithoutPermissionsTest extends TestCaseCourse {
             'description'   => 'This is a testcourse that shows the right functionality of the controller.',
             'groups'        => ''
         );
-        $response = $this->call('POST', 'course/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/course/edit', $post_data);
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }
@@ -184,7 +184,7 @@ class CourseWithoutPermissionsTest extends TestCaseCourse {
             'description'   => 'This is a testcourse that shows the right functionality of the controller.',
             'groups'        => array($group_new->id)
         );
-        $response = $this->call('POST', 'course/edit', $post_data);
+        $response = $this->call('POST', 'api/v1/course/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('course/' . $this->course->id . '/edit', $response);
         ////$this->checkIfErrorsExist();
@@ -195,7 +195,7 @@ class CourseWithoutPermissionsTest extends TestCaseCourse {
      * Test delete course with valid data
      */
     public function testCourseDeleteWithValidData() {
-        $response = $this->call('GET', 'course/' . $this->course->id . '/delete');
+        $response = $this->call('GET', 'api/v1/course/' . $this->course->id . '/delete');
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }
