@@ -1,0 +1,42 @@
+{
+	"require": {
+		"laravel/framework": "4.0.*",
+		"cartalyst/sentry": "v2.1.0",
+		"happydemon/txt": "1.0",
+		"phpmailer/phpmailer": "v5.2.7",
+		"teepluss/asset": "dev-master",
+		"phpunit/phpunit": "3.7.28",
+		"phpexcel/phpexcel": "v1.7.7",
+		"components/jquery": "1.9.1",
+		"twitter/bootstrap": "v3.0.3",
+		"jeremymlane/bootbox": "dev-master",
+		"components/backbone": "1.0.0"
+	},
+	"autoload": {
+		"classmap": [
+			"app/commands",
+			"app/controllers",
+			"app/models",
+			"app/database/migrations",
+			"app/database/seeds",
+			"app/tests/TestCase.php",
+			"app/library",
+			"app/questiontypes"
+		]
+	},
+	"scripts": {
+		"pre-update-cmd": [
+			"php artisan clear-compiled"
+		],
+		"post-install-cmd": [
+			"php artisan optimize"
+		],
+		"post-update-cmd": [
+			"php artisan optimize"
+		]
+	},
+	"config": {
+		"preferred-install": "dist"
+	},
+	"minimum-stability": "dev"
+}
