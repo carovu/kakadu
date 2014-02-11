@@ -50,7 +50,7 @@
                     <li id="quiz"><a href="http://localhost/kakadu/kakadu/public/course/1/learning">1. Quiz</a></li>
                     <li id="courses"><a href="http://localhost/kakadu/kakadu/public/courses">Courses</a></li>
                     <li id="groups"><a href="http://localhost/kakadu/kakadu/public/groups">Groups</a></li>
-                    <form class="navbar-search" method="POST" action="http://localhost/kakadu/kakadu/public/courses/search" accept-charset="UTF-8">                        <input class="input-medium search-query" type="search" name="search" value="Search">                        <input type="hidden" name="csrf_token" value="Pjvj25M2JyNxfK8zmiUhn2XZgEBMNf6TjEBWOTpU">                        <input class="btn btn-small" type="submit" value="Search">                    </form>                    
+                    <form class="navbar-search" method="POST" action="http://localhost/kakadu/kakadu/public/courses/search" accept-charset="UTF-8">                        <input class="input-medium search-query" type="search" name="search" value="Search">                        <input type="hidden" name="_token" value="Pjvj25M2JyNxfK8zmiUhn2XZgEBMNf6TjEBWOTpU">                        <input class="btn btn-small" type="submit" value="Search">                    </form>                    
                 </ul>
 
                                 
@@ -109,7 +109,7 @@ initialise("http://localhost/kakadu/kakadu/public");
 			
 
 			<input id="groupId" type="hidden" name="group">			
-			<input type="hidden" name="csrf_token" value="Pjvj25M2JyNxfK8zmiUhn2XZgEBMNf6TjEBWOTpU">			<br>
+			<input type="hidden" name="_token" value="Pjvj25M2JyNxfK8zmiUhn2XZgEBMNf6TjEBWOTpU">			<br>
 			<button class="btn btn-small btn-primary" type="submit" name="create_course" id="create_course" onclick="$(course/create).submit()">Create course</button>
 			
 			</form>		</div>

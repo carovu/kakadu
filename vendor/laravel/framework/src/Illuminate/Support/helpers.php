@@ -459,14 +459,14 @@ if ( ! function_exists('class_basename'))
 	}
 }
 
-if ( ! function_exists('csrf_token'))
+if ( ! function_exists('_token'))
 {
 	/**
 	 * Get the CSRF token value.
 	 *
 	 * @return string
 	 */
-	function csrf_token()
+	function _token()
 	{
 		$session = app('session');
 

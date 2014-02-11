@@ -2,7 +2,7 @@
 var url;
 var groupId;
 var text;
-var _csrf;
+var _token;
 
 /**
  * Sets the url, the group id and the text for the drag and drop
@@ -15,7 +15,7 @@ function initialiseAddUser(url2, id, text2){
 	this.url = url2;
 	this.groupId = id;
 	this.text = text2;
-	this._csrf = $('input[name="csrf_token"]').val();
+	this._token = $('input[name="_token"]').val();
 }
 
 /**
@@ -27,7 +27,7 @@ $(document).ready(function(){
 		$('#alreadyInGroup').hide();
 		$('#user_added').hide();
 		var search_query = $('#searchUser').val();
-		$.post(url+"/users/search", {csrf_token: _csrf, search: search_query}
+		$.post(url+"/users/search", {_token: _token, search: search_query}
 		, function(data) {
 			displaydata(data);
 		});
@@ -85,7 +85,7 @@ function addUser(userEmail, id){
 	$('#dragGoal').html('<td></td><td><i class="icon-spinner icon-spin icon-4x icon-white"></i></td><td></td>');
 	$('#dragGoal').show();
 	
-	$.post(url+"/group/user/add", {csrf_token: _csrf, id: groupId, user: userEmail}
+	$.post(url+"/group/user/add", {_token: _token, id: groupId, user: userEmail}
 	, function(data) {
 		if(data.status === "Error" || data.status == "Info"){
 			$('#alreadyInGroup').show();
@@ -122,7 +122,7 @@ function deleteUser(userEmail, id){
 	
 	$("."+id).find("#button").html('<i class="icon-spinner icon-spin icon-white"></i>');
 	
-	$.post(url+"/group/user/remove", {csrf_token: _csrf, id: groupId, user: userEmail}
+	$.post(url+"/group/user/remove", {_token: _token, id: groupId, user: userEmail}
 	, function(data) {
 		if(data.status === "Ok"){
 			$('#userDeleted').show();
@@ -208,7 +208,7 @@ function addAdmin(userEmail, userName,  id){
 	$("#addAdmin"+id).html('<i class="icon-spinner icon-spin icon-white"></i>');
 	$('#dragGoalAdmin').html('<td></td><td><i class="icon-spinner icon-spin icon-4x icon-white"></i></td><td></td>');
 	
-	$.post(url+"/group/admin/add", {csrf_token: _csrf, id: groupId, user: userEmail}
+	$.post(url+"/group/admin/add", {_token: _token, id: groupId, user: userEmail}
 	, function(data){
 		if(data.status === "Ok"){
 			help = "'"+userEmail+"'";
@@ -247,7 +247,7 @@ function removeAdmin(userEmail, id){
 	
 	$("#admin"+id).html('<i class="icon-spinner icon-spin icon-white"></i>');	
 	
-	$.post(url+"/group/admin/remove", {csrf_token: _csrf, id: groupId, user: userEmail}
+	$.post(url+"/group/admin/remove", {_token: _token, id: groupId, user: userEmail}
 	, function(data){
 		if(data.status === "Ok"){
 			$(".admin"+id).remove();

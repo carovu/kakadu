@@ -44,10 +44,10 @@
 					<li id="home"><a href="http://localhost/kakadu/kakadu/public/">Startseite</a></li>
 					<li id="quiz"><a href="http://localhost/kakadu/kakadu/public/course/1/learning">1. Quiz</a></li>
 					<li id="courses" class="active"><a href="http://localhost/kakadu/kakadu/public/courses">Kurse</a></li>
-					<form class="navbar-search" method="POST" action="http://localhost/kakadu/kakadu/public/courses/search" accept-charset="UTF-8">						<input class="search-query" type="search" name="search" value="Suchen">						<input type="hidden" name="csrf_token" value="NUwKELBuSpRovedOYiDnfwpA3R6x0fMjXTywN6Fg">						<input class="btn btn-small" type="submit" value="Suchen">					</form>					
+					<form class="navbar-search" method="POST" action="http://localhost/kakadu/kakadu/public/courses/search" accept-charset="UTF-8">						<input class="search-query" type="search" name="search" value="Suchen">						<input type="hidden" name="_token" value="NUwKELBuSpRovedOYiDnfwpA3R6x0fMjXTywN6Fg">						<input class="btn btn-small" type="submit" value="Suchen">					</form>					
 				</ul>
 				<div id="language">
-					<form class="navbar-form pull-right" method="POST" action="http://localhost/kakadu/kakadu/public/language/edit" accept-charset="UTF-8">						<select name="language"><option value="en">English</option><option value="de" selected="selected">Deutsch</option></select>						<input type="hidden" name="csrf_token" value="NUwKELBuSpRovedOYiDnfwpA3R6x0fMjXTywN6Fg">						<input id="language" class="btn btn-small" type="submit" value="Sprache ändern">					</form>				</div>
+					<form class="navbar-form pull-right" method="POST" action="http://localhost/kakadu/kakadu/public/language/edit" accept-charset="UTF-8">						<select name="language"><option value="en">English</option><option value="de" selected="selected">Deutsch</option></select>						<input type="hidden" name="_token" value="NUwKELBuSpRovedOYiDnfwpA3R6x0fMjXTywN6Fg">						<input id="language" class="btn btn-small" type="submit" value="Sprache ändern">					</form>				</div>
 				
 				<ul class="nav pull-right" id="dropdown" style="display: none;">
 					<li class="dropdown" id="accountmenu">  
@@ -242,7 +242,7 @@ function link(id){
 						<div id="guest">
 							<form method="POST" action="http://localhost/kakadu/kakadu/public/auth/login" accept-charset="UTF-8">								<h2 class="form-signin-heading">Login</h2>
 								<label for="email">Email</label>								<input type="email" name="email" id="email">								<label for="password">Passwort</label>								<input type="password" name="password" id="password">								<label for="remember">Merke mich</label>																<input id="remember" type="checkbox" name="remember" value="remember"><br>							
-								<input type="hidden" name="csrf_token" value="NUwKELBuSpRovedOYiDnfwpA3R6x0fMjXTywN6Fg">								<br><button class="btn btn-large btn-primary" type="submit" name="login" id="login" onclick="$('auth/login').submit()">Login</button>
+								<input type="hidden" name="_token" value="NUwKELBuSpRovedOYiDnfwpA3R6x0fMjXTywN6Fg">								<br><button class="btn btn-large btn-primary" type="submit" name="login" id="login" onclick="$('auth/login').submit()">Login</button>
 							</form>							<li><a href="http://localhost/kakadu/kakadu/public/auth/register">Registriere dich hier!</a></li><li>
 							</li><li><a href="http://localhost/kakadu/kakadu/public/auth/forgotpassword">Passwort vergessen?</a></li>
 						</div>

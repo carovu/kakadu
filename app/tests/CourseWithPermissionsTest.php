@@ -114,7 +114,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
     public function testCourseSearchWithValidResult() {
         $get_data = array(
             'search'        => 'xy',
-            'csrf_token'    => Session::token()
+            '_token'    => Session::token()
         );
         $response = $this->call('GET', 'api/v1/courses/search', $get_data);
         $this->assertEquals('200', $response->getStatusCode());
@@ -131,7 +131,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
     public function testCourseSearchAjaxWithValidResult() {
         $get_data = array(
             'search'        => 'xy',
-            'csrf_token'    => Session::token()
+            '_token'    => Session::token()
         );
         $response = $this->call('GET', 'api/v1/courses/search', $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
@@ -148,7 +148,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
     public function testCourseSearchWithNoResult() {
         $get_data = array(
             'search'        => 'wxyz',
-            'csrf_token'    => Session::token()
+            '_token'    => Session::token()
         );
         $response = $this->call('GET', 'api/v1/courses/search', $get_data);
         $this->assertEquals('200', $response->getStatusCode());
@@ -165,7 +165,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
     public function testCourseSearchAjaxWithNoResult() {
         $get_data = array(
             'search'        => 'wxyz',
-            'csrf_token'    => Session::token()
+            '_token'    => Session::token()
         );
         $response = $this->call('GET', 'api/v1/courses/search', $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());

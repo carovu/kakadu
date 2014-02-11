@@ -1,6 +1,6 @@
 
 var url;
-var _csrf;
+var _token;
 var groups;
 var groupsSet
 
@@ -13,7 +13,7 @@ var groupsSet
 function initialiseAddGroup(url2, set){	
 	this.url = url2;
 	this.groupsSet = set;
-	this._csrf =  $('input[name="csrf_token"]').val();
+	this._token =  $('input[name="_token"]').val();
 	this.groups = [];
 	if(this.groupsSet){
 		$("#tabelReferences").show();
@@ -42,7 +42,7 @@ $(document).ready(function(){
 		var search_query = $('#searchGroup').val();
 		
 		if(search_query.length >= 1){
-			$.post(url+"/groups/search", {csrf_token: _csrf, search: search_query}
+			$.post(url+"/groups/search", {_token: _token, search: search_query}
 			, function(data) {
 				displaydata(data);
 			});

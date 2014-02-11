@@ -1,7 +1,7 @@
 
 var courseId;
 var choices;
-var _csrf;
+var _token;
 var url;
 var type;
 
@@ -17,7 +17,7 @@ function initialiseQuestionType(id, baseUrl, questionType){
 	this.url = baseUrl;
 	this.type = questionType;
 	console.log("questionType:" + this.type);
-	this._csrf =  $('input[name="csrf_token"]').val();	
+	this._token =  $('input[name="_token"]').val();	
 	if(this.type === "simple"){
 		$("#multiple").hide()
 		$("#simple").show();

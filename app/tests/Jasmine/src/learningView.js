@@ -18,7 +18,7 @@ QuizView = Backbone.View.extend({
 		console.log(this.section);
 		this.courseId = course;
 		this.baseUrl = url;
-		this._csrf = $('input[name="csrf_token"]').val();
+		this._token = $('input[name="_token"]').val();
 		this.right = 0;
 		this.questionId = question.id;
 		this.catalogId = catalog;
@@ -92,7 +92,7 @@ QuizView = Backbone.View.extend({
 
 		$("#correct").hide();
 		$this = this;
-		$.post(this.baseUrl+"/learning/next", {csrf_token: this._csrf, question: this.questionId, catalog: this.catalogId, course: this.courseId, answer: this.answerBoolean, section: this.section}
+		$.post(this.baseUrl+"/learning/next", {_token: this._token, question: this.questionId, catalog: this.catalogId, course: this.courseId, answer: this.answerBoolean, section: this.section}
 		, function(data) {
 			if(data.status==="Ok"){
 				$this.setData(data);

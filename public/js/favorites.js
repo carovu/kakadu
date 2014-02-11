@@ -18,7 +18,7 @@ function initialiseFavorites(urlBase, textLearn){
  * @param idCourse: The id of the course
  */
 function addFavoriteCourse(idCourse){
-	$.post(url+"/favorites/add", {csrf_token: $('input[name="csrf_token"]').val(), id: idCourse, type: "course"}
+	$.post(url+"/favorites/add", {_token: $('input[name="_token"]').val(), id: idCourse, type: "course"}
 	, function(data) {
 		console.log(data);
 		if(data.status === 'Ok'){
@@ -36,7 +36,7 @@ function addFavoriteCourse(idCourse){
  * @param idCourse: The id of the course
  */
 function removeFavoriteCourse(idCourse){
-	$.post(url+"/favorites/remove", {csrf_token: $('input[name="csrf_token"]').val(), id: idCourse, type: "course"}
+	$.post(url+"/favorites/remove", {_token: $('input[name="_token"]').val(), id: idCourse, type: "course"}
 	, function(data) {
 		console.log(data);
 		if(data.status === "Ok"){
@@ -50,7 +50,7 @@ function removeFavoriteCourse(idCourse){
  * @param idCatalog: The id of the catalog
  */
 function addFavoriteCatalog(idCatalog){
-	$.post(url+"/favorites/add", {csrf_token: $('input[name="csrf_token"]').val(), id: idCatalog, type: "catalog"}
+	$.post(url+"/favorites/add", {_token: $('input[name="_token"]').val(), id: idCatalog, type: "catalog"}
 	, function(data) {
 		console.log(data);
 		if(data.status === 'Ok'){
@@ -67,7 +67,7 @@ function addFavoriteCatalog(idCatalog){
  * @param idCatalog: The id of the catalog
  */
 function removeFavoriteCatalog(idCatalog){
-	$.post(url+"/favorites/remove", {csrf_token: $('input[name="csrf_token"]').val(), id: idCatalog, type: "catalog"}
+	$.post(url+"/favorites/remove", {_token: $('input[name="_token"]').val(), id: idCatalog, type: "catalog"}
 	, function(data) {
 		console.log(data);
 		if(data.status === "Ok"){
