@@ -10,9 +10,6 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-// Route group for API versioning 
-Route::group(array('prefix' => 'api/v1'), function()
-{
 
 //Install
 /*
@@ -52,15 +49,10 @@ Route::post('profile/changepassword', array('uses' => 'ProfileController@postCha
 Route::get('profile/delete', array('as' => 'profile/delete', 'uses' => 'ProfileController@getDelete'));
 Route::delete('profile/delete', array('uses' => 'ProfileController@deleteDelete'));
 
-//User
-Route::post('users/search', array('uses' => 'SearchController@postUser'));
-
 //Group
 Route::get('group/create', array('as' => 'group/create', 'uses' => 'GroupController@getCreate'));
 Route::post('group/create', array('uses' => 'GroupController@postCreate'));
-Route::get('groups', array('as' => 'groups', 'uses' => 'GroupController@getGroups'));
 Route::post('groups/search', array('uses' => 'SearchController@postGroup'));
-Route::get('group/{num}', array('as' => 'group', 'uses' => 'GroupController@getGroup'));
 Route::get('group/{num}/edit', array('as' => 'group/edit', 'uses' => 'GroupController@getEdit'));
 Route::post('group/edit', array('uses' => 'GroupController@postEdit'));
 Route::get('group/{num}/delete', array('as' => 'group/delete', 'uses' => 'GroupController@getDelete'));
@@ -73,8 +65,6 @@ Route::post('group/admin/remove', array('uses' => 'GroupMemberController@postAdm
 //Course
 Route::get('course/create', array('as' => 'course/create', 'uses' => 'CourseController@getCreate'));
 Route::post('course/create', array('uses' => 'CourseController@postCreate'));
-Route::get('courses', array('as' => 'courses', 'uses' => 'CourseController@getCourses'));
-Route::get('courses/search', array('uses' => 'CourseController@getSearch', 'before' => 'csrf')); 
 Route::get('course/{num}', array('as' => 'course', 'uses' => 'CourseController@getCourse'));
 Route::get('course/{num}/edit', array('as' => 'course/edit', 'uses' => 'CourseController@getEdit'));
 Route::post('course/edit', array('uses' => 'CourseController@postEdit'));
@@ -103,19 +93,40 @@ Route::get('catalog/deleted', array('as' => 'catalog/deleted', 'uses' => 'Catalo
 Route::get('question/{num}', array('as' => 'question', 'uses' => 'QuestionController@getQuestion'));
 Route::post('question/create', array('uses' => 'QuestionController@postCreate'));
 Route::get('question/{num}/edit', array('as' => 'question/edit', 'uses' => 'QuestionController@getEdit'));
-Route::post('question/edit', array('uses' => 'QuestionController@postEdit'));
 Route::get('question/{num}/delete', array('as' => 'question/delete', 'uses' => 'QuestionController@getDelete'));
 Route::get('question/deleted', array('as' => 'question/deleted', 'uses' => 'QuestionController@getDeleted'));
 
 //Favorites
 Route::get('profile/favorites', array('as' => 'favorites', 'uses' => 'FavoriteController@getFavorites'));
-Route::post('favorites/add', array('uses' => 'FavoriteController@postAdd'));
-Route::post('favorites/remove', array('uses' => 'FavoriteController@postRemove'));
 
 //Learning
 Route::get('course/{num}/learning', array('as' => 'course/learning', 'uses' => 'LearningController@getCourse'));
 Route::get('catalog/{num}/learning', array('as' => 'catalog/learning', 'uses' => 'LearningController@getCatalog'));
 Route::get('favorites/learning', array('as' => 'favorites/learning', 'uses' => 'LearningController@getFavorites'));
-Route::post('learning/next', array('uses' => 'LearningController@postNext'));
+
+// Route group for API versioning 
+Route::group(array('prefix' => 'api/v1'), function()
+{
+	//User
+	Route::post('users/search', array('uses' => 'SearchController@postUser'));
+
+	//Group
+	Route::get('groups', array('as' => 'groups', 'uses' => 'GroupController@getGroups'));
+	Route::get('group/{num}', array('as' => 'group', 'uses' => 'GroupController@getGroup'));
+	
+	//Course
+	Route::get('courses', array('as' => 'courses', 'uses' => 'CourseController@getCourses'));
+	Route::get('courses/search', array('uses' => 'CourseController@getSearch', 'before' => 'csrf')); 
+
+	//Question
+	Route::post('question/edit', array('uses' => 'QuestionController@postEdit'));
+
+	//Favorites
+	Route::post('favorites/add', array('uses' => 'FavoriteController@postAdd'));
+	Route::post('favorites/remove', array('uses' => 'FavoriteController@postRemove'));	
+
+	//Learning
+	Route::post('learning/next', array('uses' => 'LearningController@postNext'));
+
 
 });

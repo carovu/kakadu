@@ -120,7 +120,7 @@
 			</div>
 			@if($roleLearngroup == ConstRole::ADMIN || $roleLearngroup == ConstRole::GROUPADMIN)	
 				<div id="edit">
-					{{ Form::open(array('url' => 'api/v1/group/edit', 'method' => 'post')) }} 	
+					{{ Form::open(array('url' => 'group/edit', 'method' => 'post')) }} 	
 						{{ Form::hidden('id', $group['id']) }}		
 						<legend>
 							{{ Form::text('name', $group['name']) }}

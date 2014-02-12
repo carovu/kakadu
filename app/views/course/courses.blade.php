@@ -14,7 +14,7 @@
 
 
 	function linkcourse(id){
-		var url = "{{URL::to('api/v1/course')}}";
+		var url = "{{URL::to('course')}}";
 		setTimeout(function(){
 			window.location.href=url+"/"+id;	
 		}, 300);
@@ -23,7 +23,7 @@
 	}
 
 	function linktest(id){
-		var url = "{{URL::to('api/v1/course')}}";
+		var url = "{{URL::to('course')}}";
 		setTimeout(function(){
 			window.location.href=url+"/"+id+"/learning";	
 		}, 300);

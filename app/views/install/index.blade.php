@@ -3,7 +3,7 @@
 @section('content')
 <div class="row-fluid">
 	<div class="offset1">
-		{{ Form::open(array('url' => 'api/v1/install', 'method' => 'post')) }} 
+		{{ Form::open(array('url' => 'install', 'method' => 'post')) }} 
 		<div class="row-fluid">
 			<legend>{{trans('install.installation')}}</legend>
 		</div>

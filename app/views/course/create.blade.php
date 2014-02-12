@@ -22,7 +22,7 @@
 	<div class="offset1">
 		<div class="span12">
 			<legend>{{trans('profile.create_course')}}</legend>
-			{{ Form::open(array('url' => 'api/v1/course/create', 'method' => 'post', 'id'=>'courseCreate')) }}
+			{{ Form::open(array('url' => 'course/create', 'method' => 'post', 'id'=>'courseCreate')) }}
 			{{ Form::label('name', trans('course.name')) }}
 			{{ Form::text('name', Form::old('name'), array('class' => 'row-fluid', 'rows' => '1')) }}
 			

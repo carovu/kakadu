@@ -16,7 +16,7 @@
 	<div class="offset1">
 		<div class="span12">
 			<legend>{{trans('group.edit')}}</legend>
-			{{ Form::open(array('url' => 'api/v1/group/edit', 'method' => 'post')) }} 
+			{{ Form::open(array('url' => 'group/edit', 'method' => 'post')) }} 
 			{{ Form::hidden('id', $group['id']) }}
 
 			{{ Form::label('name', trans('group.name')) }}

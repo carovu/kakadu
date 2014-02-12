@@ -20,7 +20,7 @@
 	<div class="offset1">
 		<div class="span12">
 			<legend>{{trans('course.edit_course')}}</legend>
-			{{ Form::open(array('url' => 'api/v1/course/edit', 'method' => 'post')) }} 	
+			{{ Form::open(array('url' => 'course/edit', 'method' => 'post')) }} 	
 	
 			{{ Form::hidden('id', $course['id']) }}
 			

@@ -31,7 +31,7 @@
 <div class="row-fluid" id="simple">
 	<div class="offset1">
 		<br>
-		{{ Form::open(array('url' => 'api/v1/question/create', 'method' => 'post', 'id' => 'formSimple')) }}
+		{{ Form::open(array('url' => 'question/create', 'method' => 'post', 'id' => 'formSimple')) }}
 			{{ Form::hidden('course', $course['id']) }}
 			{{ Form::hidden('type', 'simple') }}
 		
@@ -49,7 +49,7 @@
 <div class="row-fluid" id="multiple">
 	<div class="offset1">
 		<br>
-		{{ Form::open(array('url' => 'api/v1/question/create', 'method' => 'post', 'id' => 'formMultiple')) }} 
+		{{ Form::open(array('url' => 'question/create', 'method' => 'post', 'id' => 'formMultiple')) }} 
 			{{ Form::hidden('course', $course['id']) }}
 			{{ Form::hidden('type', 'multiple') }}
 			

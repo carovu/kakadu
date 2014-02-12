@@ -113,7 +113,7 @@
 							@if($roleSystem == ConstRole::GUEST)
 							<div id="guest">
 								<div class="span11">                    
-									{{ Form::open(array('url' => 'api/v1/auth/login', 'method' => 'post')) }}
+									{{ Form::open(array('url' => 'auth/login', 'method' => 'post')) }}
 									<h3 class="form-signin-heading">{{trans('authentification.sign_in_label')}}</h3>                                   
 									{{ Form::label('email', 'Email', array('id'=>'emailLabel')) }}
 									{{ Form::email('email', Form::old('email'), array('placeholder'=>'Email')) }}
@@ -169,12 +169,12 @@
 					<div class="container">
 						<div class="row">
 							<div class="span5 offset5">
-								{{ Form::open(array('url' => 'api/v1/language/edit', 'method' => 'post', 'class' => 'navbar-search')) }}
+								{{ Form::open(array('url' => 'language/edit', 'method' => 'post', 'class' => 'navbar-search')) }}
 								{{ Form::hidden('language', 'en') }}
 								{{ Form::token() }}
 								{{ Form::submit(trans('home.english'), array('id' => 'language', 'class' => 'btn btn-link')) }}
 								{{ Form::close() }}
-								{{ Form::open(array('url' => 'api/v1/language/edit', 'method' => 'post', 'class' => 'navbar-search')) }}
+								{{ Form::open(array('url' => 'language/edit', 'method' => 'post', 'class' => 'navbar-search')) }}
 								{{ Form::hidden('language', 'de') }}
 								{{ Form::token() }}
 								{{ Form::submit(trans('home.german'), array('id' => 'language', 'class' => 'btn btn-link')) }}

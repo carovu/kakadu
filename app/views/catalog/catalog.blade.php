@@ -32,7 +32,7 @@
 
 		function linkShow(id, catalog, name){
 			console.log("Katalog:" + catalog);
-			var url = "{{URL::to('api/v1/question')}}";
+			var url = "{{URL::to('question')}}";
 			setTimeout(function(){
 				window.location=url+"/"+id+"?navcatalog="+catalog;
 			}, 300);
@@ -59,7 +59,7 @@
 				"label" : "{{trans('general.yes')}}",
 				"class" : "btn-success",
 				"callback": function() {
-					var urldelete = "{{ URL::to('api/v1/catalog/delete', array($catalog['id'])) }}";
+					var urldelete = "{{ URL::to('catalog/delete', array($catalog['id'])) }}";
 					window.location=urldelete;
 				}
 		
@@ -80,7 +80,7 @@
 				"label" : "{{trans('general.yes')}}",
 				"class" : "btn-success",
 				"callback": function() {
-					var urldelete = "{{ URL::to('api/v1/question')}}";
+					var urldelete = "{{ URL::to('question')}}";
 					window.location=urldelete+"/"+id+"/delete";
 				}
 		
@@ -174,7 +174,7 @@
 			</div>
 			@if($roleLearngroup == ConstRole::ADMIN || $roleLearngroup == ConstRole::GROUPADMIN)
 				<div id="edit">
-					{{ Form::open(array('url' => 'api/v1/catalog/edit', 'method' => 'post')) }}
+					{{ Form::open(array('url' => 'catalog/edit', 'method' => 'post')) }}
 					{{ Form::hidden('course', $course['id']) }}
 					{{ Form::hidden('id', $catalog['id']) }}
 						

@@ -19,7 +19,6 @@
 
 	{{ HTML::script('js/addGroup.js')}}
 	{{ HTML::script('js/favorites.js')}}
-	{{ HTML::script('js/iterator.js')}}
 	
 	<!-- Check if courses are referenced -->
 	@if(count($groups) > 0)
@@ -98,7 +97,7 @@
 							@if($course['favorite'] != 1)
 								<button id="favorite{{$course['id']}}" onclick="addFavoriteCourse({{$course['id']}})" class="btn btn-small" title="{{trans('favorites.favorite')}}"><i class="icon-star"></i></button>
 							@else
-								<button onclick="linktest({{$course['id']}})" class="btn btn-small">{{trans('favorites.learn')}}</button>
+								<button href="#" class="btn btn-small" onclick="linktest({{$course['id']}})">{{trans('favorites.learn')}}</button>
 							@endif
 								
 					@endif
@@ -116,7 +115,7 @@
 			</div>
 			@if($roleLearngroup == ConstRole::ADMIN || $roleLearngroup == ConstRole::GROUPADMIN)
 				<div id="edit">
-					{{ Form::open(array('url' => 'api/v1/course/edit', 'method' => 'post', 'id' => 'courseCreate')) }}
+					{{ Form::open(array('url' => 'course/edit', 'method' => 'post', 'id' => 'courseCreate')) }}
 					{{ Form::hidden('id', $course['id']) }}
 					
 					<legend>
@@ -191,7 +190,7 @@
            @include('course.iterator')
            <table>
            	<tbody>
-           		<?php iterate($catalogs, 0, URL::to('api/v1//'), $course['id'], trans('question.create'))?>
+           		<?php iterate($catalogs, 0, URL::to('/'), $course['id'], trans('question.create'))?>
            	</tbody>
            </table>
 		</div>
