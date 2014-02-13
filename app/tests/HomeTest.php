@@ -16,7 +16,7 @@ class HomeTest extends TestCaseUser {
      * Test the home view
      */
     public function testHomeView() {
-        $response = $this->call('GET', 'api/v1');
+        $response = $this->call('GET', '/');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -25,7 +25,15 @@ class HomeTest extends TestCaseUser {
      * Test the help view
      */
     public function testHelpView() {
-        $response = $this->call('GET', 'api/v1/help');
+        $response = $this->call('GET', 'help');
+        $this->assertEquals('200', $response->getStatusCode());
+    }
+
+    /**
+     * Test the feature view
+     */
+    public function testFeatureView() {
+        $response = $this->call('GET', 'feature');
         $this->assertEquals('200', $response->getStatusCode());
     }
 

@@ -59,7 +59,12 @@
 		
 				}]);
 		}
-		
+		function linktest(id){
+			var url = "{{URL::to('course')}}";
+			setTimeout(function(){
+				window.location.href=url+"/"+id+"/learning";	
+			}, 300);
+		}
 		//Hides the updated label if the course was never updated
 		function hide(){
 			$(document).ready(function(){

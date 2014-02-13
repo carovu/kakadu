@@ -25,6 +25,7 @@ return;
 //Home
 Route::get('/', array('as' => 'home', 'uses' => 'HomeController@getIndex')); 
 Route::get('help', array('as' => 'help', 'uses' => 'HomeController@getHelp')); 
+Route::get('feature', array('as' => 'feature', 'uses' => 'HomeController@getFeature')); 
 
 //Authentification
 Route::get('auth/login', array('as' => 'auth/login', 'uses' => 'AuthentificationController@getLogin'));
@@ -52,15 +53,10 @@ Route::delete('profile/delete', array('uses' => 'ProfileController@deleteDelete'
 //Group
 Route::get('group/create', array('as' => 'group/create', 'uses' => 'GroupController@getCreate'));
 Route::post('group/create', array('uses' => 'GroupController@postCreate'));
-Route::post('groups/search', array('uses' => 'SearchController@postGroup'));
 Route::get('group/{num}/edit', array('as' => 'group/edit', 'uses' => 'GroupController@getEdit'));
 Route::post('group/edit', array('uses' => 'GroupController@postEdit'));
 Route::get('group/{num}/delete', array('as' => 'group/delete', 'uses' => 'GroupController@getDelete'));
 Route::get('group/deleted', array('as' => 'group/deleted', 'uses' => 'GroupController@getDeleted'));
-Route::post('group/user/add', array('uses' => 'GroupMemberController@postUserAdd'));
-Route::post('group/user/remove', array('uses' => 'GroupMemberController@postUserRemove'));
-Route::post('group/admin/add', array('uses' => 'GroupMemberController@postAdminAdd'));
-Route::post('group/admin/remove', array('uses' => 'GroupMemberController@postAdminRemove'));
 
 //Course
 Route::get('course/create', array('as' => 'course/create', 'uses' => 'CourseController@getCreate'));
@@ -113,6 +109,11 @@ Route::group(array('prefix' => 'api/v1'), function()
 	//Group
 	Route::get('groups', array('as' => 'groups', 'uses' => 'GroupController@getGroups'));
 	Route::get('group/{num}', array('as' => 'group', 'uses' => 'GroupController@getGroup'));
+	Route::post('group/user/add', array('uses' => 'GroupMemberController@postUserAdd'));
+	Route::post('group/user/remove', array('uses' => 'GroupMemberController@postUserRemove'));
+	Route::post('groups/search', array('uses' => 'SearchController@postGroup'));
+	Route::post('group/admin/add', array('uses' => 'GroupMemberController@postAdminAdd'));
+	Route::post('group/admin/remove', array('uses' => 'GroupMemberController@postAdminRemove'));
 	
 	//Course
 	Route::get('courses', array('as' => 'courses', 'uses' => 'CourseController@getCourses'));

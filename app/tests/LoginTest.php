@@ -19,7 +19,7 @@ class LoginTest extends TestCaseUser {
     public function testLoginWithNoData()
     {
         $post_data = array();
-        $response = $this->call('POST', 'api/v1/auth/login', $post_data);
+        $response = $this->call('POST', 'auth/login', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('/', $response);
         ////$this->checkIfErrorsExist();
@@ -36,7 +36,7 @@ class LoginTest extends TestCaseUser {
         $post_data = array(
             'email' => 'alex@example.com'
         );
-        $response = $this->call('POST', 'api/v1/auth/login', $post_data);
+        $response = $this->call('POST', 'auth/login', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('/', $response);
         ////$this->checkIfErrorsExist();
@@ -53,7 +53,7 @@ class LoginTest extends TestCaseUser {
         $post_data = array(
             'password' => 'password'
         );
-        $response = $this->call('POST', 'api/v1/auth/login', $post_data);
+        $response = $this->call('POST', 'auth/login', $post_data);
 
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('/', $response);
@@ -72,7 +72,7 @@ class LoginTest extends TestCaseUser {
             'email' => 'test@test.com',
             'password' => 'password'
         );
-        $response = $this->call('POST', 'api/v1/auth/login', $post_data);
+        $response = $this->call('POST', 'auth/login', $post_data);
 
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('/', $response);
@@ -91,7 +91,7 @@ class LoginTest extends TestCaseUser {
             'email' => 'Logintest@example.com',
             'password' => 'password'
         );
-        $response = $this->call('POST', 'api/v1/auth/login', $post_data);
+        $response = $this->call('POST', 'auth/login', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('/', $response);
         ////$this->checkIfNoErrorsExist();
@@ -117,7 +117,7 @@ class LoginTest extends TestCaseUser {
         //Check if user is logged in
         $this->assertTrue(Sentry::check());
         //Call logout site
-        $response = $this->call('GET', 'api/v1/auth/logout');
+        $response = $this->call('GET', 'auth/logout');
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('/', $response);
 

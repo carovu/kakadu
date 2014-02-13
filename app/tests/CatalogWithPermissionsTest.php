@@ -28,7 +28,7 @@ class CatalogWithPermissionsTest extends TestCaseCourse {
      * Test the view to show a existing catalog
      */
     public function testCatalogViewExistingID() {
-        $response = $this->call('GET', 'api/v1/catalog/' . $this->catalog->id);
+        $response = $this->call('GET', 'catalog/' . $this->catalog->id);
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -38,7 +38,7 @@ class CatalogWithPermissionsTest extends TestCaseCourse {
      */
     public function testCatalogViewNotExistingID() {
         $id = $this->getNotExistingID('Catalog');
-        $response = $this->call('GET', 'api/v1/catalog/' . $id);
+        $response = $this->call('GET', 'catalog/' . $id);
         $this->assertEquals('404', $response->getStatusCode());
     }
 
@@ -47,7 +47,7 @@ class CatalogWithPermissionsTest extends TestCaseCourse {
      * Test the view to create a catalog
      */
     public function testCatalogCreateView() {
-        $response = $this->call('GET', 'api/v1/course/' . $this->course->id . '/catalog/create');
+        $response = $this->call('GET', 'course/' . $this->course->id . '/catalog/create');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -64,7 +64,7 @@ class CatalogWithPermissionsTest extends TestCaseCourse {
             'number' => '',
             'parent' => ''
         );
-        $response = $this->call('POST', 'api/v1/catalog/create', $post_data);
+        $response = $this->call('POST', 'catalog/create', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('course//catalog/create', $response);
         ////$this->checkIfErrorsExist();
@@ -85,7 +85,7 @@ class CatalogWithPermissionsTest extends TestCaseCourse {
             'number' => '1',
             'parent' => $parent->id
         );
-        $response = $this->call('POST', 'api/v1/catalog/create', $post_data);
+        $response = $this->call('POST', 'catalog/create', $post_data);
 
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('course/' . $this->course->id . '/catalog/create', $response);
@@ -105,7 +105,7 @@ class CatalogWithPermissionsTest extends TestCaseCourse {
             'number' => '4',
             'parent' => $this->catalog->id
         );
-        $response = $this->call('POST', 'api/v1/catalog/create', $post_data);
+        $response = $this->call('POST', 'catalog/create', $post_data);
 
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('catalog/[0-9]+', $response);
@@ -124,7 +124,7 @@ class CatalogWithPermissionsTest extends TestCaseCourse {
      */
     public function testCatalogEditWithExistingID() {
         $subcatalog = Catalog::where('name', 'LIKE', 'Catalog of course 1 -  group Test xy - chapter 1')->first();
-        $response = $this->call('GET', 'api/v1/catalog/'. $subcatalog->id . '/edit');
+        $response = $this->call('GET', 'catalog/'. $subcatalog->id . '/edit');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -134,7 +134,7 @@ class CatalogWithPermissionsTest extends TestCaseCourse {
      */
     public function testCatalogEditWithNotExistingID() {
         $id = $this->getNotExistingID('Catalog');
-        $response = $this->call('GET', 'api/v1/catalog/' . $id . '/edit');
+        $response = $this->call('GET', 'catalog/' . $id . '/edit');
         $this->assertEquals('404', $response->getStatusCode());
     }
 
@@ -152,7 +152,7 @@ class CatalogWithPermissionsTest extends TestCaseCourse {
             'number' => '4',
             'parent' => $this->catalog->id
         );
-        $response = $this->call('POST', 'api/v1/catalog/edit', $post_data);
+        $response = $this->call('POST', 'catalog/edit', $post_data);
         $this->assertEquals('404', $response->getStatusCode());
     }
 
@@ -171,7 +171,7 @@ class CatalogWithPermissionsTest extends TestCaseCourse {
             'number' => '',
             'parent' => ''
         );
-        $response = $this->call('POST', 'api/v1/catalog/edit', $post_data);
+        $response = $this->call('POST', 'catalog/edit', $post_data);
 
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('catalog//edit', $response);
@@ -194,7 +194,7 @@ class CatalogWithPermissionsTest extends TestCaseCourse {
             'number' => '1',
             'parent' => $this->catalog->id
         );
-        $response = $this->call('POST', 'api/v1/catalog/edit', $post_data);
+        $response = $this->call('POST', 'catalog/edit', $post_data);
 
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('catalog/' . $other->id . '/edit', $response);
@@ -218,7 +218,7 @@ class CatalogWithPermissionsTest extends TestCaseCourse {
             'number' => '1',
             'parent' => $other->id
         );
-        $response = $this->call('POST', 'api/v1/catalog/edit', $post_data);
+        $response = $this->call('POST', 'catalog/edit', $post_data);
 
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('catalog/' . $subcatalog->id . '/edit', $response);
@@ -239,7 +239,7 @@ class CatalogWithPermissionsTest extends TestCaseCourse {
             'number' => '1',
             'parent' => $this->catalog->id
         );
-        $response = $this->call('POST', 'api/v1/catalog/edit', $post_data);
+        $response = $this->call('POST', 'catalog/edit', $post_data);
 
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('catalog/' . $this->catalog->id . '/edit', $response);
@@ -263,7 +263,7 @@ class CatalogWithPermissionsTest extends TestCaseCourse {
             'parent' => $this->catalog->id
         );
 
-        $response = $this->call('POST', 'api/v1/catalog/edit', $post_data);
+        $response = $this->call('POST', 'catalog/edit', $post_data);
 
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('catalog/' . $subcatalog->id, $response);
@@ -282,7 +282,7 @@ class CatalogWithPermissionsTest extends TestCaseCourse {
      */
     public function testCatalogDeleteNotExistingID() {
         $id = $this->getNotExistingID('Catalog');
-        $response = $this->call('GET', 'api/v1/catalog/' . $id . '/delete');
+        $response = $this->call('GET', 'catalog/' . $id . '/delete');
         $this->assertEquals('404', $response->getStatusCode());
     }
 
@@ -293,7 +293,7 @@ class CatalogWithPermissionsTest extends TestCaseCourse {
      * @depends testCatalogDeleteNotExistingID
      */
     public function testCatalogDeleteWithNotEditableCatalog() {
-        $response = $this->call('GET', 'api/v1/catalog/' . $this->catalog->id . '/delete');
+        $response = $this->call('GET', 'catalog/' . $this->catalog->id . '/delete');
 
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('catalog/' . $this->catalog->id, $response);
@@ -309,7 +309,7 @@ class CatalogWithPermissionsTest extends TestCaseCourse {
     public function testCatalogDeleteWithValidData() {
         $subcatalog = Catalog::where('name', 'LIKE', 'Catalog of course 1 -  group Test xy - chapter 1')->first();
 
-        $response = $this->call('GET', 'api/v1/catalog/' . $subcatalog->id . '/delete');
+        $response = $this->call('GET', 'catalog/' . $subcatalog->id . '/delete');
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('course/' . $this->course->id, $response);
 
@@ -322,7 +322,7 @@ class CatalogWithPermissionsTest extends TestCaseCourse {
      * Test the view to show a catalog was deleted
      */
     public function testCatalogDeletedView() {
-        $response = $this->call('GET', 'api/v1/catalog/deleted');
+        $response = $this->call('GET', 'catalog/deleted');
         //$this->assertEquals('200', $response->getStatusCode());
     }
 

@@ -41,7 +41,7 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
 
 
         //Send get request
-        $response = $this->call('GET', 'api/v1/profile/favorites');
+        $response = $this->call('GET', 'profile/favorites');
         $this->assertEquals('200', $response->getStatusCode());
         $data = $response->getContent();
         $this->assertContains('courses', $data);

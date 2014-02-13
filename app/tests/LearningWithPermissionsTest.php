@@ -59,7 +59,7 @@ class LearningWithPermissionsTest extends TestCaseCourse {
      * Test the view to learn a course
      */
     public function testCoursesView() {
-        $response = $this->call('GET', 'api/v1/course/' . $this->course->id . '/learning');
+        $response = $this->call('GET', 'course/' . $this->course->id . '/learning');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -67,7 +67,7 @@ class LearningWithPermissionsTest extends TestCaseCourse {
      * Test the view to learn a catalog
      */
     public function testCatalogView() {
-        $response = $this->call('GET', 'api/v1/catalog/' . $this->course->catalog()->first()->id . '/learning');
+        $response = $this->call('GET', 'catalog/' . $this->course->catalog()->first()->id . '/learning');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -75,7 +75,7 @@ class LearningWithPermissionsTest extends TestCaseCourse {
      * Test the view to learn favorites
      */
     public function testFavoriteView() {
-        $response = $this->call('GET', 'api/v1/favorites/learning');
+        $response = $this->call('GET', 'favorites/learning');
         $this->assertEquals('200', $response->getStatusCode());
     }
 

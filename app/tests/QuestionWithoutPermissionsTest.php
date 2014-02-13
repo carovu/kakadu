@@ -26,7 +26,7 @@ class QuestionWithoutPermissionsTest extends TestCaseCourse {
      * Test the view to show a existing question
      */
     public function testQuestionViewExistingID() {
-        $response = $this->call('GET', 'api/v1/question/' . $this->question->id);
+        $response = $this->call('GET', 'question/' . $this->question->id);
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }
@@ -36,7 +36,7 @@ class QuestionWithoutPermissionsTest extends TestCaseCourse {
      * Test the view to create a question
      */
     public function testQuestionCreateView() {
-        $response = $this->call('GET', 'api/v1/course/' . $this->course->id . '/question/create');
+        $response = $this->call('GET', 'course/' . $this->course->id . '/question/create');
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }
@@ -62,7 +62,7 @@ class QuestionWithoutPermissionsTest extends TestCaseCourse {
             'answer'    => 'Question y',
             'catalogs'  => $ids
         );
-        $response = $this->call('POST', 'api/v1/question/create', $post_data);
+        $response = $this->call('POST', 'question/create', $post_data);
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }
@@ -72,7 +72,7 @@ class QuestionWithoutPermissionsTest extends TestCaseCourse {
      * Test the view to edit a existing question
      */
     public function testQuestionEditExistingID() {
-        $response = $this->call('GET', 'api/v1/question/' . $this->question->id . '/edit');
+        $response = $this->call('GET', 'question/' . $this->question->id . '/edit');
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }
@@ -110,7 +110,7 @@ class QuestionWithoutPermissionsTest extends TestCaseCourse {
      * Test delete question with valid data
      */
     public function testQuestionDeleteWithValidData() {
-        $response = $this->call('GET', 'api/v1/question/' . $this->question->id . '/delete');
+        $response = $this->call('GET', 'question/' . $this->question->id . '/delete');
         $this->assertEquals('200', $response->getStatusCode());
         //$this->assertEquals('general.permission', $response->getContent()->view);
     }

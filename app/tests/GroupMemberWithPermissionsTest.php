@@ -32,7 +32,7 @@ class GroupMemberWithPermissionsTest extends TestCaseCourse {
 
 
     public function tearDown() {
-                $user_sentry = Sentry::findUserByLogin('groupmembertest@example.com');
+        $user_sentry = Sentry::findUserByLogin('groupmembertest@example.com');
         DB::table('users_metadata')->where('user_id', $user_sentry->getId())->delete(); 
         User::find($user_sentry->getId())->delete();
         parent::tearDown();

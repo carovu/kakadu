@@ -33,4 +33,15 @@ class HomeController extends BaseController {
         $this->layout->content = $view;
     }
 
+    /**
+     * Display the feature screen.
+     * 
+     * Always accessable by user, wheter he is logged in or not. Feature screen is a listing of all 
+     * kakadu functions and traits, that can't be listed on the main page.
+     *
+     */
+    public function getFeature() {
+        $view = View::make('home.feature');
+        $this->layout->content = $view;
+    }
 }

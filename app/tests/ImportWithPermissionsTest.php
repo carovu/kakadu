@@ -29,7 +29,7 @@ class ImportWithPermissionsTest extends TestCaseCourse {
      * Test the view to show the import view of a course
      */
     public function testCourseImportView() {
-        $response = $this->call('GET', 'api/v1/course/' . $this->course->id . '/import');
+        $response = $this->call('GET', 'course/' . $this->course->id . '/import');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -39,7 +39,7 @@ class ImportWithPermissionsTest extends TestCaseCourse {
      */
     public function testCourseImportViewNotExistingID() {
         $id = $this->getNotExistingID('Course');
-        $response = $this->call('GET', 'api/v1/course/' . $id . '/import');
+        $response = $this->call('GET', 'course/' . $id . '/import');
         $this->assertEquals('404', $response->getStatusCode());
     }
 
@@ -139,7 +139,7 @@ class ImportWithPermissionsTest extends TestCaseCourse {
      * Test the check import view with not set session
      */
     public function testGetCheckWithNotSetSession() {
-        $response = $this->call('GET', 'api/v1/import/check');
+        $response = $this->call('GET', 'import/check');
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('/', $response);
         //$this->checkIfErrorsExist();
@@ -170,7 +170,7 @@ class ImportWithPermissionsTest extends TestCaseCourse {
         Session::put('import', $import);
 
         //Call
-        //$response = $this->call('GET', 'api/v1/import/check');
+        //$response = $this->call('GET', 'import/check');
         //$this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -182,7 +182,7 @@ class ImportWithPermissionsTest extends TestCaseCourse {
         $post_data = array(
             'answer' => 'true'
         );
-        $response = $this->call('POST', 'api/v1/import/save', $post_data);
+        $response = $this->call('POST', 'import/save', $post_data);
 
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('/', $response);
@@ -217,7 +217,7 @@ class ImportWithPermissionsTest extends TestCaseCourse {
         $post_data = array(
             'answer' => 'false'
         );
-        $response = $this->call('POST', 'api/v1/import/save', $post_data);
+        $response = $this->call('POST', 'import/save', $post_data);
 
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('/course/' . $this->course->id, $response);
@@ -272,7 +272,7 @@ class ImportWithPermissionsTest extends TestCaseCourse {
         $post_data = array(
             'answer' => 'true'
         );
-        $response = $this->call('POST', 'api/v1/import/save', $post_data);
+        $response = $this->call('POST', 'import/save', $post_data);
 
         $this->assertEquals('302', $response->getStatusCode());
         //$this->checkResponseLocation('/course/' . $this->course->id, $response);

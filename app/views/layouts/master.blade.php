@@ -84,6 +84,7 @@
 					{{ Form::close() }}                 
 
 					<ul class="nav pull-right" id="dropdown">
+						<li id="help">{{ HTML::linkRoute('feature', trans('home.feature_link'), array('class'=>'pull-right'))}}</li>
 						<li id="help">{{ HTML::linkRoute('help', trans('home.help_link'), array('class'=>'pull-right'))}}</li>
 						@if($roleSystem != ConstRole::GUEST)
 						<li class="dropdown" id="accountmenu">  

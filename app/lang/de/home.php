@@ -9,6 +9,7 @@ return array(
 'groups_link'					=> 'Gruppen',
 'select_language'				=> 'Sprache &auml;ndern',
 'help_link'						=> 'Hilfe?',
+'feature_link'					=> 'Features',
 'german'						=> 'Deutsch',
 'english'						=> 'English',
 'favorites'						=> 'Meine Favoriten',

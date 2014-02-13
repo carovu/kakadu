@@ -17,7 +17,7 @@ class LanguageTest extends TestCaseUser {
      * Test the change language post with no data.
      */
     public function testChangeLanguage() {
-        $response = $this->call('POST', 'api/v1/language/edit');
+        $response = $this->call('POST', 'language/edit');
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('/', $response);
         ////$this->checkIfErrorsExist();
@@ -33,7 +33,7 @@ class LanguageTest extends TestCaseUser {
         $post_data = array(
             'language' => 'xy'
         );
-        $response = $this->call('POST', 'api/v1/language/edit', $post_data);
+        $response = $this->call('POST', 'language/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('/', $response);
         ////$this->checkIfErrorsExist();
@@ -53,7 +53,7 @@ class LanguageTest extends TestCaseUser {
         $post_data = array(
             'language' => 'de'
         );
-        $response = $this->call('POST', 'api/v1/language/edit', $post_data);
+        $response = $this->call('POST', 'language/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('/', $response);
         ////$this->checkIfNoErrorsExist();
@@ -77,7 +77,7 @@ class LanguageTest extends TestCaseUser {
         $post_data = array(
             'language' => 'de'
         );
-        $response = $this->call('POST', 'api/v1/language/edit', $post_data);
+        $response = $this->call('POST', 'language/edit', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
         ////$this->checkResponseLocation('/', $response);
         ////$this->checkIfNoErrorsExist();
