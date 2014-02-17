@@ -8,7 +8,7 @@
 	<script>
 	$(document).ready(function() {	
 		$("#courses").addClass('active');
-		initialise_links("{{URL::to('api/v1/courses')}}");
+		initialise_links("{{URL::to('courses')}}");
 		initialiseFavorites("{{URL::to('/api/v1')}}", "{{trans('favorites.learn')}}");
 	});
 

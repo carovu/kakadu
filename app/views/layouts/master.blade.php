@@ -76,7 +76,7 @@
 							<li class="divider-vertical"></li>              
 						</ul>
 
-						{{ Form::open(array('url' => 'api/v1/courses/search', 'method' => 'get', 'class' => 'navbar-form pull-left')) }}
+						{{ Form::open(array('url' => 'courses/search', 'method' => 'get', 'class' => 'navbar-form pull-left')) }}
 						{{Form::input('text', 'search', Input::get('search'))}}
 						{{Form::token()}}
 						<button class="btn" type="submit">{{trans('home.search_placeholder')}}</button>

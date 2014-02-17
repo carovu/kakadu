@@ -57,8 +57,12 @@ Route::get('group/{num}/edit', array('as' => 'group/edit', 'uses' => 'GroupContr
 Route::post('group/edit', array('uses' => 'GroupController@postEdit'));
 Route::get('group/{num}/delete', array('as' => 'group/delete', 'uses' => 'GroupController@getDelete'));
 Route::get('group/deleted', array('as' => 'group/deleted', 'uses' => 'GroupController@getDeleted'));
+Route::get('groups', array('as' => 'groups', 'uses' => 'GroupController@getGroups'));
+Route::get('group/{num}', array('as' => 'group', 'uses' => 'GroupController@getGroup'));
 
 //Course
+Route::get('courses', array('as' => 'courses', 'uses' => 'CourseController@getCourses'));
+Route::get('courses/search', array('uses' => 'CourseController@getSearch', 'before' => 'csrf')); 
 Route::get('course/create', array('as' => 'course/create', 'uses' => 'CourseController@getCreate'));
 Route::post('course/create', array('uses' => 'CourseController@postCreate'));
 Route::get('course/{num}', array('as' => 'course', 'uses' => 'CourseController@getCourse'));
@@ -106,19 +110,13 @@ Route::group(array('prefix' => 'api/v1'), function()
 	//User
 	Route::post('users/search', array('uses' => 'SearchController@postUser'));
 
-	//Group
-	Route::get('groups', array('as' => 'groups', 'uses' => 'GroupController@getGroups'));
-	Route::get('group/{num}', array('as' => 'group', 'uses' => 'GroupController@getGroup'));
+	//Group 
 	Route::post('group/user/add', array('uses' => 'GroupMemberController@postUserAdd'));
 	Route::post('group/user/remove', array('uses' => 'GroupMemberController@postUserRemove'));
 	Route::post('groups/search', array('uses' => 'SearchController@postGroup'));
 	Route::post('group/admin/add', array('uses' => 'GroupMemberController@postAdminAdd'));
 	Route::post('group/admin/remove', array('uses' => 'GroupMemberController@postAdminRemove'));
 	
-	//Course
-	Route::get('courses', array('as' => 'courses', 'uses' => 'CourseController@getCourses'));
-	Route::get('courses/search', array('uses' => 'CourseController@getSearch', 'before' => 'csrf')); 
-
 	//Question
 	Route::post('question/edit', array('uses' => 'QuestionController@postEdit'));
 

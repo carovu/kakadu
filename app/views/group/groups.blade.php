@@ -13,16 +13,16 @@ $(document).ready(function() {
 
 	//Links that are needed for Sorting.
 	//Function in sorting_list.js
-	initialise_links("{{URL::to('api/v1/groups')}}");
+	initialise_links("{{URL::to('groups')}}");
 
 	//Links that are needed for adding-requests.
 	//Function in add_user.js
-	initialiseAddUser("{{URL::to('/api/v1')}}");
+	initialiseAddUser("{{URL::to('/')}}");
 });
 
 
 function link(id){
-	var url = "{{URL::to('api/v1/group')}}";
+	var url = "{{URL::to('group')}}";
 	setTimeout(function(){
 		window.location=url+"/"+id;
 	}, 300);
