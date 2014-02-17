@@ -39,7 +39,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
      * Test the view to show all courses
      */
     public function testCoursesView() {
-        $response = $this->call('GET', 'api/v1/courses');
+        $response = $this->call('GET', 'courses');
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -48,7 +48,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
      * Test the view to show all courses with ajax
      */
     public function testCoursesViewWithAjax() {
-        $response = $this->call('GET', 'api/v1/courses', [], [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('GET', 'courses', [], [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
     }
 
@@ -63,7 +63,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'sort'      => 'created_at',
             'sort_dir'  => 'desc'
         );
-        $response = $this->call('GET', 'api/v1/courses', $get_data);
+        $response = $this->call('GET', 'courses', $get_data);
         $this->assertEquals('200', $response->getStatusCode());
         //$data = $response->getContent()->data['content']->data();
         //$this->assertArrayHasKey('courses', $data);
@@ -81,7 +81,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'sort'      => 'created_at',
             'sort_dir'  => 'desc'
         );
-        $response = $this->call('GET', 'api/v1/courses', $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('GET', 'courses', $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         //$data = $response->getContent()->data();
         //$this->assertArrayHasKey('courses', $data);
@@ -116,7 +116,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'search'        => 'xy',
             '_token'    => Session::token()
         );
-        $response = $this->call('GET', 'api/v1/courses/search', $get_data);
+        $response = $this->call('GET', 'courses/search', $get_data);
         $this->assertEquals('200', $response->getStatusCode());
         //$data = $response->getContent()->data['content']->data();
         //$this->assertArrayHasKey('courses', $data);
@@ -133,7 +133,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'search'        => 'xy',
             '_token'    => Session::token()
         );
-        $response = $this->call('GET', 'api/v1/courses/search', $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('GET', 'courses/search', $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         //$data = $response->getContent()->data();
         //$this->assertArrayHasKey('courses', $data);
@@ -150,7 +150,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'search'        => 'wxyz',
             '_token'    => Session::token()
         );
-        $response = $this->call('GET', 'api/v1/courses/search', $get_data);
+        $response = $this->call('GET', 'courses/search', $get_data);
         $this->assertEquals('200', $response->getStatusCode());
         //$data = $response->getContent()->data['content']->data();
         //$this->assertArrayHasKey('courses', $data);
@@ -167,7 +167,7 @@ class CourseWithPermissionsTest extends TestCaseCourse {
             'search'        => 'wxyz',
             '_token'    => Session::token()
         );
-        $response = $this->call('GET', 'api/v1/courses/search', $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $response = $this->call('GET', 'courses/search', $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         //$data = $response->getContent()->data();
         //$this->assertArrayHasKey('courses', $data);
