@@ -2,6 +2,12 @@
 return array(
 		
 //View
+'course'							=> 'Courses',
+'course_description'				=> 'You can create courses with question catalogs and subcatalogs. In this catalogs you can organize your questions. You can choose between diffrent question modes',
+'groups2'							=> 'Learngroups',
+'group_description'					=> 'You can organize you with your friends in groups. You can connetc courses with your learngroups. As admin of a learngroup you can add users to the group and declare them as admins.',
+'algorythm2'						=> 'Learnalgorythm',
+'algorythm_description'				=> 'The learnalgorythm will bring question, which you didn`t answered correctly more often then question you answered correctly. Wrong answered questions will not asked immediatly again. This will help youi to learn efficiently.',
 'questiontypes'  					=> 'Question types',
 'questiontypes_description'  		=> 'Different question types are offered to suit your learning. The current  types to choose from are the typical multiple choice and the simple question-and-answer questions. More types are coming soon.',
 'sidebar' 							=> 'Fade-in main menu',

@@ -31,7 +31,7 @@ class LearningController extends BaseKakaduController {
 
         //Get all catalogs
         $catalogs = HelperCourse::getSubCatalogIDsOfCatalog($catalog);
-
+        
         //Create view
         $this->layout->content = $this->getLearningView('course', $catalogs);
     }

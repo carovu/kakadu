@@ -65,7 +65,7 @@ abstract class QuestionType {
 
     /**
      * Save the question to the database
-     * If the question is allready in the database, then the question will be updated
+     * If the question is already in the database, then the question will be updated
      * If the question is not in the database, then the question will be created
      * 
      * @return Question The saved Question instance or null if an error occurs

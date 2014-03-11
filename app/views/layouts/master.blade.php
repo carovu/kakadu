@@ -85,7 +85,6 @@
 
 					<ul class="nav pull-right" id="dropdown">
 						<li id="help">{{ HTML::linkRoute('feature', trans('home.feature_link'), array('class'=>'pull-right'))}}</li>
-						<li id="help">{{ HTML::linkRoute('help', trans('home.help_link'), array('class'=>'pull-right'))}}</li>
 						@if($roleSystem != ConstRole::GUEST)
 						<li class="dropdown" id="accountmenu">  
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#" ><u id="userinfo">{{  DB::table('users_metadata')->where('user_id', Sentry::findUserByLogin($user['email'])->getId())->first()->displayname}}</u> <i class="icon-cog"></i><b class="caret"></b></a>

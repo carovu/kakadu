@@ -54,18 +54,18 @@
 		@if($roleSystem == ConstRole::GUEST)
 			<div class="span4">
 				<i class="offset2 icon-folder-open-alt icon-4x"></i>
-				<h3>{{trans('descriptions.course')}}</h3>
-				<p>{{trans('descriptions.course_description')}}</p>
+				<h3>{{trans('features.course')}}</h3>
+				<p>{{trans('features.course_description')}}</p>
 			</div>
 			<div class="span4">
 				<i class="offset2 icon-group icon-4x"></i>
-				<h3>{{trans('descriptions.groups2')}}</h3>
-				<p>{{trans('descriptions.group_description')}}</p>
+				<h3>{{trans('features.groups2')}}</h3>
+				<p>{{trans('features.group_description')}}</p>
 			</div>
 			<div class="span4">
 				<i class="offset3 icon-lightbulb icon-4x"></i>
-				<h3>{{trans('descriptions.algorythm2')}}</h3>
-				<p>{{trans('descriptions.algorythm_description')}}</p>
+				<h3>{{trans('features.algorythm2')}}</h3>
+				<p>{{trans('features.algorythm_description')}}</p>
 			</div>
 		@endif
 		@if($roleSystem !== ConstRole::GUEST)

@@ -5,6 +5,9 @@
 
 {{ HTML::script('js/Model/simpleQuestion.js')}}
 {{ HTML::script('js/Model/multipleQuestion.js')}}
+{{ HTML::script('js/Model/clozeQuestion.js')}}
+{{ HTML::script('js/Model/parserQuestion.js')}}
+{{ HTML::script('js/Model/imageQuestion.js')}}
 {{ HTML::script('js/View/learningView.js')}}
 
 <script>
@@ -48,6 +51,15 @@ $(document).ready(function(){
 			
 			<!-- Multiple choice question type -->
 			@include('learning.types.multiple')
+
+			<!-- Cloze question type -->
+			@include('learning.types.cloze')
+
+			<!-- Parser question type -->
+			@include('learning.types.match')
+
+			<!-- Image question type -->
+			@include('learning.types.image')
 			
 			<p>{{trans('general.back_course')}}{{Html::linkRoute('course', $course['name'], array($course['id']))}}</p>
 			<p>{{trans('general.back_catalog')}}{{Html::linkRoute('catalog', $catalog['name'], array($catalog['id']))}}</p>

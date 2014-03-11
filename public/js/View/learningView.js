@@ -28,14 +28,47 @@ QuizView = Backbone.View.extend({
 		if(this.type === "simple"){
 			this.simple = new simpleQuestion(question);
 			$("#multiple").hide();
+			$("#cloze").hide();
+			$("#match").hide();
+			$("#image").hide();
 			$("#questionSimple").html(this.simple.get("question"));
 			$("#answerSimple").html("");
-		}else{
+		}else if(this.type === "multiple"){
 			this.multiple = new multipleQuestion(question);
 			$("#nextQuestion").hide();
 			$("#simple").hide();
+			$("#cloze").hide();
+			$("#match").hide();
+			$("#image").hide();
 			$("#questionMultiple").html(this.multiple.get("question"));
 			this.setAnswers(this.multiple.get("choices"));
+		}else if(this.type === "cloze"){
+			this.cloze = new clozeQuestion(question);
+			$("#nextQuestion").hide();
+			$("#simple").hide();
+			$("#multiple").hide();
+			$("#match").hide();
+			$("#image").hide();
+			$("#questionCloze").html(this.cloze.get("question"));
+			this.setAnswers(this.cloze.get("choices"));
+		}else if(this.type === "match"){
+			this.match = new matchQuestion(question);
+			$("#nextQuestion").hide();
+			$("#simple").hide();
+			$("#cloze").hide();
+			$("#multiple").hide();
+			$("#image").hide();
+			$("#questionMatch").html(this.match.get("question"));
+			this.setAnswers(this.match.get("choices"));
+		}else{
+			this.image = new imageQuestion(question);
+			$("#nextQuestion").hide();
+			$("#simple").hide();
+			$("#cloze").hide();
+			$("#match").hide();
+			$("#multiple").hide();
+			$("#questionImage").html(this.image.get("question"));
+			this.setAnswers(this.image.get("choices"));
 		}
 
 		this.percent = 0;

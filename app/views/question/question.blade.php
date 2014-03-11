@@ -89,6 +89,21 @@ function deletequestion(){
 					<p>{{$question['question']}}</p>
 					<h5>{{trans('question.answer')}}:</h5>
 					<p>{{ $question['answer'] }}</p>
+				@elseif($question['type'] == 'cloze')
+					<h5></h5>	
+					<p></p>
+					<h5></h5>
+					<p></p>
+				@elseif($question['type'] == 'match')
+					<h5></h5>	
+					<p></p>
+					<h5></h5>
+					<p></p>
+				@elseif($question['type'] == 'image')
+					<h5></h5>	
+					<p></p>
+					<h5></h5>
+					<p></p>
 				@else
 					<h5>{{trans('question.question')}}:</h5>	
 					<p>{{$question['question']}}</p>

@@ -8,7 +8,7 @@ return array(
 'courses_link'					=> 'Kurse',
 'groups_link'					=> 'Gruppen',
 'select_language'				=> 'Sprache &auml;ndern',
-'help_link'						=> 'Hilfe?',
+'help_link'						=> 'Hilfe',
 'feature_link'					=> 'Features',
 'german'						=> 'Deutsch',
 'english'						=> 'English',

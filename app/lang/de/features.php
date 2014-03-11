@@ -2,6 +2,12 @@
 return array(
 		
 //View
+'course'							=> 'Kurse',
+'course_description'				=> 'Du kannst Kurse mit beliebig vielen Unterkatalogen erstellen. Mit Hilfe dieser Kataloge kannst du deine Fragen strukturieren und verwalten. Dabei hast du die M&ouml;glichkeit zwischen verschiedenen Fragetypen zu w&auml;hlen',
+'groups2'							=> 'Lerngruppen',
+'group_description'					=> 'Mit Hilfe der Lerngruppen kannst du dich mit deine Freunden organisieren. Du kannst die von dir erstellten Kurse mit deiner Lerngruppe verkn&uuml;pfen. Als Admin einer Gruppe kannst Benutzer zur Gruppe hinzuf&uuml;gen oder entfernen.',
+'algorythm2'						=> 'Learnalgorithmus',
+'algorythm_description'				=> 'Der Lernalgorithmus hilft dir effizient zu lernen, indem er nicht korrekt beantwortete Fragen immer wieder abfragt und korrekt beantwortete Fragen weniger oft abfragt. Dabei wird aber immer darauf geachtet, dass eine gerade beantwortete Frage sofort wieder abgefragt wird.',
 'questiontypes'  					=> 'Fragetypen',
 'questiontypes_description'  		=> 'Verschiedene Fragetypen werden angeboten für deinen Lernstil. Die aktuellen Typen zur Auswahl sind die typischen Multiple-Choice und die einfache Frage-und-Antwort-Fragen. Weitere folgen.',
 'sidebar' 							=> 'Einblendbares Hauptmenü',
