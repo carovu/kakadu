@@ -10,10 +10,10 @@ class QuestiontypeSimpleSeeder extends Seeder {
 	public function run()
 	{
         $jsonQuestion1 = json_encode(array(
-            'question'  => 'Question x'
+            'question'  => 'Question Simplex'
         ));
         $jsonQuestion2 = json_encode(array(
-            'question'  => 'Question y'
+            'question'  => 'Question Simpley'
         ));
         Question::where('question', 'LIKE', $jsonQuestion1)->orWhere('question', 'LIKE', $jsonQuestion2)->delete();
 		
@@ -25,7 +25,7 @@ class QuestiontypeSimpleSeeder extends Seeder {
         ));
         $this->question = new Question;
         $this->question->type = 'simple';
-        $this->question->question = $jsonQuestion;
+        $this->question->question = $jsonQuestion1;
         $this->question->answer = $jsonAnswer;
         $this->question->save();
 	}

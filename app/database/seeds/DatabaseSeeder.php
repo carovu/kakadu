@@ -14,8 +14,8 @@ class DatabaseSeeder extends Seeder {
 		$this->call('DefaultGroupSeeder');
 		$this->call('LearngroupSeeder');
 		$this->call('QuestiontypeClozeSeeder');
-		$this->call('QuestiontypeImageSeeder');
-		$this->call('QuestiontypeMatchSeeder');
+		//$this->call('QuestiontypeImageSeeder');
+		//$this->call('QuestiontypeMatchSeeder');
 		$this->call('QuestiontypeMultipleSeeder');
 		$this->call('QuestiontypeSimpleSeeder');
 		$this->call('CourseSeeder');

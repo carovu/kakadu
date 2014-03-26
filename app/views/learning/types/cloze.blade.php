@@ -7,14 +7,14 @@
 				<div class="percent pull-right" class="pull-right"></div>
 			</h4>
 			<p id="questionCloze"></p>
-		</div>
-		<br>
-		<h4>{{trans('test.answer_label')}}</h4>
-
-		<div>
+			<h4>{{trans('test.answer_label')}}</h4>
 			<br>
-			<button class="btn-primary" id="checkAnswer">{{trans('test.check_answer')}}</button>
-			<button class="btn-primary" id="nextQuestion">{{trans('test.next_question_button')}}</button>
+			<h5>{{trans('test.cloze_label')}}</h5>
+			<p id="choicesCloze"></p>
+			<div>
+				<button class="btn-primary" id="checkCloze">{{trans('test.cloze_check_button')}}</button>
+				<button class="btn-primary" id="nextQuestion">{{trans('test.next_question_button')}}</button>
+			</div>
 		</div>
 	</div>	
 	<br>
@@ -22,9 +22,6 @@
 		<a class="close" href="#">&times;</a>
 		<h5>{{trans('descriptions.keys')}}</h5>
 		<p>{{trans('descriptions.key_show')}}</p>
-		<p>{{trans('descriptions.use')}} 1 {{trans('descriptions.key_correct')}}</p>
-		<p>{{trans('descriptions.use')}} 2 {{trans('descriptions.key_incorrect')}}</p>
 	</div>
 		
-		
-</div>
+</div> 

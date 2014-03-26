@@ -17,7 +17,8 @@ return array(
 
 'multiple_min_two_answers'          => 'There must be at least two answers',
 'multiple_index_not_valid'          => 'The index of the right answer is wrong',
-		
+'cloze_min_two_answers'          	=> 'There must be text before and after gap',
+
 //View
 'question_info' 	=> 'Question info',
 'create'			=> 'Create question',
@@ -38,10 +39,13 @@ return array(
 'multiple'			=> 'Multiple choice',
 'simple'			=> 'Question/Answer',
 'cloze'				=> 'Cloze',
+'clozecreate'		=> 'Fill in text before and after gap:',
+'cloze_text'		=> 'Text before and after gap',
 'match'				=> 'Matching Pairs',
 'image'				=> 'Question with image',
 'choose_answer'		=> 'Choose the right answer',
 'add_choice'		=> 'Add another answer option',
+'add_clozequestion'	=> 'Add more text',
 'choices'			=> 'Answer choices',
 'correct_answer'	=> 'Correct answer',
 

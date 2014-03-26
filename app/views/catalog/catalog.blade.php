@@ -245,10 +245,23 @@
 									<p>{{$question['question']}}</p>
 									<h5>{{trans('question.answer')}}:</h5>
 									<p>{{ $question['answer'] }}</p>
+								@elseif($question['type'] == 'cloze')
+									<h5>{{trans('question.question')}}:</h5>	
+									<p>{{$question['question']}}</p>
+									<h5>{{trans('question.cloze_text')}}:</h5>
+									@foreach($question['texts'] as $text)	
+										<p>{{$text}}</p>
+									@endforeach
+									<h5>{{trans('question.answer')}}:</h5>
+									<p>{{ $question['answer'] }}</p>
+									<h5>{{trans('question.choices')}}</h5>	
+									@foreach($question['choices'] as $choice)
+										<p>{{ $choice}}</p>
+									@endforeach
 								@else
 									<h5>{{trans('question.question')}}:</h5>	
 									<p>{{$question['question']}}</p>
-									<h5>{{trans('question.correct_answer')}}:</h5>	
+									<h5>{{trans('question.correct_answer')}}:</h5>
 									@foreach($question['answer'] as $answer)	
 										<p>{{$question['choices'][$answer]}}</p>
 									@endforeach
@@ -277,7 +290,7 @@
 												{{ Form::submit(trans('course.save'), array('class' => 'btn')) }}
 												<button class="btn" onclick="switchView({{$question['id']}});return false;">{{trans('general.abort')}}</button>
 											{{ Form::close() }}	
-										@else
+										@elseif($question['type'] == 'multiple')
 											{{ Form::open(array('url' => 'api/v1/question/edit', 'method' => 'post', 'id' => 'formMultiple')) }}
 		
 												{{ Form::hidden('course', $course['id']) }}
@@ -286,6 +299,23 @@
 												
 												<!-- The multiplechoice question type -->
 												@include('question.types.multiple')
+														
+												<br>
+												@include('question.catalogs')
+												
+												{{ Form::token() }}
+												{{ Form::submit(trans('course.save'), array('class' => 'btn')) }}
+												<button class="btn" onclick="switchView({{$question['id']}});return false;">{{trans('general.abort')}}</button>
+											{{ Form::close() }}	
+										@else
+											{{ Form::open(array('url' => 'api/v1/question/edit', 'method' => 'post', 'id' => 'formCloze')) }}
+		
+												{{ Form::hidden('course', $course['id']) }}
+												{{ Form::hidden('type', 'cloze') }}
+												{{ Form::hidden('id', $question['id']) }}
+												
+												<!-- The multiplechoice question type -->
+												@include('question.types.cloze')
 														
 												<br>
 												@include('question.catalogs')

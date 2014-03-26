@@ -64,8 +64,21 @@
 									echo "<td>".$question['data']['question']."</td>";
 									if($question['type'] === "simple"){
 										echo "<td>".$question['data']['answer']."</td>";
+									}else if($question['type'] === "multiple"){
+										echo "<td>";
+										foreach($question['data']['answer'] as $answer){
+											echo $answer.", ";
+										}
+										echo "</td>";
+										foreach($question['data']['choices'] as $choice){
+											echo "<td>".$choice."</td>";
+										}
+
 									}else{
 										echo "<td>";
+										foreach($question['data']['texts'] as $text){
+											echo $text.", ";
+										}
 										foreach($question['data']['answer'] as $answer){
 											echo $answer.", ";
 										}

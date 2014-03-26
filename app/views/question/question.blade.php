@@ -90,20 +90,18 @@ function deletequestion(){
 					<h5>{{trans('question.answer')}}:</h5>
 					<p>{{ $question['answer'] }}</p>
 				@elseif($question['type'] == 'cloze')
-					<h5></h5>	
-					<p></p>
-					<h5></h5>
-					<p></p>
-				@elseif($question['type'] == 'match')
-					<h5></h5>	
-					<p></p>
-					<h5></h5>
-					<p></p>
-				@elseif($question['type'] == 'image')
-					<h5></h5>	
-					<p></p>
-					<h5></h5>
-					<p></p>
+					<h5>{{trans('question.question')}}:</h5>	
+					<p>{{$question['question']}}</p>
+					<h5>{{trans('question.cloze_text')}}:</h5>
+					@foreach($question['texts'] as $text)	
+						<p>{{$text}}</p>
+					@endforeach
+					<h5>{{trans('question.answer')}}:</h5>
+					<p>{{ $question['answer'] }}</p>
+					<h5>{{trans('question.choices')}}</h5>	
+					@foreach($question['choices'] as $choice)
+						<p>{{ $choice}}</p>
+					@endforeach
 				@else
 					<h5>{{trans('question.question')}}:</h5>	
 					<p>{{$question['question']}}</p>
@@ -158,7 +156,7 @@ function deletequestion(){
 							@include('question.types.simple')
 							<label>{{trans('catalog.sidebar_title')}}</label>	
 							{{ Form::select('catalogs[]', $allCatalogs, $question['catalogs'], array('multiple' => 'multiple', 'class' => 'row-fluid' , 'id'=>'selectCatalogs')) }}
-						@else		
+						@elseif($question['type'] == 'multiple')	
 						
 							{{ Form::hidden('course', $course['id']) }}
 							{{ Form::hidden('type', 'multiple') }}
@@ -168,6 +166,16 @@ function deletequestion(){
 							@include('question.types.multiple')
 							<label>{{trans('catalog.sidebar_title')}}</label>						
 							{{ Form::select('catalogs[]', $allCatalogs, $question['catalogs'], array('multiple' => 'multiple', 'class' => 'row-fluid' , 'id'=>'selectCatalogs')) }}
+						@elseif($question['type'] == 'cloze')	
+						
+							{{ Form::hidden('course', $course['id']) }}
+							{{ Form::hidden('type', 'multiple') }}
+							{{ Form::hidden('id', $question['id']) }}
+												
+							<!-- The cloze question type -->
+							@include('question.types.cloze')
+							<label>{{trans('catalog.sidebar_title')}}</label>						
+							{{ Form::select('catalogs[]', $allCatalogs, $question['catalogs'], array('cloze' => 'cloze', 'class' => 'row-fluid' , 'id'=>'selectCatalogs')) }}
 						@endif
 					</div>
 					{{ Form::token() }}

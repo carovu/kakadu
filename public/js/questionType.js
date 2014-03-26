@@ -20,12 +20,17 @@ function initialiseQuestionType(id, baseUrl, questionType){
 	this._token =  $('input[name="_token"]').val();	
 	if(this.type === "simple"){
 		$("#multiple").hide()
+		$("#cloze").hide()
 		$("#simple").show();
-	}else{
+	}else if(this.type === "multiple"){
 		$("#simple").hide();
+		$("#cloze").hide()
 		$("#multiple").show();
+	}else if (this.type === "cloze"){
+		$("#simple").hide();
+		$("#multiple").hide()
+		$("#cloze").show();
 	}
-	
 }
 
 /**
@@ -37,10 +42,17 @@ function changeType(type){
 	if(type === 'simple'){
 		$("#simple").show();
 		$('#multiple').hide();
+		$("#cloze").hide()
 	}
 	if(type === 'multiple'){
 		$('#multiple').show();
 		$("#simple").hide();
+		$("#cloze").hide()
+	}
+	if(type === 'cloze'){
+		$('#cloze').show();
+		$("#simple").hide();
+		$("#multiple").hide()
 	}
 }
 
@@ -81,8 +93,21 @@ function addChoice(){
 				 	  '</div>';
 	
 	$("#formMultiple #choices").append(extraChoice);
+	$("#formCloze #choices").append(extraChoice);
 }
 
+/**
+ * Adds extra cloze textarea
+ */
+function addTexts(){
+	var numTexts = $('.texts').length
+	
+	var extraTexts = '<div id="'+numTexts+'">'+
+					  '<textarea name="texts[]" class="span8 texts" rows="1" style="resize:none"></textarea>'+
+				 	  '<button class="btn-danger offset1" onclick="removeTexts('+numTexts+');return false;"><i class="icon-remove"></i></button>'+
+				 	  '</div>';
+	$("#formCloze #texts").append(extraTexts);
+}
 /**
  * Removes an extra choice.
  * 
@@ -98,6 +123,15 @@ function removeChoice(id){
 }
 
 /**
+ * Removes an extra cloze textarea
+ * 
+ * @param id: the id of the extra choice which is removed
+ */
+function removeTexts(id){
+	$("#"+id).remove();
+}
+
+/**
  * Is fired on a click on a radio button. It reads the value of the radio button
  * and writes it in the hidden question field.
  */
@@ -106,6 +140,7 @@ $(document).ready(function(){
 		if($(this).attr('checked')){	
 			var answer = '<input type="hidden" name="answer[]" value='+$(this).val()+'>';
 			$("#formMultiple #choices").append(answer);
+			$("#formCloze #choices").append(answer);
 		}else{
 			$('input[type="hidden"][value="'+$(this).val()+'"]').remove();
 		}

@@ -25,12 +25,10 @@ QuizView = Backbone.View.extend({
 		this.multipleAnswers = new Array();
 
 		//writing the question and reading the answer
-		if(this.type === "simple"){
+		if(this.type === "simple" || this.type === "UndefType"){
 			this.simple = new simpleQuestion(question);
 			$("#multiple").hide();
 			$("#cloze").hide();
-			$("#match").hide();
-			$("#image").hide();
 			$("#questionSimple").html(this.simple.get("question"));
 			$("#answerSimple").html("");
 		}else if(this.type === "multiple"){
@@ -38,37 +36,16 @@ QuizView = Backbone.View.extend({
 			$("#nextQuestion").hide();
 			$("#simple").hide();
 			$("#cloze").hide();
-			$("#match").hide();
-			$("#image").hide();
 			$("#questionMultiple").html(this.multiple.get("question"));
 			this.setAnswers(this.multiple.get("choices"));
-		}else if(this.type === "cloze"){
+		}else if(this.type ==="cloze"){
 			this.cloze = new clozeQuestion(question);
-			$("#nextQuestion").hide();
-			$("#simple").hide();
 			$("#multiple").hide();
-			$("#match").hide();
-			$("#image").hide();
+			$("#cloze").hide();
+			$("#nextQuestion").hide();
 			$("#questionCloze").html(this.cloze.get("question"));
-			this.setAnswers(this.cloze.get("choices"));
-		}else if(this.type === "match"){
-			this.match = new matchQuestion(question);
-			$("#nextQuestion").hide();
-			$("#simple").hide();
-			$("#cloze").hide();
-			$("#multiple").hide();
-			$("#image").hide();
-			$("#questionMatch").html(this.match.get("question"));
-			this.setAnswers(this.match.get("choices"));
-		}else{
-			this.image = new imageQuestion(question);
-			$("#nextQuestion").hide();
-			$("#simple").hide();
-			$("#cloze").hide();
-			$("#match").hide();
-			$("#multiple").hide();
-			$("#questionImage").html(this.image.get("question"));
-			this.setAnswers(this.image.get("choices"));
+			$("#choicesCloze").html(this.cloze.get("choices"));
+			this.setCloze(this.cloze.get("texts"),this.cloze.get("choices"));
 		}
 
 		this.percent = 0;
@@ -97,6 +74,7 @@ QuizView = Backbone.View.extend({
 		"click button[id=checkAnswer]": "checkAnswer",
 		"click button[id=nextQuestion]": "nextMultipleQuestion",
 		"click button[class='btn row-fluid answer']": "checkClick",
+		"click button[id=checkCloze]": "checkCloze",
 		
 
 	},
@@ -110,7 +88,7 @@ QuizView = Backbone.View.extend({
 				if(e.keyCode == 13){
 					this.showAnswer();
 				}
-			}else{
+			}else {
 				if(e.keyCode == 49){
 					this.notCorrect();
 				}
@@ -158,6 +136,19 @@ QuizView = Backbone.View.extend({
 				
 			}
 		}
+		if(this.type === "cloze"){
+			if(this.state === "question"){
+				if(e.keyCode == 13){
+					this.checkCloze();
+				}
+			}
+			if(this.state === "answer"){
+				if(e.keyCode == 13){
+					this.nextQuestion();
+				}
+				
+			}
+		}
 	},
 
 	/**
@@ -166,10 +157,12 @@ QuizView = Backbone.View.extend({
 	nextQuestion: function(){
 		
 		//store question ID
-		if(this.type === "simple"){
+		if(this.type === "simple" || this.type === "UndefType"){
 			this.questionId = this.simple.get("id");
-		}else{
+		}else if(this.type === "multiple"){
 			this.questionId = this.multiple.get("id");
+		}else if(this.type === "cloze"){ 
+			this.questionId = this.cloze.get("id");
 		}
 		
 		$this = this;
@@ -194,21 +187,32 @@ QuizView = Backbone.View.extend({
 		this.type = data.type;
 		this.state = "question";
 		this.questionId = data.id;
-		if(this.type !== "multiple"){
+		if(this.type === "simple" || this.type === "UndefType"){
 			this.simple = new simpleQuestion(data);
 			$("#multiple").hide();
+			$("#cloze").hide();
 			$("#simple").show();
 			$("#correct").hide();
 			$("#questionSimple").html(this.simple.get("question"));
 			$("#answerSimple").html("");
 			$("#showAnswer").show();
-		}else{
+		}else if(this.type === "multiple"){
 			this.multiple = new multipleQuestion(data);
 			$("#simple").hide();
+			$("#cloze").hide();
 			$("#nextQuestion").hide();
 			$("#multiple").show();
 			$("#questionMultiple").html(this.multiple.get("question"))
 			this.setAnswers(this.multiple.get("choices"));
+		}else if(this.type === "cloze"){
+			this.cloze = new clozeQuestion(data);
+			$("#nextQuestion").hide();
+			$("#simple").hide();
+			$("#multiple").hide();
+			$("#cloze").show();
+			$("#questionCloze").html(this.cloze.get("question"));
+			$("#choicesCloze").html(this.cloze.get("choices"));
+			this.setCloze(this.cloze.get("texts"),this.cloze.get("choices"));
 		}
 	},
 
@@ -283,6 +287,21 @@ QuizView = Backbone.View.extend({
 		}
 		this.render();
 	},
+
+	/**
+	 * Set all answers for gap in cloze question
+	 * 
+	 * @param choices: all choices
+	 */
+	setCloze: function(texts, choices){
+		this.state = "question";
+		$("#checkCloze").show();
+		$("#nextQuestion").hide();
+		$("#gap").empty();
+		var cloze = texts[0]+'<input type="text" class="form-control" placeholder="fill in the right answer">'+texts[1];
+		$("#gap").append(cloze);
+		this.render();
+	},
 	
 	/**
 	 * Check if the answer of the multiple choice question
@@ -336,7 +355,21 @@ QuizView = Backbone.View.extend({
 		
 		
 	},
-	
+
+
+	/**
+	 * Check if the answer of the cloze question
+	 * was right.
+	 * 
+	 * @param the event which was released. It contains the button which was pressed.
+	 */
+	checkCloze: function(){
+		$("#checkCloze").hide();
+		$("#nextQuestion").show();
+
+		this.state = "answer";
+	},
+
 	checkClick: function(event){
 		var pressed = $(event.currentTarget).val();
 		this.markAnswer(pressed);
@@ -371,7 +404,5 @@ QuizView = Backbone.View.extend({
 		
 	}
 	
-	
-
 
 });

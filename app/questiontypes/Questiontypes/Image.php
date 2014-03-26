@@ -3,6 +3,8 @@
 class Image extends QuestionType {
 
     protected $type = 'image';
+    //choose imagetype
+    protected $image = ;
 
     /**
      * Returns the text of the question

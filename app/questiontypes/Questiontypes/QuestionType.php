@@ -223,6 +223,15 @@ abstract class QuestionType {
             case 'multiple':
                 return new Multiple;
 
+            case 'cloze':
+                return new Cloze;
+
+            case 'match':
+                return new Match;
+
+            case 'image':
+                return new Image;
+
             default:
                 return null;
         }

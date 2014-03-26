@@ -10,10 +10,10 @@ class QuestiontypeMultipleSeeder extends Seeder {
 	public function run()
 	{  
         $jsonQuestion1 = json_encode(array(
-            'question'  => 'Question x'
+            'question'  => 'Question Multiplex'
         ));
         $jsonQuestion2 = json_encode(array(
-            'question'  => 'Question y'
+            'question'  => 'Question Multipley'
         ));
         Question::where('question', 'LIKE', $jsonQuestion1)->orWhere('question', 'LIKE', $jsonQuestion2)->delete();
 
@@ -34,7 +34,7 @@ class QuestiontypeMultipleSeeder extends Seeder {
         ));
         $this->question = new Question;
         $this->question->type = 'multiple';
-        $this->question->question = $jsonQuestion;
+        $this->question->question = $jsonQuestion1;
         $this->question->answer = $jsonAnswer;
         $this->question->save();
 	}

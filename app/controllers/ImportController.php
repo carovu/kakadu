@@ -498,6 +498,10 @@ class ImportController extends BaseKakaduController {
                 $questionData = Multiple::readCSVData($cellIterator);
                 break;
 
+            case 'cloze':
+                $questionData = Cloze::readCSVData($cellIterator);
+                break;
+
             default:
                 return false;
         }

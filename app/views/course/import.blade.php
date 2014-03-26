@@ -154,6 +154,28 @@
 								<td>{{trans('import.choice2')}}</td>
 								<td>{{trans('import.choice3')}}</td>
 							</tr>
+							<tr>
+								<td>5</td>
+								<td>cloze</td>
+								<td>{{trans('import.question5')}}</td>
+								<td>{{trans('import.text1')}}</td>
+								<td>{{trans('import.text2')}}</td>
+								<td>{{trans('import.answer1')}}</td>
+								<td>{{trans('import.choice1')}}</td>
+								<td>{{trans('import.choice2')}}</td>
+								<td>{{trans('import.choice3')}}</td>
+							</tr>
+							<tr>
+								<td>6</td>
+								<td>cloze</td>
+								<td>{{trans('import.question6')}}</td>
+								<td>{{trans('import.text1')}}</td>
+								<td>{{trans('import.text2')}}</td>
+								<td>{{trans('import.answer2')}}</td>
+								<td>{{trans('import.choice1')}}</td>
+								<td>{{trans('import.choice2')}}</td>
+								<td>{{trans('import.choice3')}}</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>     

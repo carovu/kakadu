@@ -34,9 +34,11 @@ class CourseSeeder extends Seeder {
 
                 $question1 = $this->createSimpleQuestion($i, $name, '1');
                 $question2 = $this->createSimpleQuestion($i, $name, '2');
+                $question3 = $this->createClozeQuestion($i, $name, '3');
 
                 $catalog->questions()->save($question1);
                 $catalog->questions()->save($question2);
+                $catalog->questions()->save($question3);
 
                 //Chapter 1
                 $catalog1 = new Catalog();
@@ -47,9 +49,12 @@ class CourseSeeder extends Seeder {
 
                 $question11 = $this->createSimpleQuestion($i, $name, '1.1');
                 $question12 = $this->createSimpleQuestion($i, $name, '1.2');
+                $question13 = $this->createClozeQuestion($i, $name, '1.3');
 
                 $catalog1->questions()->save($question11);
                 $catalog1->questions()->save($question12);
+                $catalog1->questions()->save($question13);
+
                 $catalog->questions()->save($question12);
 
                 //Chapter 2
@@ -61,13 +66,15 @@ class CourseSeeder extends Seeder {
 
                 $question21 = $this->createMultipleQuestion($i, $name, '2.1');
                 $question22 = $this->createMultipleQuestion($i, $name, '2.2');
+                $question23 = $this->createClozeQuestion($i, $name, '2.3');
 
                 $catalog2->questions()->save($question21);
                 $catalog2->questions()->save($question22);
+                $catalog2->questions()->save($question23);
 
                 $catalog1->save();
                 $catalog2->save();
-
+                
                 //Kurs 1
                 $description = 'This is the description of course ' . $i . ' - group '
                                 . $name . '. It has to be very long.';
@@ -190,6 +197,40 @@ class CourseSeeder extends Seeder {
 
         $question = new Question();
         $question->type = 'multiple';
+        $question->question = json_encode($q);
+        $question->answer = json_encode($a);
+        $question->save();
+        return $question;
+    }
+
+        /**
+     * Create a multiple choice question with example question and answer
+     * 
+     * @param  string  $courseNumber   A course number to show the referenced course
+     * @param  string  $groupNumber    A name of a group to show the referenced groups
+     * @param  string  $questionNumber A course number to show the referenced course
+     * @return Question                A Question instance
+     */
+    private function createClozeQuestion($courseNumber, $groupName, $questionNumber) {
+        $q = array(
+            'question' => 'This is question ' . $questionNumber . ' of course ' . $courseNumber . ' - group ' . $groupName,
+            'texts' => array(
+                'textbeforegap',
+                'textaftergap'
+            ),
+        );
+
+        $a = array(
+            'answer'    => '2',
+            'choices'   => array(
+                'This is answer 1',
+                'This is answer 2 - The right answer',
+                'This is answer 4'
+            )
+        );
+
+        $question = new Question();
+        $question->type = 'cloze';
         $question->question = json_encode($q);
         $question->answer = json_encode($a);
         $question->save();
