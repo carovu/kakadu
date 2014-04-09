@@ -3,7 +3,6 @@
 class Cloze extends QuestionType {
 
     protected $type = 'cloze';
-    protected $texts = array();
     protected $choices = array();
 
     /**
@@ -22,15 +21,6 @@ class Cloze extends QuestionType {
      */
     public function getAnswer() {
         return $this->answer;
-    }
-
-    /**
-     * Returns the text of the question
-     * 
-     * @return array The choices of the questions
-     */
-    public function getTexts() {
-        return $this->texts;
     }
 
     /**
@@ -54,20 +44,7 @@ class Cloze extends QuestionType {
         if(parent::getQuestionFromInput() === false) {
             return false;
         }
-        $this->texts = Input::get('text');
         $this->choices = Input::get('choices');
-
-        if(!is_array($this->texts) || count($this->texts) < 2) {
-            return trans('question.cloze_min_two_answers');
-        }
-
-        if(!is_array($this->choices) || count($this->choices) < 2) {
-            return trans('question.multiple_min_two_answers');
-        }
-
-        if(!is_array($this->answer) || count($this->answer) === 1) {
-            return trans('question.multiple_index_not_valid');
-        }
 
         return true;
     }
@@ -82,8 +59,6 @@ class Cloze extends QuestionType {
         if(parent::getQuestionFromImportData($data) === false) {
             return false;
         }
-
-        $this->texts = $data['texts'];
         $this->choices = $data['choices'];
 
         return true;
@@ -102,11 +77,9 @@ class Cloze extends QuestionType {
 
         $this->question = $jsonQuestion->{'question'};
         
-        foreach($jsonQuestion->{'texts'} as $text) {
-            $this->texts[] = $text;
+        foreach($jsonAnswer->{'answer'} as $answer) {
+            $this->answer[] = $answer;
         }
-
-        $this->answer = $jsonAnswer->{'answer'};
 
         foreach($jsonAnswer->{'choices'} as $choice) {
             $this->choices[] = $choice;
@@ -122,7 +95,6 @@ class Cloze extends QuestionType {
     protected function getJsonQuestion() {
         $jsonQuestion = array(
             'question' => $this->question,
-            'texts'    => $this->texts
         );
 
         return json_encode($jsonQuestion);
@@ -153,7 +125,6 @@ class Cloze extends QuestionType {
 
         $element['question'] = $this->question;
         $element['answer'] = $this->answer;
-        $element['texts'] = $this->texts;
         $element['choices'] = $this->choices;
 
         return $element;
@@ -212,7 +183,6 @@ class Cloze extends QuestionType {
 
         return array(
             'question'  => $question,
-            'texts'     => $texts,
             'answer'    => $answer,
             'choices'   => $choices
         );

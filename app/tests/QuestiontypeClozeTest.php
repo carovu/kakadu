@@ -7,18 +7,15 @@ class QuestiontypeClozeTest extends TestCase {
     public function setUp() {
         parent::setUp();
         $jsonQuestion = json_encode(array(
-            'question'  => 'Question x',
-            'texts'  => array(
-                'textbeforegap',
-                'textaftergap'
-            )
+            'question'  => 'Bla bla blablabla bla bla alsdjfkölasd Answer 1 bla bla blablabla bla bla alsdjfkölasd Answer 3 bla bla blablabla bla bla alsdjfkölasd  Answer 2',
         ));
 
         $jsonAnswer = json_encode(array(
-            'answer'    => array(
-                '1',
+            'answer'   => array(
+                'Answer 1',
+                'Answer 2',
+                'Answer 3'
             ),
-
             'choices'   => array(
                 'Answer 1',
                 'Answer 2',
@@ -36,11 +33,7 @@ class QuestiontypeClozeTest extends TestCase {
 
     public function tearDown() {
         $jsonQuestion1 = json_encode(array(
-            'question'  => 'Question x',
-            'texts'  => array(
-                'textbeforegap',
-                'textaftergap'
-            )
+            'question'  => 'Bla bla blablabla bla bla alsdjfkölasd correct0 bla bla blablabla bla bla alsdjfkölasd correct1 bla bla blablabla bla bla alsdjfkölasd  correct2',
         ));
 
         Question::where('question', 'LIKE', $jsonQuestion1)->orWhere('question', 'LIKE', $jsonQuestion1)->delete();
@@ -64,11 +57,11 @@ class QuestiontypeClozeTest extends TestCase {
 
         $this->assertEquals($this->question->id, $questionType->getId());
         $this->assertEquals('cloze', $questionType->getType());
-        $this->assertEquals('Question x', $questionType->getQuestion());
+        $this->assertEquals('Bla bla blablabla bla bla alsdjfkölasd Answer 1 bla bla blablabla bla bla alsdjfkölasd Answer 3 bla bla blablabla bla bla alsdjfkölasd  Answer 2', $questionType->getQuestion());
         
         $answer = $questionType->getAnswer();
-        $this->assertCount(1, $answer);
-        $this->assertContains('1', $answer);
+        $this->assertCount(3, $answer);
+        $this->assertContains('Answer 1', $answer);
 
         $this->assertNotNull($questionType->getCreatedAt());
         $this->assertNotNull($questionType->getUpdatedAt());
@@ -90,11 +83,11 @@ class QuestiontypeClozeTest extends TestCase {
 
         $this->assertEquals($this->question->id, $questionType->getId());
         $this->assertEquals('cloze', $questionType->getType());
-        $this->assertEquals('Question x', $questionType->getQuestion());
+        $this->assertEquals('Bla bla blablabla bla bla alsdjfkölasd Answer 1 bla bla blablabla bla bla alsdjfkölasd Answer 3 bla bla blablabla bla bla alsdjfkölasd  Answer 2', $questionType->getQuestion());
         
         $answer = $questionType->getAnswer();
-        $this->assertCount(1, $answer);
-        $this->assertContains('1', $answer);
+        $this->assertCount(3, $answer);
+        $this->assertContains('Answer 1', $answer);
 
         $this->assertNotNull($questionType->getCreatedAt());
         $this->assertNotNull($questionType->getUpdatedAt());
@@ -119,15 +112,15 @@ class QuestiontypeClozeTest extends TestCase {
      */
     public function testCreate() {
         $jsonQuestion = json_encode(array(
-            'question'  => 'Question y',
-            'texts'  => array('textbeforegap', 'textaftergap')
+            'question'  => 'Bla bla blablabla bla bla alsdjfkölasd Answer 1 bla bla blablabla bla bla alsdjfkölasd Answer 3 bla bla blablabla bla bla alsdjfkölasd  Answer 2',
         ));
 
         $jsonAnswer = json_encode(array(
-            'answer'    => array(
-                '1',
+            'answer'   => array(
+                'Answer 1',
+                'Answer 2',
+                'Answer 3'
             ),
-
             'choices'   => array(
                 'Answer 1',
                 'Answer 2',
@@ -151,23 +144,19 @@ class QuestiontypeClozeTest extends TestCase {
 
     public function testEdit() {
         $jsonQuestion = json_encode(array(
-            'question'  => 'Question y',
-            'texts'     => array(
-                'changeTextBeforeGap',
-                'changeTextAfterGap'
-            )
+            'question'  => 'Bla bla blablabla bla bla alsdjfkölasd Answer 1 bla bla blablabla bla bla alsdjfkölasd Answer 3 bla bla blablabla bla bla alsdjfkölasd  Answer 2',
         ));
 
         $jsonAnswer = json_encode(array(
-            'answer'    => array(
-                '2',
+            'answer'   => array(
+                'Answer 1',
+                'Answer 2',
+                'Answer 3'
             ),
-
             'choices'   => array(
                 'Answer 1',
                 'Answer 2',
-                'Answer 3',
-                'Answer 4'
+                'Answer 3'
             )
         ));
 
@@ -194,7 +183,6 @@ class QuestiontypeClozeTest extends TestCase {
         $this->assertArrayHasKey('type', $viewElement);
         $this->assertArrayHasKey('question', $viewElement);
         $this->assertArrayHasKey('answer', $viewElement);
-        $this->assertArrayHasKey('texts', $viewElement);
         $this->assertArrayHasKey('choices', $viewElement);
         $this->assertArrayHasKey('created_at', $viewElement);
         $this->assertArrayHasKey('updated_at', $viewElement);
@@ -205,11 +193,6 @@ class QuestiontypeClozeTest extends TestCase {
         $this->assertEquals($questionType->getAnswer(), $viewElement['answer']);
         $this->assertEquals($questionType->getCreatedAt(), $viewElement['created_at']);
         $this->assertEquals($questionType->getUpdatedAt(), $viewElement['updated_at']);
-
-        $texts = $viewElement['texts'];
-        $this->assertCount(2, $texts);
-        $this->assertContains('textbeforegap', $texts);
-        $this->assertContains('textaftergap', $texts);
 
         $choices = $viewElement['choices'];
         $this->assertCount(3, $choices);
@@ -235,15 +218,15 @@ class QuestiontypeClozeTest extends TestCase {
 
     public function testGetQuestion() {
         $questionType = QuestionType::getQuestionFromQuestion($this->question);
-        $this->assertEquals('Question x', $questionType->getQuestion());
+        $this->assertEquals('Bla bla blablabla bla bla alsdjfkölasd Answer 1 bla bla blablabla bla bla alsdjfkölasd Answer 3 bla bla blablabla bla bla alsdjfkölasd  Answer 2', $questionType->getQuestion());
     }
 
     public function testGetAnswer() {
         $questionType = QuestionType::getQuestionFromQuestion($this->question);
         $answer = $questionType->getAnswer();
         $this->assertNotNull($answer);
-        $this->assertCount(1, $answer);
-        $this->assertContains('1', $answer);
+        $this->assertCount(3, $answer);
+        $this->assertContains('Answer 1', $answer);
     }
 
     public function testGetCreatedAt() {
@@ -254,15 +237,6 @@ class QuestiontypeClozeTest extends TestCase {
     public function testGetUpdatedAt() {
         $questionType = QuestionType::getQuestionFromQuestion($this->question);
         $this->assertNotNull($questionType->getUpdatedAt());
-    }
-
-    public function testGetTexts() {
-        $questionType = QuestionType::getQuestionFromQuestion($this->question);
-        $texts = $questionType->getTexts();
-        $this->assertNotNull($texts);
-        $this->assertCount(2, $texts);
-        $this->assertContains('textbeforegap', $texts);
-        $this->assertContains('textaftergap', $texts);
     }
 
     public function testGetChoices() {

@@ -21,7 +21,11 @@
 			@else
 				{{ Form::textarea('question', $question['question'], array('class' => 'row-fluid', 'rows' => '4', 'style' => 'resize:none')) }}
 			@endif
-			
+
+			@if(File::exists($question['id'].'q'))
+				{{ Form::hidden('type', Form::old('type'), array('class' => 'row-fluid')) }}
+			@endif
+
 			{{ Form::label('answer', trans('question.answer')) }}
 			@if(Form::old('answer') != '')
 				{{ Form::textarea('answer', Form::old('answer'), array('class' => 'row-fluid', 'rows' => '4', 'style' => 'resize:none')) }}
@@ -29,6 +33,10 @@
 				{{ Form::textarea('answer', $question['answer'], array('class' => 'row-fluid', 'rows' => '4', 'style' => 'resize:none')) }}
 			@endif
 			
+			@if(File::exists($question['id'].'a'))
+				{{ Form::hidden('type', Form::old('type'), array('class' => 'row-fluid')) }}
+			@endif
+
 			{{ Form::label('catalogs[]', trans('question.catalogs')) }}
 			@if(Form::old('catalogs') != '')
 				{{ Form::select('catalogs[]', $catalogs, Form::old('catalogs'), array('multiple' => 'multiple', 'class' => 'row-fluid')) }}

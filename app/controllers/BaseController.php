@@ -16,7 +16,7 @@ class BaseController extends Controller {
         Asset::add('backbone', 'js/backbone-min.js');
         Asset::add('bootstrap', 'js/bootstrap.js');
         Asset::add('bootbox', 'js/bootbox.js');
-        Asset::add('jquery-ui', 'js/jquery-ui-1.10.0.js');
+        //Asset::add('jquery-ui', 'js/jquery-ui-1.10.0.js');
         Asset::add('sidebar', 'js/sidebar.js');
         Asset::add('cutString', 'js/cutString.js');
     }

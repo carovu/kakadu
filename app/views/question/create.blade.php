@@ -2,6 +2,9 @@
 {{-- Scripts --}}
 @section('scripts')
 	{{ HTML::script('js/questionType.js')}}
+	{{HTML::style('css/bootstrap-fileupload.css')}} 
+	{{HTML::script('js/bootstrap-fileupload.js')}}
+	{{HTML::script('js/jquery.selection.js')}}
 	
 	<script>
 		$(document).ready(function(){
@@ -32,13 +35,30 @@
 <div class="row-fluid" id="simple">
 	<div class="offset1">
 		<br>
-		{{ Form::open(array('url' => 'question/create', 'method' => 'post', 'id' => 'formSimple')) }}
+		{{ Form::open(array('url' => 'question/create', 'method' => 'post', 'id' => 'formSimple', 'files' => true)) }}
 			{{ Form::hidden('course', $course['id']) }}
 			{{ Form::hidden('type', 'simple') }}
 		
 			<!-- The simple question type -->
 			@include('question.types.simple')
-	
+
+			@include('question.upload')
+
+			<div class="fileupload fileupload-new" data-provides="fileupload">
+				<div class="input-append">
+					<div class="uneditable-input span3">
+							<i class="icon-file fileupload-exists"></i> 
+							<span class="fileupload-preview"></span>
+					</div>
+					<span class="btn btn-file">
+						<span class="fileupload-new">Add image</span>
+						<span class="fileupload-exists">Change</span>
+						<input name="answerImage" type="image" />
+					</span>
+					<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+				</div>
+			</div>
+
 			@include('question.catalogs')
 			
 			{{ Form::token() }}
@@ -50,15 +70,18 @@
 <div class="row-fluid" id="multiple">
 	<div class="offset1">
 		<br>
-		{{ Form::open(array('url' => 'question/create', 'method' => 'post', 'id' => 'formMultiple')) }} 
+		{{ Form::open(array('url' => 'question/create', 'method' => 'post', 'id' => 'formMultiple', 'files' => true)) }} 
 			{{ Form::hidden('course', $course['id']) }}
 			{{ Form::hidden('type', 'multiple') }}
 			
 			<!-- The multiplechoice question type -->
 			@include('question.types.multiple')
-					
-			<br>
+			
+			<br>		
+			@include('question.upload')
+			
 			@include('question.catalogs')
+			
 			
 			{{ Form::token() }}
 			{{ Form::submit(trans('question.create'), array('class' => 'btn btn-primary')) }}
@@ -69,7 +92,7 @@
 <div class="row-fluid" id="cloze">
 	<div class="offset1">
 		<br>
-		{{ Form::open(array('url' => 'question/create', 'method' => 'post', 'id' => 'formCloze')) }} 
+		{{ Form::open(array('url' => 'question/create', 'method' => 'post', 'id' => 'formCloze', 'files' => true)) }} 
 			{{ Form::hidden('course', $course['id']) }}
 			{{ Form::hidden('type', 'cloze') }}
 			
@@ -78,11 +101,13 @@
 			
 			<br>		
 			@include('question.catalogs')
-			
+
 			{{ Form::token() }}
 			{{ Form::submit(trans('question.create'), array('class' => 'btn btn-primary')) }}
 		{{ Form::close() }}	
 	</div>
 </div>
-
+<!--  Testing for image -->
+	<!-- {{ HTML::image('uploads/dog.jpg')}} -->
+	
 @stop

@@ -1,10 +1,11 @@
 
 var courseId;
 var choices;
+var gaps;
 var _token;
 var url;
 var type;
-
+var preview;
 /**
  * Initialises the file with the course id and hides the
  * multiplechoice question type. 
@@ -14,8 +15,10 @@ var type;
 function initialiseQuestionType(id, baseUrl, questionType){
 	this.courseId = id;
 	this.choices = 2;
+	this.gaps = 0;
 	this.url = baseUrl;
 	this.type = questionType;
+	this.preview ="";
 	console.log("questionType:" + this.type);
 	this._token =  $('input[name="_token"]').val();	
 	if(this.type === "simple"){
@@ -26,7 +29,7 @@ function initialiseQuestionType(id, baseUrl, questionType){
 		$("#simple").hide();
 		$("#cloze").hide()
 		$("#multiple").show();
-	}else if (this.type === "cloze"){
+	}else {
 		$("#simple").hide();
 		$("#multiple").hide()
 		$("#cloze").show();
@@ -93,21 +96,53 @@ function addChoice(){
 				 	  '</div>';
 	
 	$("#formMultiple #choices").append(extraChoice);
-	$("#formCloze #choices").append(extraChoice);
 }
 
 /**
- * Adds extra cloze textarea
+ * Adds another gap for cloze inklusive preview of quiz
  */
-function addTexts(){
-	var numTexts = $('.texts').length
-	
-	var extraTexts = '<div id="'+numTexts+'">'+
-					  '<textarea name="texts[]" class="span8 texts" rows="1" style="resize:none"></textarea>'+
-				 	  '<button class="btn-danger offset1" onclick="removeTexts('+numTexts+');return false;"><i class="icon-remove"></i></button>'+
-				 	  '</div>';
-	$("#formCloze #texts").append(extraTexts);
+function addGap(){
+    $('#clozequestion').focus();
+	var numGaps = $('.gaps').length
+	var Gap = '<div id="'+numGaps+'">'+
+			  '<textarea name="gaps[]" class="span8 gaps" rows="1" style="resize:none">'+$('#clozequestion').selection()+'</textarea>'+
+			  '<button class="btn-danger offset1" onclick="removeGap('+numGaps+');return false;"><i class="icon-remove"></i></button>'+
+			  '<input type="hidden" name="answer[]" value='+$('#clozequestion').selection()+'>'+
+			  '</div>';
+	$("#formCloze #gaps").append(Gap);
+	var before = "";
+	var gap = "";
+	var after = "";
+	if(numGaps == 0){
+		before = $('#clozequestion').val().substr(0, $('#clozequestion').selection('getPos').start);
+		for (var i = 0; i < $('#clozequestion').selection().length; i++){
+			gap += "_";
+		}
+		after = $('#clozequestion').val().substr($('#clozequestion').selection('getPos').end, $('#clozequestion').val().length);
+		preview = before + gap + after;
+	} else {
+		before = preview.substr(0, $('#clozequestion').selection('getPos').start);
+		for (var i = 0; i < $('#clozequestion').selection().length; i++){
+			gap += "_";
+		}
+		after = preview.substr($('#clozequestion').selection('getPos').end, preview.length);
+		preview = before + gap + after;
+	}
+	$("#preview").text(preview);
+	//'<input type="text" name="Test" size=20/>'
 }
+
+/**
+ * Removes an extra gap.
+ * 
+ * @param id: the id of the extra choice which is removed
+ */
+function removeGap(id){
+	$('input[type="hidden"][value="'+id+'"][name="answer[]"]').remove();
+	$("#"+id).remove();
+}
+
+
 /**
  * Removes an extra choice.
  * 
@@ -123,15 +158,6 @@ function removeChoice(id){
 }
 
 /**
- * Removes an extra cloze textarea
- * 
- * @param id: the id of the extra choice which is removed
- */
-function removeTexts(id){
-	$("#"+id).remove();
-}
-
-/**
  * Is fired on a click on a radio button. It reads the value of the radio button
  * and writes it in the hidden question field.
  */
@@ -140,7 +166,6 @@ $(document).ready(function(){
 		if($(this).attr('checked')){	
 			var answer = '<input type="hidden" name="answer[]" value='+$(this).val()+'>';
 			$("#formMultiple #choices").append(answer);
-			$("#formCloze #choices").append(answer);
 		}else{
 			$('input[type="hidden"][value="'+$(this).val()+'"]').remove();
 		}
