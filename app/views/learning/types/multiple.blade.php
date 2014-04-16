@@ -21,7 +21,7 @@
 		<div>
 			<br>
 			<button class="btn-primary" id="checkAnswer">{{trans('test.check_answer')}}</button>
-			<button class="btn-primary" id="nextQuestion">{{trans('test.next_question_button')}}</button>
+			<button class="btn-primary" id="nextMultipleQuestion">{{trans('test.next_question_button')}}</button>
 		</div>
 	</div>
 	<br>

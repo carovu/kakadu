@@ -15,11 +15,6 @@ class QuestiontypeClozeTest extends TestCase {
                 'Answer 1',
                 'Answer 2',
                 'Answer 3'
-            ),
-            'choices'   => array(
-                'Answer 1',
-                'Answer 2',
-                'Answer 3'
             )
         ));
 
@@ -65,12 +60,6 @@ class QuestiontypeClozeTest extends TestCase {
 
         $this->assertNotNull($questionType->getCreatedAt());
         $this->assertNotNull($questionType->getUpdatedAt());
-
-        $choices = $questionType->getChoices();
-        $this->assertCount(3, $choices);
-        $this->assertContains('Answer 1', $choices);
-        $this->assertContains('Answer 2', $choices);
-        $this->assertContains('Answer 3', $choices);
     }
 
     public function testGetQuestionFromDatabase() {
@@ -91,12 +80,6 @@ class QuestiontypeClozeTest extends TestCase {
 
         $this->assertNotNull($questionType->getCreatedAt());
         $this->assertNotNull($questionType->getUpdatedAt());
-
-        $choices = $questionType->getChoices();
-        $this->assertCount(3, $choices);
-        $this->assertContains('Answer 1', $choices);
-        $this->assertContains('Answer 2', $choices);
-        $this->assertContains('Answer 3', $choices);
     }
 
     public function testGetQuestionType() {
@@ -117,11 +100,6 @@ class QuestiontypeClozeTest extends TestCase {
 
         $jsonAnswer = json_encode(array(
             'answer'   => array(
-                'Answer 1',
-                'Answer 2',
-                'Answer 3'
-            ),
-            'choices'   => array(
                 'Answer 1',
                 'Answer 2',
                 'Answer 3'
@@ -152,11 +130,6 @@ class QuestiontypeClozeTest extends TestCase {
                 'Answer 1',
                 'Answer 2',
                 'Answer 3'
-            ),
-            'choices'   => array(
-                'Answer 1',
-                'Answer 2',
-                'Answer 3'
             )
         ));
 
@@ -183,7 +156,6 @@ class QuestiontypeClozeTest extends TestCase {
         $this->assertArrayHasKey('type', $viewElement);
         $this->assertArrayHasKey('question', $viewElement);
         $this->assertArrayHasKey('answer', $viewElement);
-        $this->assertArrayHasKey('choices', $viewElement);
         $this->assertArrayHasKey('created_at', $viewElement);
         $this->assertArrayHasKey('updated_at', $viewElement);
 
@@ -193,12 +165,6 @@ class QuestiontypeClozeTest extends TestCase {
         $this->assertEquals($questionType->getAnswer(), $viewElement['answer']);
         $this->assertEquals($questionType->getCreatedAt(), $viewElement['created_at']);
         $this->assertEquals($questionType->getUpdatedAt(), $viewElement['updated_at']);
-
-        $choices = $viewElement['choices'];
-        $this->assertCount(3, $choices);
-        $this->assertContains('Answer 1', $choices);
-        $this->assertContains('Answer 2', $choices);
-        $this->assertContains('Answer 3', $choices);
     }
 
 
@@ -237,16 +203,6 @@ class QuestiontypeClozeTest extends TestCase {
     public function testGetUpdatedAt() {
         $questionType = QuestionType::getQuestionFromQuestion($this->question);
         $this->assertNotNull($questionType->getUpdatedAt());
-    }
-
-    public function testGetChoices() {
-        $questionType = QuestionType::getQuestionFromQuestion($this->question);
-        $choices = $questionType->getChoices();
-        $this->assertNotNull($choices);
-        $this->assertCount(3, $choices);
-        $this->assertContains('Answer 1', $choices);
-        $this->assertContains('Answer 2', $choices);
-        $this->assertContains('Answer 3', $choices);
     }
 
 }

@@ -33,7 +33,7 @@ QuizView = Backbone.View.extend({
 			$("#answerSimple").html("");
 		}else if(this.type === "multiple"){
 			this.multiple = new multipleQuestion(question);
-			$("#nextQuestion").hide();
+			$("#nextMultipleQuestion").hide();
 			$("#simple").hide();
 			$("#cloze").hide();
 			$("#questionMultiple").html(this.multiple.get("question"));
@@ -41,11 +41,9 @@ QuizView = Backbone.View.extend({
 		}else if(this.type ==="cloze"){
 			this.cloze = new clozeQuestion(question);
 			$("#multiple").hide();
-			$("#cloze").hide();
-			$("#nextQuestion").hide();
-			$("#questionCloze").html(this.cloze.get("question"));
-			$("#choicesCloze").html(this.cloze.get("choices"));
-			this.setCloze(this.cloze.get("texts"),this.cloze.get("choices"));
+			$("#simple").hide();
+			this.setCloze(this.cloze.get("question"), this.cloze.get("answer"));
+			this.showClozeAnswer(this.cloze.get("answer"));
 		}
 
 		this.percent = 0;
@@ -72,9 +70,10 @@ QuizView = Backbone.View.extend({
 		"click button[id=yes]": "correct",
 		"click button[id=no]": "notCorrect",
 		"click button[id=checkAnswer]": "checkAnswer",
-		"click button[id=nextQuestion]": "nextMultipleQuestion",
+		"click button[id=nextMultipleQuestion]": "nextMultipleQuestion",
 		"click button[class='btn row-fluid answer']": "checkClick",
 		"click button[id=checkCloze]": "checkCloze",
+		"click button[id=nextClozeQuestion]": "nextClozeQuestion",
 		
 
 	},
@@ -141,10 +140,9 @@ QuizView = Backbone.View.extend({
 				if(e.keyCode == 13){
 					this.checkCloze();
 				}
-			}
-			if(this.state === "answer"){
+			}else {
 				if(e.keyCode == 13){
-					this.nextQuestion();
+					this.nextClozeQuestion();
 				}
 				
 			}
@@ -200,25 +198,24 @@ QuizView = Backbone.View.extend({
 			this.multiple = new multipleQuestion(data);
 			$("#simple").hide();
 			$("#cloze").hide();
-			$("#nextQuestion").hide();
+			$("#nextMultipleQuestion").hide();
 			$("#multiple").show();
 			$("#questionMultiple").html(this.multiple.get("question"))
 			this.setAnswers(this.multiple.get("choices"));
 		}else if(this.type === "cloze"){
 			this.cloze = new clozeQuestion(data);
-			$("#nextQuestion").hide();
-			$("#simple").hide();
 			$("#multiple").hide();
+			$("#simple").hide();
 			$("#cloze").show();
-			$("#questionCloze").html(this.cloze.get("question"));
-			$("#choicesCloze").html(this.cloze.get("choices"));
-			this.setCloze(this.cloze.get("texts"),this.cloze.get("choices"));
+			$("#nextClozeQuestion").hide();
+			this.setCloze(this.cloze.get("question"), this.cloze.get("answer"));
+			this.showClozeAnswer(this.cloze.get("answer"));
 		}
 	},
 
 	/**
 	 * Shows the answer and the fields if the users knows the answer or not.
-	 * Only nedded for simple question type
+	 * Only needed for simple question type
 	 */
 	showAnswer: function(){
 		$("#answerSimple").html(this.simple.get("answer"));
@@ -289,18 +286,65 @@ QuizView = Backbone.View.extend({
 	},
 
 	/**
+	 * Set all gaps for cloze question
+	 * 
+	 * @param choices: content of cloze
+	 * @param choices: all choices
+	 */
+	setCloze: function(questionContent, answers){
+		this.state = "question";
+		$("#checkCloze").show();
+		$("#nextClozeQuestion").hide();
+		for(var i = 0; i < answers.length; i++){
+			var startPos = questionContent.search(answers[i]);
+			var endPos = startPos + answers[i].length;
+			var before = questionContent.substr(0, startPos);
+			var after = questionContent.substr(endPos, questionContent.length);
+			var gap = '<textarea id="gapsAnswer['+i+']" class="span2" rows="1" style="resize:none"></textarea>';
+			questionContent = before + gap + after;
+			//console.log("i: "+ i + " startPos: " + startPos + " endPos: " + endPos);
+			//console.log(questionContent);
+		}
+
+		$("#questionCloze").html(questionContent);
+	},
+
+	/**
 	 * Set all answers for gap in cloze question
 	 * 
 	 * @param choices: all choices
 	 */
-	setCloze: function(texts, choices){
+	showClozeAnswer: function(answers){
 		this.state = "question";
-		$("#checkCloze").show();
-		$("#nextQuestion").hide();
-		$("#gap").empty();
-		var cloze = texts[0]+'<input type="text" class="form-control" placeholder="fill in the right answer">'+texts[1];
-		$("#gap").append(cloze);
-		this.render();
+		var tmp = [];
+		var output = "";
+		for(var i = 0; i < answers.length; i++){
+			tmp[i] = answers[i];
+		}
+		this.shuffle(tmp);
+		for(var i = 0; i < tmp.length; i++){
+			if(i == tmp.length-1){
+				output += tmp[i];
+			} else {
+				output += tmp[i]+' - ';
+			}
+			
+		}		
+		$("#answerCloze").html(output);
+	},
+
+	/**
+	 * Randomize array element order in-place.
+	 * Using Fisher-Yates shuffle algorithm.
+	 */
+	shuffle: function(array){
+	    for (var i = array.length - 1; i > 0; i--) {
+	        var j = Math.floor(Math.random() * (i + 1));
+	        var temp = array[i];
+	        array[i] = array[j];
+	        array[j] = temp;
+	    }
+	    return array;
 	},
 	
 	/**
@@ -311,7 +355,7 @@ QuizView = Backbone.View.extend({
 	 */
 	checkAnswer: function(){
 		$("#checkAnswer").hide();
-		$("#nextQuestion").show();
+		$("#nextMultipleQuestion").show();
 		
 		$rightAnswers = this.multiple.getRightAnswers();
 		$choices = this.multiple.get("choices");
@@ -358,16 +402,31 @@ QuizView = Backbone.View.extend({
 
 
 	/**
-	 * Check if the answer of the cloze question
+	 * Check if the answer(s) of the cloze question
 	 * was right.
 	 * 
 	 * @param the event which was released. It contains the button which was pressed.
 	 */
 	checkCloze: function(){
 		$("#checkCloze").hide();
-		$("#nextQuestion").show();
+		$("#nextClozeQuestion").show();
+		var answers = this.cloze.get("answer");
+		var numRightGaps = 0;
+			for(var i = 0; i < answers.length; i++){
+				if(document.getElementById("gapsAnswer["+i+"]").value == answers[i]){
+					numRightGaps++;
+					document.getElementById("gapsAnswer["+i+"]").style.color = "green";
+				}else{
+					document.getElementById("gapsAnswer["+i+"]").style.color = "red";
+				}
+			}
+			if(numRightGaps == answers.length){
+				this.answerBoolean = true;
+			}else{
+				this.answerBoolean = false;
+			}
+			this.state = "answer";
 
-		this.state = "answer";
 	},
 
 	checkClick: function(event){
@@ -395,8 +454,21 @@ QuizView = Backbone.View.extend({
 	 * Loads the next multiple choice Question
 	 */
 	nextMultipleQuestion: function(){
-		$("#nextQuestion").hide();
+		$("#nextMultipleQuestion").hide();
 		if(this.answerBoolean){
+			this.correct();
+		}else{
+			this.notCorrect();
+		}
+		
+	},
+
+	/**
+	 * Loads the next cloze Question
+	 */
+	nextClozeQuestion: function(){
+		$("#nextClozeQuestion").hide();
+		if(this.answerBoolean == true){
 			this.correct();
 		}else{
 			this.notCorrect();

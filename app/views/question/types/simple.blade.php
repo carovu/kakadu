@@ -1,6 +1,8 @@
 
 <!-- View for create and edit a simple question -->
 <div>
+	<label>{{trans('question.type_simple')}}</label>
+	<br>
 	<label>{{trans('question.question')}}</label>
 	<textarea name="question" class="row-fluid" rows="4" style="resize:none">{{Input::old('question')}}@if(isset($question)){{$question['question']}}@endif</textarea>
 				

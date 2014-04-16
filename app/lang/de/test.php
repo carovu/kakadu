@@ -3,7 +3,7 @@
  
  //View		
 'question_label'		=> 'Frage',
-'cloze_label'			=> 'F&uuml;le den Text aus, indem du die richtige Antwort w&auml;hlst:',
+'cloze_label'			=> 'F&uuml;le den L&uuml;ckentext aus, indem du die richtige Antwort w&auml;hlst',
 'cloze_check_button'	=> 'Kontrolle',
 'answer_label'			=> 'Antwort',
 'show_answer_button' 	=> 'Antwort anzeigen',

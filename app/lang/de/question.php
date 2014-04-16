@@ -48,5 +48,10 @@ return array(
 'add_clozequestion'	=> 'F&uuml;ge mehr Text hinzu:',
 'choices'			=> 'Antwortm&ouml;glichkeiten:',
 'correct_answer'	=> 'Korrekte Antwort',
-
+'type_multiple'		=> 'Typ: Multiple Choice',
+'type_simple'		=> 'Typ: Frage/Antwort',
+'type_cloze'		=> 'Typ: L&uuml;ckentext',
+'questionCloze'		=> 'Markiere den Text und klicke auf "L&uuml;cke hinzuf&uuml;gen"',
+'preview'			=> 'Vorschau',
+'clozeGap'			=> 'L&uuml;cke hinzuf&uuml;gen',
 );

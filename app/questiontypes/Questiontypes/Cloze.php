@@ -3,7 +3,6 @@
 class Cloze extends QuestionType {
 
     protected $type = 'cloze';
-    protected $choices = array();
 
     /**
      * Returns the text of the question
@@ -24,29 +23,12 @@ class Cloze extends QuestionType {
     }
 
     /**
-     * Returns the choices of the question
-     * 
-     * @return array The choices of the questions
-     */
-    public function getChoices() {
-        return $this->choices;
-    }
-
-
-
-
-    /**
      * Reads the information of the question form the input or return an error message
      * 
      * @return boolean|string True if no error occured or false if there was an error
      */
     public function getQuestionFromInput() {
-        if(parent::getQuestionFromInput() === false) {
-            return false;
-        }
-        $this->choices = Input::get('choices');
-
-        return true;
+        return parent::getQuestionFromInput();
     }
 
     /**
@@ -56,12 +38,7 @@ class Cloze extends QuestionType {
      * @return boolean True if no error occured or false if there was an error
      */
     public function getQuestionFromImportData($data) {
-        if(parent::getQuestionFromImportData($data) === false) {
-            return false;
-        }
-        $this->choices = $data['choices'];
-
-        return true;
+       return parent::getQuestionFromImportData($data);
     }
 
     /**
@@ -76,13 +53,12 @@ class Cloze extends QuestionType {
         $jsonAnswer = json_decode($question->answer);
 
         $this->question = $jsonQuestion->{'question'};
-        
-        foreach($jsonAnswer->{'answer'} as $answer) {
-            $this->answer[] = $answer;
-        }
-
-        foreach($jsonAnswer->{'choices'} as $choice) {
-            $this->choices[] = $choice;
+        if(is_array($question['answer'])){
+            foreach($jsonAnswer->{'answer'} as $answer) {
+                $this->answer[] = $answer;
+            }
+        } else{
+            $this->answer = $jsonAnswer->{'answer'};
         }
     }
 
@@ -108,8 +84,7 @@ class Cloze extends QuestionType {
      */
     protected function getJsonAnswer() {
         $jsonAnswer = array(
-            'answer'    => $this->answer,
-            'choices'   => $this->choices
+            'answer'    => $this->answer
         );
 
         return json_encode($jsonAnswer);
@@ -122,11 +97,8 @@ class Cloze extends QuestionType {
      */
     public function getViewElement() {
         $element = parent::getViewElement();
-
         $element['question'] = $this->question;
         $element['answer'] = $this->answer;
-        $element['choices'] = $this->choices;
-
         return $element;
     }
 
@@ -148,15 +120,6 @@ class Cloze extends QuestionType {
         $cell = $cellIterator->current();
         $question = $cell->getValue();
 
-        //Question - Texts
-        $texts = array();
-        $cellIterator->next();
-
-        while($cellIterator->valid()) {
-            $cell = $cellIterator->current();
-            $texts[] = $cell->getValue();
-            $cellIterator->next();
-        }
         //Question - Answer
         $cellIterator->next();
 
@@ -165,26 +128,11 @@ class Cloze extends QuestionType {
         }
 
         $cell = $cellIterator->current();
-        $answer = preg_split('/[ ]*,[ ]*/', $cell->getValue());
-
-        if(count($answer) <= 0) {
-            return false;
-        }
-
-        //Question - Choices
-        $choices = array();
-        $cellIterator->next();
-
-        while($cellIterator->valid()) {
-            $cell = $cellIterator->current();
-            $choices[] = $cell->getValue();
-            $cellIterator->next();
-        }
+        $answer = $cell->getValue();
 
         return array(
             'question'  => $question,
-            'answer'    => $answer,
-            'choices'   => $choices
+            'answer'    => $answer
         );
     }
 

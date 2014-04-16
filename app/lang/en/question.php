@@ -48,5 +48,10 @@ return array(
 'add_clozequestion'	=> 'Add more text',
 'choices'			=> 'Answer choices',
 'correct_answer'	=> 'Correct answer',
-
+'type_multiple'		=> 'Type: Multiple Choice',
+'type_simple'		=> 'Type: Question/Answer',
+'type_cloze'		=> 'Type: Cloze',
+'questionCloze'		=> 'Highlight text and click "Add gaps"',
+'preview'			=> 'Preview',
+'clozeGap'			=> 'Add gaps',
 );

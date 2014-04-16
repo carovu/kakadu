@@ -3,7 +3,7 @@
  
  //View		
 'question_label'		=> 'Question',
-'cloze_label'			=> 'Fill text out by choosing the right answer:',
+'cloze_label'			=> 'Fill text cloze by choosing the right answer',
 'cloze_check_button'	=> 'Check',
 'answer_label'			=> 'Answer',
 'show_answer_button' 	=> 'Show answer',

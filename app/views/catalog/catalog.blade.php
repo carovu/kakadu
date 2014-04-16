@@ -248,10 +248,14 @@
 								@elseif($question['type'] == 'cloze')
 									<h5>{{trans('question.question')}}:</h5>	
 									<p>{{$question['question']}}</p>
-									<h5>{{trans('question.choices')}}</h5>	
-									@foreach($question['choices'] as $choice)
-										<p>{{ $choice}}</p>
-									@endforeach
+									<h5>{{trans('question.answer')}}:</h5>
+									@if(is_array($question['answer']))
+									    @foreach ($question['answer'] as $answer)
+									       <p>{{$answer}}</p>
+									    @endforeach
+									@else
+										<p>{{$question['answer']}}</p>
+									@endif
 								@else
 									<h5>{{trans('question.question')}}:</h5>	
 									<p>{{$question['question']}}</p>

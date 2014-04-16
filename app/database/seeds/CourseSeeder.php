@@ -213,19 +213,14 @@ class CourseSeeder extends Seeder {
      */
     private function createClozeQuestion($courseNumber, $groupName, $questionNumber) {
         $q = array(
-            'question'  => 'Bla bla blablabla bla bla alsdjfkölasd correct0 bla bla blablabla bla bla alsdjfkölasd correct1 bla bla blablabla bla bla alsdjfkölasd  correct2',
+            'question'  => 'This is question ' . $questionNumber . ' of course ' . $courseNumber . ' - group ' . $groupName
         );
 
         $a = array(
             'answer'   => array(
-                'correct0',
-                'correct1',
-                'correct2'
-            ),
-            'choices'   => array(
-                'correct0',
-                'correct1',
-                'correct2'
+                $questionNumber,
+                'course',
+                $groupName
             )
         );
 

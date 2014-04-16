@@ -1,5 +1,7 @@
 
 <!-- View for create and edit a multiplechoice question -->
+	<label>{{trans('question.type_multiple')}}</label>
+	<br>
 	<label>{{trans('question.question')}}</label>
 
 	<textarea id="question" name="question" class="row-fluid" rows="4" style="resize:none">{{Form::old('question')}}@if(isset($question)){{$question['question']}}@endif</textarea>
