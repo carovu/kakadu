@@ -1,14 +1,14 @@
 /**
  * Model for a simple question
  */
-matchQuestion = Backbone.Model.extend({
+dragdropQuestion = Backbone.Model.extend({
 	
 	 initialize: function(data) {
 		 this.id = data.id;
 		 this.type = data.type;
 		 this.question = data.question;
 		 this.answer = data.answer;
-		 
+		 this.choices = data.choices;
 	 },
 
 	printData: function(){
@@ -16,6 +16,7 @@ matchQuestion = Backbone.Model.extend({
 		 console.log("Type:" + this.type);
 		 console.log("Question:" + this.question);
 		 console.log("Right Answer:" + this.answer);
+		 console.log("Choices:" + this.choices);
 	}
 	 
 	

@@ -1,6 +1,7 @@
 
 var courseId;
 var choices;
+var choicesDragDrop;
 var _token;
 var url;
 var takenGaps;
@@ -17,6 +18,7 @@ var preview;
 function initialiseQuestionType(id, baseUrl, questionType){
 	this.courseId = id;
 	this.choices = 2;
+	this.choicesDragDrop = 2;
 	this.url = baseUrl;
 	this.numGaps = 0;
 	this.takenGaps = [];
@@ -28,15 +30,28 @@ function initialiseQuestionType(id, baseUrl, questionType){
 	if(this.type === "simple"){
 		$("#multiple").hide()
 		$("#cloze").hide()
+		$("#dragdrop").hide();
 		$("#simple").show();
 	}else if(this.type === "multiple"){
 		$("#simple").hide();
 		$("#cloze").hide()
+		$("#dragdrop").hide();
 		$("#multiple").show();
-	}else {
+	}else if(this.type === "cloze"){
 		$("#simple").hide();
 		$("#multiple").hide()
+		$("#dragdrop").hide();
 		$("#cloze").show();
+	}else if(this.type === "dragdrop"){
+		$("#simple").hide();
+		$("#cloze").hide()
+		$("#multiple").hide();
+		$("#dragdrop").show();
+	}else{
+		$("#simple").hide();
+		$("#cloze").hide()
+		$("#multiple").hide();
+		$("#dragdrop").hide();
 	}
 }
 
@@ -50,16 +65,25 @@ function changeType(type){
 		$("#simple").show();
 		$('#multiple').hide();
 		$("#cloze").hide()
+		$("#dragdrop").hide();
 	}
 	if(type === 'multiple'){
 		$('#multiple').show();
 		$("#simple").hide();
 		$("#cloze").hide()
+		$("#dragdrop").hide();
 	}
 	if(type === 'cloze'){
 		$('#cloze').show();
 		$("#simple").hide();
 		$("#multiple").hide()
+		$("#dragdrop").hide();
+	}
+		if(type === 'dragdrop'){
+		$('#cloze').hide();
+		$("#simple").hide();
+		$("#multiple").hide()
+		$("#dragdrop").show();
 	}
 }
 
@@ -88,7 +112,7 @@ function editQuestion(id, type){
 }
 
 /**
- * Adds an extra answer choice
+ * Adds an extra multiple answer choice
  */
 function addChoice(){
 	var numChoices = $('.choices').length
@@ -100,6 +124,21 @@ function addChoice(){
 				 	  '</div>';
 	
 	$("#formMultiple #choices").append(extraChoice);
+}
+
+/**
+ * Adds an extra drag&drop answer choice
+ */
+function addDragDropChoice(){
+	var numDragDrop = $('.choicesDragDrop').length
+	
+	var extraDragDrop = '<div id="'+numDragDrop+'">'+
+					  	'<textarea name="choicesDragDrop[]" class="span8 choicesDragDrop" rows="1" style="resize:none"></textarea>'+
+				 	  	'<input id="radio'+numDragDrop+'" name="right" class="offset1" type="radio" value="'+numDragDrop+'" name="radio">'+
+				 	 	'<button class="btn-danger offset1" onclick="removeChoice('+numDragDrop+');return false;"><i class="icon-remove"></i></button>'+
+				 	 	'</div>';
+	
+	$("#formDragDrop #choicesDragDrop").append(extraDragDrop);
 }
 
 /**
@@ -162,8 +201,8 @@ function addGap(){
 				  '<input type="hidden" id="'+numGaps+'" name="answer[]" value='+$('#clozequestion').selection()+'>';
 		preview = before + gap + after;
 		numGaps++;
-		console.log(takenGaps);
-		console.log(preview);
+		//console.log(takenGaps);
+		//console.log(preview);
 		$("#formCloze #preview").html(preview);
 	}
 }
@@ -180,15 +219,14 @@ function removeGap(id){
 	takenGaps[id*3] = null;
 	takenGaps[(id*3)+1] = null;
 	takenGaps[(id*3)+2] = null;
-	console.log(takenGaps);
+	//console.log(takenGaps);
 	$("#formCloze #preview").html();
 	
 
 }
 
-
 /**
- * Removes an extra choice.
+ * Removes a multiple extra choice.
  * 
  * @param id: the id of the extra choice which is removed
  */
@@ -202,6 +240,18 @@ function removeChoice(id){
 }
 
 /**
+ * Removes an drag&drop extra choice.
+ * 
+ * @param id: the id of the extra choice which is removed
+ */
+function removeDragDropChoice(id){
+	if($("#check"+id).is(':checked')){
+		console.log(id);
+		$('input[type="hidden"][value="'+id+'"][name="answer"]').remove();
+	} 
+	$("#"+id).remove();
+}
+/**
  * Is fired on a click on a radio button. It reads the value of the radio button
  * and writes it in the hidden question field.
  */
@@ -210,6 +260,14 @@ $(document).ready(function(){
 		if($(this).attr('checked')){	
 			var answer = '<input type="hidden" name="answer[]" value='+$(this).val()+'>';
 			$("#formMultiple #choices").append(answer);
+		}else{
+			$('input[type="hidden"][value="'+$(this).val()+'"]').remove();
+		}
+	});
+	$('#choicesDragDrop').on('change', 'input:radio', function () {
+		if($(this).attr('checked')){	
+			var answer = '<input type="hidden" name="answer" value='+$(this).val()+'>';
+			$("#formDragDrop #choicesDragDrop").append(answer);
 		}else{
 			$('input[type="hidden"][value="'+$(this).val()+'"]').remove();
 		}

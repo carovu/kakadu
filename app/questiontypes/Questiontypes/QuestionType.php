@@ -226,12 +226,9 @@ abstract class QuestionType {
             case 'cloze':
                 return new Cloze;
 
-            case 'match':
-                return new Match;
-
-            case 'image':
-                return new Image;
-
+            case 'dragdrop':
+                return new DragDrop;
+                
             default:
                 return null;
         }

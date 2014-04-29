@@ -6,5 +6,12 @@
 	<br>
 	<button class="btn-small btn-primary" onclick="addGap();return false;">{{trans('question.clozeGap')}}</button><br>
 	<label>{{trans('question.preview')}}</label>
-	<div id="preview">{{Form::old('preview')}}</div>
+	<!-- If we edit a question the question field is set -->
+	@if(isset($question))
+		<div id="preview"></div>
+	<!-- For creating a question -->			
+	@else
+		<div id="preview"></div>
+	@endif
+	
 

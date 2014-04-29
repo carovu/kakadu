@@ -29,6 +29,7 @@ QuizView = Backbone.View.extend({
 			this.simple = new simpleQuestion(question);
 			$("#multiple").hide();
 			$("#cloze").hide();
+			$("#dragdrop").hide();
 			$("#questionSimple").html(this.simple.get("question"));
 			$("#answerSimple").html("");
 		}else if(this.type === "multiple"){
@@ -36,14 +37,24 @@ QuizView = Backbone.View.extend({
 			$("#nextMultipleQuestion").hide();
 			$("#simple").hide();
 			$("#cloze").hide();
+			$("#dragdrop").hide();
 			$("#questionMultiple").html(this.multiple.get("question"));
 			this.setAnswers(this.multiple.get("choices"));
 		}else if(this.type ==="cloze"){
 			this.cloze = new clozeQuestion(question);
 			$("#multiple").hide();
 			$("#simple").hide();
+			$("#dragdrop").hide();
 			this.setCloze(this.cloze.get("question"), this.cloze.get("answer"));
 			this.showClozeAnswer(this.cloze.get("answer"));
+		}else if(this.type ==="dragdrop"){
+			this.dragdrop = new dragdropQuestion(question);
+			$("#multiple").hide();
+			$("#simple").hide();
+			$("#cloze").hide();
+			$("#nextDragDropQuestion").hide();
+			$("#questionDragDrop").html(this.dragdrop.get("question"));
+			this.setDragDrop(this.dragdrop.get("answer"), this.dragdrop.get("choices"));
 		}
 
 		this.percent = 0;
@@ -74,8 +85,7 @@ QuizView = Backbone.View.extend({
 		"click button[class='btn row-fluid answer']": "checkClick",
 		"click button[id=checkCloze]": "checkCloze",
 		"click button[id=nextClozeQuestion]": "nextClozeQuestion",
-		
-
+		"click button[id=nextDragDropQuestion]": "nextDragDropQuestion",
 	},
 
 	/**
@@ -147,6 +157,13 @@ QuizView = Backbone.View.extend({
 				
 			}
 		}
+		if(this.type === "dragdrop"){
+			if(this.state === "answer"){
+				if(e.keyCode == 13){
+					this.nextDragDropQuestion();
+				}
+			}
+		}
 	},
 
 	/**
@@ -161,6 +178,8 @@ QuizView = Backbone.View.extend({
 			this.questionId = this.multiple.get("id");
 		}else if(this.type === "cloze"){ 
 			this.questionId = this.cloze.get("id");
+		}else if(this.type === "dragdrop"){ 
+			this.questionId = this.dragdrop.get("id");
 		}
 		
 		$this = this;
@@ -189,6 +208,7 @@ QuizView = Backbone.View.extend({
 			this.simple = new simpleQuestion(data);
 			$("#multiple").hide();
 			$("#cloze").hide();
+			$("#dragdrop").hide();
 			$("#simple").show();
 			$("#correct").hide();
 			$("#questionSimple").html(this.simple.get("question"));
@@ -198,6 +218,7 @@ QuizView = Backbone.View.extend({
 			this.multiple = new multipleQuestion(data);
 			$("#simple").hide();
 			$("#cloze").hide();
+			$("#dragdrop").hide();
 			$("#nextMultipleQuestion").hide();
 			$("#multiple").show();
 			$("#questionMultiple").html(this.multiple.get("question"))
@@ -206,10 +227,20 @@ QuizView = Backbone.View.extend({
 			this.cloze = new clozeQuestion(data);
 			$("#multiple").hide();
 			$("#simple").hide();
+			$("#dragdrop").hide();
 			$("#cloze").show();
 			$("#nextClozeQuestion").hide();
 			this.setCloze(this.cloze.get("question"), this.cloze.get("answer"));
 			this.showClozeAnswer(this.cloze.get("answer"));
+		}else if(this.type === "dragdrop"){
+			this.dragdrop = new dragdropQuestion(data);
+			$("#multiple").hide();
+			$("#simple").hide();
+			$("#cloze").hide();
+			$("#dragdrop").show();
+			$("#nextDragDropQuestion").hide();
+			$("#questionDragDrop").html(this.dragdrop.get("question"));
+			this.setDragDrop(this.dragdrop.get("answer"), this.dragdrop.get("choices"));
 		}
 	},
 
@@ -289,7 +320,7 @@ QuizView = Backbone.View.extend({
 	 * Set all gaps for cloze question
 	 * 
 	 * @param choices: content of cloze
-	 * @param choices: all choices
+	 * @param choices: all answers
 	 */
 	setCloze: function(questionContent, answers){
 		this.state = "question";
@@ -312,7 +343,7 @@ QuizView = Backbone.View.extend({
 	/**
 	 * Set all answers for gap in cloze question
 	 * 
-	 * @param choices: all choices
+	 * @param choices: all answers
 	 */
 	showClozeAnswer: function(answers){
 		this.state = "question";
@@ -435,6 +466,63 @@ QuizView = Backbone.View.extend({
 	},
 	
 	/**
+	 * Set all answers for Drag&Drop question
+	 * 
+	 * @param choices: all choices
+	 */
+	setDragDrop: function(answer, choices){
+		this.state = "question";
+		$('#choicesDragDrop').html('');
+  		$('#answerDragDrop').html('');
+		//shuffle choices
+		choices.sort( function() { return Math.random() - .5 } );
+		//create draggable choices
+		for ( var i=0; i<choices.length; i++ ) {
+		    $('<div>' + choices[i] + '</div>').data( 'content', choices[i] ).attr( 'id', 'choice'+i ).appendTo( '#choicesDragDrop' ).draggable( {
+		      containment: '#dragdrop',
+		      stack: '#choicesDragDrop div',
+		      cursor: 'move',
+		      revert: true
+		    } );
+		  }
+		//create answerfield
+		$('<div>' +"Drop answer here"+ '</div>').data('content', answer).appendTo( '#answerDragDrop' ).droppable( {
+	      accept: '#choicesDragDrop div',
+	      hoverClass: 'hovered',
+	      drop: function(event, ui){
+					$("#nextDragDropQuestion").show();
+					var answerContent = $(this).data('content');
+			  		var choiceContent = ui.draggable.data('content');
+
+			  		if(choiceContent == answerContent){
+					    ui.draggable.addClass('correct');
+					    //ui.draggable.draggable( 'disable' );
+					    //$(this).droppable( 'disable' );
+					    ui.draggable.position( { of: $(this), my: 'left top', at: 'left top' } );
+					    ui.draggable.draggable( 'option', 'revert', false );
+					    this.answerBoolean = true;
+			  		} else{
+			  			ui.draggable.addClass('false');
+			  			ui.draggable.position( { of: $(this), my: 'left top', at: 'left top' } );
+			  			ui.draggable.draggable( 'option', 'revert', false );
+			  			//search for correct choice and change to green color
+			  			for ( var i=0; i<choices.length; i++ ) {
+			  				if ($( '#choice'+i ).data('content') == answer){
+			  					$( '#choice'+i ).addClass('correct');	
+			  				}
+			  		 	}
+			  			this.answerBoolean = false;
+			  			
+			  		}
+			  		for ( var i=0; i<choices.length; i++ ) {
+			  			$( '#choice'+i ).draggable( 'option', 'disabled', true );
+			  		 }
+					this.state = "answer";
+				}
+	    } );
+	},
+
+	/**
 	 * Adds/removes the pressed button with a orange border and writes/removes it in/from an array.
 	 * 
 	 * @param pressed: the value of the button which was pressed
@@ -460,7 +548,6 @@ QuizView = Backbone.View.extend({
 		}else{
 			this.notCorrect();
 		}
-		
 	},
 
 	/**
@@ -473,8 +560,18 @@ QuizView = Backbone.View.extend({
 		}else{
 			this.notCorrect();
 		}
-		
+	},
+
+	/**
+	 * Loads the next Drag&Drop Question
+	 */
+	nextDragDropQuestion: function(){
+		$("#nextDragDropQuestion").hide();
+		if(this.answerBoolean == true){
+			this.correct();
+		}else{
+			this.notCorrect();
+		}
 	}
-	
 
 });

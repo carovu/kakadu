@@ -1,6 +1,6 @@
 <?php
 
-class QuestiontypeMatchSeeder extends Seeder {
+class QuestiontypeDragDropSeeder extends Seeder {
 
 	/**
 	 * Run the database seeds.
@@ -9,17 +9,11 @@ class QuestiontypeMatchSeeder extends Seeder {
 	 */
 	public function run()
 	{  
-        $jsonQuestion1 = json_encode(array(
-            'question'  => ''
-        ));
-        $jsonQuestion2 = json_encode(array(
-            'question'  => ''
-        ));
-        Question::where('question', 'LIKE', $jsonQuestion1)->orWhere('question', 'LIKE', $jsonQuestion2)->delete();
-
         $jsonQuestion = json_encode(array(
-            'question'  => 'Question x'
+            'question'  => 'Questiontest Drag&drop'
         ));
+
+        Question::where('question', 'LIKE', $jsonQuestion)->delete();
 
         $jsonAnswer = json_encode(array(
             'answer'    => 'Answer x',
@@ -29,8 +23,9 @@ class QuestiontypeMatchSeeder extends Seeder {
                 'Answer z'
             )
         ));
+
         $this->question = new Question;
-        $this->question->type = 'match';
+        $this->question->type = 'dragdrop';
         $this->question->question = $jsonQuestion;
         $this->question->answer = $jsonAnswer;
         $this->question->save();

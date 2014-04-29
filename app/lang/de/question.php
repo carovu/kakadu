@@ -39,6 +39,7 @@ return array(
 'multiple'			=> 'Multiple Choice',
 'simple'			=> 'Frage/Antwort',
 'cloze'				=> 'L&uuml;ckentext',
+'dragdrop'			=> 'Ziehen & Fallenlassen',
 'clozecreate'		=> 'F&uuml;lle den Text vor und nach der L&uuml;cke:',
 'cloze_text'		=> 'Text vor und nach der L&uuml;cke',
 'match'				=> 'Passende Paare',
@@ -51,7 +52,9 @@ return array(
 'type_multiple'		=> 'Typ: Multiple Choice',
 'type_simple'		=> 'Typ: Frage/Antwort',
 'type_cloze'		=> 'Typ: L&uuml;ckentext',
+'type_dragdrop'		=> 'Type: Ziehen & Fallenlassen',
 'questionCloze'		=> 'Markiere den Text und klicke auf "L&uuml;cke hinzuf&uuml;gen"',
 'preview'			=> 'Vorschau',
 'clozeGap'			=> 'L&uuml;cke hinzuf&uuml;gen',
+'gap'				=> 'L&uuml;cken',
 );

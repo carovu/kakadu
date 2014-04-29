@@ -39,6 +39,7 @@ return array(
 'multiple'			=> 'Multiple choice',
 'simple'			=> 'Question/Answer',
 'cloze'				=> 'Cloze',
+'dragdrop'			=> 'Drag & Drop',
 'clozecreate'		=> 'Fill in text before and after gap:',
 'cloze_text'		=> 'Text before and after gap',
 'match'				=> 'Matching Pairs',
@@ -51,7 +52,9 @@ return array(
 'type_multiple'		=> 'Type: Multiple Choice',
 'type_simple'		=> 'Type: Question/Answer',
 'type_cloze'		=> 'Type: Cloze',
+'type_dragdrop'		=> 'Type: Drag & Drop',
 'questionCloze'		=> 'Highlight text and click "Add gaps"',
 'preview'			=> 'Preview',
 'clozeGap'			=> 'Add gaps',
+'gap'				=> 'Gaps',
 );

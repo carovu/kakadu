@@ -33,12 +33,14 @@ class CourseSeeder extends Seeder {
                 $catalog->save();
 
                 $question1 = $this->createSimpleQuestion($i, $name, '1');
-                $question2 = $this->createSimpleQuestion($i, $name, '2');
+                $question2 = $this->createMultipleQuestion($i, $name, '2');
                 $question3 = $this->createClozeQuestion($i, $name, '3');
+                $question4 = $this->createDragDropQuestion($i, $name, '4');
 
                 $catalog->questions()->save($question1);
                 $catalog->questions()->save($question2);
                 $catalog->questions()->save($question3);
+                $catalog->questions()->save($question4);
 
                 //Chapter 1
                 $catalog1 = new Catalog();
@@ -48,12 +50,14 @@ class CourseSeeder extends Seeder {
                 $catalog1->save();
 
                 $question11 = $this->createSimpleQuestion($i, $name, '1.1');
-                $question12 = $this->createSimpleQuestion($i, $name, '1.2');
+                $question12 = $this->createMultipleQuestion($i, $name, '1.2');
                 $question13 = $this->createClozeQuestion($i, $name, '1.3');
+                $question14 = $this->createDragDropQuestion($i, $name, '1.4');
 
                 $catalog1->questions()->save($question11);
                 $catalog1->questions()->save($question12);
                 $catalog1->questions()->save($question13);
+                $catalog1->questions()->save($question14);
 
                 $catalog->questions()->save($question12);
 
@@ -64,13 +68,15 @@ class CourseSeeder extends Seeder {
                 $catalog2->parent = $catalog->id;
                 $catalog2->save();
 
-                $question21 = $this->createMultipleQuestion($i, $name, '2.1');
+                $question21 = $this->createSimpleQuestion($i, $name, '2.1');
                 $question22 = $this->createMultipleQuestion($i, $name, '2.2');
                 $question23 = $this->createClozeQuestion($i, $name, '2.3');
+                $question24 = $this->createDragDropQuestion($i, $name, '2.4');
 
                 $catalog2->questions()->save($question21);
                 $catalog2->questions()->save($question22);
                 $catalog2->questions()->save($question23);
+                $catalog2->questions()->save($question24);
 
                 $catalog1->save();
                 $catalog2->save();
@@ -181,7 +187,7 @@ class CourseSeeder extends Seeder {
         $q = array(
             'question' => 'This is question ' . $questionNumber . ' of course ' . $courseNumber . ' - group ' . $groupName
         );
-
+        //answer - choose from 0-3 
         $a = array(
             'answer'    => array(
                 '2',
@@ -189,8 +195,8 @@ class CourseSeeder extends Seeder {
             ),
             'choices'   => array(
                 'This is answer 1',
-                'This is answer 2 - The right answer',
-                'This is answer 3 - The right answer',
+                'This is answer 2',
+                'This is answer 3',
                 'This is answer 4'
             )
         );
@@ -203,8 +209,8 @@ class CourseSeeder extends Seeder {
         return $question;
     }
 
-        /**
-     * Create a multiple choice question with example question and answer
+    /**
+     * Create a cloze question with example question and answer
      * 
      * @param  string  $courseNumber   A course number to show the referenced course
      * @param  string  $groupNumber    A name of a group to show the referenced groups
@@ -226,6 +232,37 @@ class CourseSeeder extends Seeder {
 
         $question = new Question();
         $question->type = 'cloze';
+        $question->question = json_encode($q);
+        $question->answer = json_encode($a);
+        $question->save();
+        return $question;
+    }
+
+    /**
+     * Create a drag and drop question with example question and answer
+     * 
+     * @param  string  $courseNumber   A course number to show the referenced course
+     * @param  string  $groupNumber    A name of a group to show the referenced groups
+     * @param  string  $questionNumber A course number to show the referenced course
+     * @return Question                A Question instance
+     */
+    private function createDragDropQuestion($courseNumber, $groupName, $questionNumber) {
+        $q = array(
+            'question'  => 'This is question ' . $questionNumber . ' of course ' . $courseNumber . ' - group ' . $groupName
+        );
+
+        $a = array(
+            'answer'    => 'This is answer 2',
+            'choices'   => array(
+                'This is answer 1',
+                'This is answer 2',
+                'This is answer 3',
+                'This is answer 4'
+            )
+        );
+
+        $question = new Question();
+        $question->type = 'dragdrop';
         $question->question = json_encode($q);
         $question->answer = json_encode($a);
         $question->save();

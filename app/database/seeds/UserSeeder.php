@@ -60,6 +60,19 @@ class UserSeeder extends Seeder {
 			));
 		$group = Sentry::findGroupByName('admin');
 	    $user->addGroup($group);
+	    $user = Sentry::createUser(array(
+			'email'     => 'tester@example.com',
+			'password'  => 'tester',
+			'permissions' => array('admin' => 1),
+            'activated' => true
+			));
+		DB::table('users_metadata')->insert(array(
+			'user_id'		=> $user->getId(),
+			'displayname'   => 'Tester',
+			'language'      => 'en'
+			));
+		$group = Sentry::findGroupByName('admin');
+	    $user->addGroup($group);
 	}
 
 }                

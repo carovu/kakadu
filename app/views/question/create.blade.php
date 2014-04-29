@@ -26,6 +26,7 @@
 					<li><a onclick="changeType('simple')" style="cursor: pointer;">{{trans('question.simple')}}</a></li>
 					<li><a onclick="changeType('multiple')" style="cursor: pointer;">{{trans('question.multiple')}}</a></li>
 					<li><a onclick="changeType('cloze')" style="cursor: pointer;">{{trans('question.cloze')}}</a></li>
+					<li><a onclick="changeType('dragdrop')" style="cursor: pointer;">{{trans('question.dragdrop')}}</a></li>
 				</ul>
 			</div>
 		</div>
@@ -41,23 +42,6 @@
 		
 			<!-- The simple question type -->
 			@include('question.types.simple')
-
-			@include('question.upload')
-
-			<div class="fileupload fileupload-new" data-provides="fileupload">
-				<div class="input-append">
-					<div class="uneditable-input span3">
-							<i class="icon-file fileupload-exists"></i> 
-							<span class="fileupload-preview"></span>
-					</div>
-					<span class="btn btn-file">
-						<span class="fileupload-new">Add image</span>
-						<span class="fileupload-exists">Change</span>
-						<input name="answerImage" type="image" />
-					</span>
-					<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
-				</div>
-			</div>
 
 			@include('question.catalogs')
 			
@@ -78,8 +62,6 @@
 			@include('question.types.multiple')
 			
 			<br>		
-			@include('question.upload')
-			
 			@include('question.catalogs')
 			
 			
@@ -98,6 +80,25 @@
 			
 			<!-- The cloze question type -->
 			@include('question.types.cloze')
+			
+			<br>		
+			@include('question.catalogs')
+
+			{{ Form::token() }}
+			{{ Form::submit(trans('question.create'), array('class' => 'btn btn-primary')) }}
+		{{ Form::close() }}	
+	</div>
+</div>
+<!-- Drag&Drop question -->
+<div class="row-fluid" id="dragdrop">
+	<div class="offset1">
+		<br>
+		{{ Form::open(array('url' => 'question/create', 'method' => 'post', 'id' => 'formDragDrop', 'files' => true)) }} 
+			{{ Form::hidden('course', $course['id']) }}
+			{{ Form::hidden('type', 'dragdrop') }}
+			
+			<!-- The cloze question type -->
+			@include('question.types.dragdrop')
 			
 			<br>		
 			@include('question.catalogs')

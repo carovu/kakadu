@@ -18,6 +18,7 @@
 
 	{{ HTML::script('js/favorites.js')}}
 	{{ HTML::script('js/questionType.js')}}
+	{{HTML::script('js/jquery.selection.js')}}
 	
 	<script>
 
@@ -240,7 +241,7 @@
 							@else
 								<div id="view{{$question['id']}}">
 							@endif
-								@if($question['type'] == 'simple' || $question['type'] === 'UndefType')	
+								@if($question['type'] == 'simple')	
 									<h5>{{trans('question.question')}}:</h5>	
 									<p>{{$question['question']}}</p>
 									<h5>{{trans('question.answer')}}:</h5>
@@ -248,14 +249,23 @@
 								@elseif($question['type'] == 'cloze')
 									<h5>{{trans('question.question')}}:</h5>	
 									<p>{{$question['question']}}</p>
-									<h5>{{trans('question.answer')}}:</h5>
+									<h5>{{trans('question.gap')}}:</h5>
 									@if(is_array($question['answer']))
-									    @foreach ($question['answer'] as $answer)
-									       <p>{{$answer}}</p>
-									    @endforeach
+										@foreach ($question['answer'] as $answer)
+											<p>{{$answer}}</p>
+										@endforeach
 									@else
-										<p>{{$question['answer']}}</p>
+										<p>{{ $question['answer']}}</p>
 									@endif
+								@elseif($question['type'] == 'dragdrop')
+									<h5>{{trans('question.question')}}:</h5>	
+									<p>{{$question['question']}}</p>
+									<h5>{{trans('question.answer')}}:</h5>
+									<p>{{ $question['answer']}}</p>
+									<h5>{{trans('question.choices')}}</h5>	
+									@foreach($question['choices'] as $choice)
+										<p>{{ $choice}}</p>
+									@endforeach
 								@else
 									<h5>{{trans('question.question')}}:</h5>	
 									<p>{{$question['question']}}</p>
@@ -305,7 +315,7 @@
 												{{ Form::submit(trans('course.save'), array('class' => 'btn')) }}
 												<button class="btn" onclick="switchView({{$question['id']}});return false;">{{trans('general.abort')}}</button>
 											{{ Form::close() }}	
-										@else
+										@elseif($question['type'] == 'cloze')
 											{{ Form::open(array('url' => 'api/v1/question/edit', 'method' => 'post', 'id' => 'formCloze')) }}
 		
 												{{ Form::hidden('course', $course['id']) }}
@@ -314,6 +324,23 @@
 												
 												<!-- The multiplechoice question type -->
 												@include('question.types.cloze')
+														
+												<br>
+												@include('question.catalogs')
+												
+												{{ Form::token() }}
+												{{ Form::submit(trans('course.save'), array('class' => 'btn')) }}
+												<button class="btn" onclick="switchView({{$question['id']}});return false;">{{trans('general.abort')}}</button>
+											{{ Form::close() }}	
+										@elseif($question['type'] == 'dragdrop')
+											{{ Form::open(array('url' => 'api/v1/question/edit', 'method' => 'post', 'id' => 'formDragDrop')) }}
+		
+												{{ Form::hidden('course', $course['id']) }}
+												{{ Form::hidden('type', 'dragdrop') }}
+												{{ Form::hidden('id', $question['id']) }}
+												
+												<!-- The multiplechoice question type -->
+												@include('question.types.dragdrop')
 														
 												<br>
 												@include('question.catalogs')

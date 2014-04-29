@@ -5,6 +5,7 @@ return array(
 		'use'					=> 'Use',
 		'keys' 					=> 'Use keyboard control:',
 		'key_show' 				=> 'Use Enter to show the answer',
+		'key_cloze' 			=> 'Use Enter to check your answers',
 		'key_correct'			=> 'for a correct question',
 		'key_incorrect'			=> 'for a incorrect question',
 		'kakadu'				=> 'Kakadu is a free learn portal. The learn algorythm will help you to learn efficiently. To enjoy all advanteges of Kakadu ',

@@ -13,13 +13,13 @@ class DatabaseSeeder extends Seeder {
 		$this->call('UserSeeder');
 		$this->call('DefaultGroupSeeder');
 		$this->call('LearngroupSeeder');
+		$this->call('QuestiontypeDragDropSeeder');
 		$this->call('QuestiontypeClozeSeeder');
-		//$this->call('QuestiontypeImageSeeder');
-		//$this->call('QuestiontypeMatchSeeder');
 		$this->call('QuestiontypeMultipleSeeder');
 		$this->call('QuestiontypeSimpleSeeder');
 		$this->call('CourseSeeder');
 		$this->call('FavoriteSeeder');
+		$this->call('TestdataSeeder');
 
 	}
 
