@@ -16,7 +16,7 @@ return array(
 'created'			=> 'Erstellt am: ',
 'updated'			=> 'Ge&auml;dert am: ',
 'course'			=> 'Katalog des Kurses: ',
-'subcatalogs'		=> 'Subkataloge',
+'subcatalogs'		=> 'Kataloge',
 'questions'			=> 'Fragen',
 'number'			=> 'Anzahl Fragen: ',
 'question'			=> 'Frage',	

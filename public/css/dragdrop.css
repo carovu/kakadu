@@ -93,16 +93,16 @@
 }
  
 /* Correct choice */
-#choice0.correct { background: green; } 
-#choice1.correct { background: green; }
-#choice2.correct { background: green; }
-#choice3.correct { background: green; }
+#choice0.correct { background: #9acd32; } 
+#choice1.correct { background: #9acd32; }
+#choice2.correct { background: #9acd32; }
+#choice3.correct { background: #9acd32; }
 
 /* False choice */
-#choice0.false { background: red; } 
-#choice1.false { background: red; }
-#choice2.false { background: red; }
-#choice3.false { background: red; }
+#choice0.false { background: #FF6347; } 
+#choice1.false { background: #FF6347; }
+#choice2.false { background: #FF6347; }
+#choice3.false { background: #FF6347; }
 
 
 

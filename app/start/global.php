@@ -94,3 +94,5 @@ require app_path().'/filters.php';
 |--------------------------------------------------------------------------
 */
 //$app['Cartalyst\Sentry\Sentry'] = $app['sentry'];
+
+App::setLocale(Session::get('my.locale', Config::get('app.locale')));

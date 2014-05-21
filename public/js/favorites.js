@@ -24,8 +24,7 @@ function addFavoriteCourse(idCourse){
 		if(data.status === 'Ok'){
 			$('#added').show();
 			$('#added').delay(2000).fadeOut("slow", function () { $(this).hide(); });
-			$('#favorite'+idCourse).attr("onclick", "linktest("+idCourse+")");
-			$('#favorite'+idCourse).text(learn);
+			$('#favorite'+idCourse).hide();
 		}
 	});	
 }

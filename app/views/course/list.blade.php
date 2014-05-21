@@ -9,12 +9,11 @@
 				<div class="btn-group pull-right">					
 					<button onclick="linkcourse({{$course['id']}})"; class="btn btn-small">{{trans('course.show')}}</button>
 					@if(Sentry::check())
-						@if($course['favorite'] != '')		
-							<button href="#" class="btn btn-small" onclick="linktest({{$course['id']}})">{{trans('favorites.learn')}}</button>
-						@else	
+						@if($course['favorite'] == '')		
 							<button id="favorite{{$course['id']}}" onclick="addFavoriteCourse({{$course['id']}})"; class="btn btn-small" title="{{trans('favorites.favorite')}}"><i class="icon-star"></i></button>
 						@endif
-					@endif				
+					@endif
+					<button href="#" class="btn btn-small" onclick="linktest({{$course['id']}})">{{trans('favorites.learn')}}</button>				
 				</div>
 			</a>
 		</div>

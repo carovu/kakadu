@@ -77,7 +77,7 @@
 						</ul>
 
 						{{ Form::open(array('url' => 'courses/search', 'method' => 'get', 'class' => 'navbar-form pull-left')) }}
-						{{Form::input('text', 'search', Input::get('search'))}}
+						<input type="text" name="search" value="{{trans('home.search_defaultvalue')}}" onfocus="if (this.value=='{{trans('home.search_defaultvalue')}}') this.value='';"/>
 						{{Form::token()}}
 						<button class="btn" type="submit">{{trans('home.search_placeholder')}}</button>
 					</form>

@@ -12,7 +12,7 @@ return array(
 'user_allready_an_admin'    => 'Der Benutzer ist bereits ein Administrator',
 
 //View
-'sidebar_title'     => 'Gruppen',
+'sidebar_title'     => 'Learngruppen',
 
 'name'				=> 'Gruppenname',
 'description'		=> 'Beschreibung',

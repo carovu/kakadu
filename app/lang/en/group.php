@@ -12,7 +12,7 @@ return array(
 'user_allready_an_admin'    => 'User is allready an admin',
 	
 //View
-'sidebar_title'     => 'Groups',
+'sidebar_title'     => 'Learngroups',
 
 'name'				=> 'Groupname',
 'description'		=> 'Description',

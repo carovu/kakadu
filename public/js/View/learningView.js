@@ -61,6 +61,7 @@ QuizView = Backbone.View.extend({
 		this.number = 0;
 		_.bindAll(this);
 		$(document).bind('keyup', this.logKey);
+		$(document).bind('keydown', this.clozeKey);
 		this.state = "question";
 		this.render();
 	},
@@ -145,9 +146,21 @@ QuizView = Backbone.View.extend({
 				
 			}
 		}
+
+
+		if(this.type === "dragdrop"){
+			if(this.state === "answer"){
+				if(e.keyCode == 13){
+					this.nextDragDropQuestion();
+				}
+			}
+		}
+	},
+	clozeKey: function(e){
 		if(this.type === "cloze"){
 			if(this.state === "question"){
-				if(e.keyCode == 13){
+				if(e.keyCode == 13 && !e.shiftKey){
+					e.preventDefault();
 					this.checkCloze();
 				}
 			}else {
@@ -157,15 +170,7 @@ QuizView = Backbone.View.extend({
 				
 			}
 		}
-		if(this.type === "dragdrop"){
-			if(this.state === "answer"){
-				if(e.keyCode == 13){
-					this.nextDragDropQuestion();
-				}
-			}
-		}
 	},
-
 	/**
 	 * Loads the next question from the server
 	 */
@@ -444,11 +449,11 @@ QuizView = Backbone.View.extend({
 		var answers = this.cloze.get("answer");
 		var numRightGaps = 0;
 			for(var i = 0; i < answers.length; i++){
-				if(document.getElementById("gapsAnswer["+i+"]").value == answers[i]){
+				if(document.getElementById("gapsAnswer["+i+"]").value.toLowerCase() == answers[i].toLowerCase()){
 					numRightGaps++;
-					document.getElementById("gapsAnswer["+i+"]").style.color = "green";
+					document.getElementById("gapsAnswer["+i+"]").style.backgroundColor = "#9acd32";
 				}else{
-					document.getElementById("gapsAnswer["+i+"]").style.color = "red";
+					document.getElementById("gapsAnswer["+i+"]").style.backgroundColor = "#FF6347";
 				}
 			}
 			if(numRightGaps == answers.length){

@@ -16,7 +16,7 @@ return array(
 'created'			=> 'Created on: ',
 'updated'			=> 'Changed on: ',
 'course'			=> 'Catalog of course: ',
-'subcatalogs'		=> 'Subcatalogs',		
+'subcatalogs'		=> 'Catalogs',		
 'questions'			=> 'Questions',
 'number'			=> 'Number of questions: ',
 'question'			=> 'Question',
