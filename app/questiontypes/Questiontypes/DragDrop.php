@@ -45,9 +45,8 @@ class DragDrop extends QuestionType {
         if(parent::getQuestionFromInput() === false) {
             return false;
         }
-
+        parent::getQuestionFromInput();
         $this->choices = Input::get('choices');
-
         return true;
     }
 

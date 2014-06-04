@@ -9,7 +9,7 @@ return array(
 'abort'					=> 'Abbrechen',
 'dbclick'				=> 'Doppelklick zum bearbeiten',
 'mean'					=> 'Was bedeuted das?',
-'explanation'			=> 'Sie haben keine berechtigung diese Seite zu sehen. Möchten sie zu unserer ',
+'explanation'			=> 'Sie haben keine Berechtigung diese Seite zu sehen. M&ouml;chten sie zu unserer ',
 'course'				=> 'Kurs:',
 'catalog'				=> 'Katalog',
 'reference_course'		=> 'Kurse der Gruppe',

@@ -2342,6 +2342,7 @@ return array(
     'Teepluss\\Asset\\Asset_Container' => $vendorDir . '/teepluss/asset/src/Teepluss/Asset/Asset.php',
     'Teepluss\\Asset\\Facades\\Asset' => $vendorDir . '/teepluss/asset/src/Teepluss/Asset/Facades/Asset.php',
     'TestCase' => $baseDir . '/app/tests/TestCase.php',
+    'TestdataSeeder' => $baseDir . '/app/database/seeds/TestdataSeeder.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/Text/Template.php',
     'User' => $baseDir . '/app/models/User.php',
     'UserMetadata' => $baseDir . '/app/models/UserMetadata.php',

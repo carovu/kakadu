@@ -54,7 +54,7 @@ class ProfileController extends BaseController {
             DB::table('users_metadata')->where('user_id', $user->getId())->update(array('language' => Input::get('language')));
 
             if ($update) {
-                Cookie::forever('language', Input::get('language'));
+                Session::put('my.locale', Input::get('language'));
                 return Redirect::route($redirect_success)->with('info', trans('profile.profile_change_success'));
             } else {
                 $messages = array(trans('profile.profile_change_failure'));

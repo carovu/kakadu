@@ -133,7 +133,7 @@ function addDragDropChoice(){
 	var numDragDrop = $('.choicesDragDrop').length
 	
 	var extraDragDrop = '<div id="'+numDragDrop+'">'+
-					  	'<textarea name="choicesDragDrop[]" class="span8 choicesDragDrop" rows="1" style="resize:none"></textarea>'+
+					  	'<textarea name="choices['+numDragDrop+']" id="choices[]" class="span8 choicesDragDrop" rows="1" style="resize:none"></textarea>'+
 				 	  	'<input id="radio'+numDragDrop+'" name="right" class="offset1" type="radio" value="'+numDragDrop+'" name="radio">'+
 				 	 	'<button class="btn-danger offset1" onclick="removeChoice('+numDragDrop+');return false;"><i class="icon-remove"></i></button>'+
 				 	 	'</div>';
@@ -245,9 +245,8 @@ function removeChoice(id){
  * @param id: the id of the extra choice which is removed
  */
 function removeDragDropChoice(id){
-	if($("#check"+id).is(':checked')){
-		console.log(id);
-		$('input[type="hidden"][value="'+id+'"][name="answer"]').remove();
+	if($("#radio"+id).is(':checked')){
+		$('input[type="hidden"][value="'+$('textarea[name="choices['+id+']"]').val()+'"][name="answer"]').remove();
 	} 
 	$("#"+id).remove();
 }
@@ -256,6 +255,14 @@ function removeDragDropChoice(id){
  * and writes it in the hidden question field.
  */
 $(document).ready(function(){
+	$('#choicesDragDrop').on('change', 'input:radio', function () {
+		if($(this).attr('checked')){
+			var answer = '<input type="hidden" name="answer" value='+$('textarea[name="choices['+$(this).val()+']"]').val()+'>';
+			$("#formDragDrop #choicesDragDrop").append(answer);
+		}else{
+			$('input[type="hidden"][value="'+$(this).val()+'"]').remove();
+		}
+	});
 	$('#choices').on('change', 'input:checkbox', function () {
 		if($(this).attr('checked')){	
 			var answer = '<input type="hidden" name="answer[]" value='+$(this).val()+'>';
@@ -264,14 +271,7 @@ $(document).ready(function(){
 			$('input[type="hidden"][value="'+$(this).val()+'"]').remove();
 		}
 	});
-	$('#choicesDragDrop').on('change', 'input:radio', function () {
-		if($(this).attr('checked')){	
-			var answer = '<input type="hidden" name="answer" value='+$(this).val()+'>';
-			$("#formDragDrop #choicesDragDrop").append(answer);
-		}else{
-			$('input[type="hidden"][value="'+$(this).val()+'"]').remove();
-		}
-	});
+	
 });
 
 

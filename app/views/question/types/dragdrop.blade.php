@@ -20,7 +20,7 @@
 		<div id="choicesDragDrop">
 			@foreach($question['choices'] as $choice)
 				<div id=<?php echo $count?>>
-					<textarea name="choicesDragDrop[]" class="span8 choicesDragDrop" rows="1" style="resize:none">{{$choice}}</textarea>
+					<textarea name="choices[]" class="span8 choicesDragDrop" rows="1" style="resize:none">{{$choice}}</textarea>
 					<?php $right = false?>
 					@if($choice === $question['answer'])
 						<?php $right = true?>
@@ -39,10 +39,10 @@
 	<!-- For creating a question -->			
 	@else
 		<div id="choicesDragDrop">
-			<textarea name="choicesDragDrop[]" class="span8 choicesDragDrop" rows="1" style="resize:none">{{Form::old('choices.0')}}</textarea> 
+			<textarea name="choices[0]" class="span8 choicesDragDrop" rows="1" style="resize:none">{{Form::old('choices.0')}}</textarea> 
 			<input id="radio0" name="right" class="offset1" type="radio" value="0" name="radio">
 					
-			<textarea name="choicesDragDrop[]" class="span8 choicesDragDrop" rows="1" style="resize:none">{{Form::old('choices.1')}}</textarea>
+			<textarea name="choices[1]" class="span8 choicesDragDrop" rows="1" style="resize:none">{{Form::old('choices.1')}}</textarea>
 			<input id="radio1" name="right" class="offset1" type="radio" value="1" name="radio">
 			
 		</div>	

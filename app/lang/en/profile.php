@@ -23,7 +23,7 @@ return array(
 'change_password'		=> 'Change password',
 'old_password'			=> 'Old password',
 'new_password'			=> 'New password',
-'confirm_password'		=> 'Confimr new password',
+'confirm_password'		=> 'Confirm new password',
 'language'				=> 'Language',
 'delete_profile'		=> 'Delete profile',
 'delete_profile_link'	=> 'Click here to delete your profile',

@@ -17,7 +17,7 @@ return array(
 'name'				=> 'Gruppenname',
 'description'		=> 'Beschreibung',
 'create'			=> 'Gruppe erstellen',
-'edit'				=> 'Grupp bearbeiten',
+'edit'				=> 'Gruppe bearbeiten',
 'delete'			=> 'Gruppe l&ouml;schen',
 'member'			=> 'Mitglieder:',
 'created'			=> 'Erstellt am: ',
