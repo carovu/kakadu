@@ -135,7 +135,7 @@ function addDragDropChoice(){
 	var extraDragDrop = '<div id="'+numDragDrop+'">'+
 					  	'<textarea name="choices['+numDragDrop+']" id="choices[]" class="span8 choicesDragDrop" rows="1" style="resize:none"></textarea>'+
 				 	  	'<input id="radio'+numDragDrop+'" name="right" class="offset1" type="radio" value="'+numDragDrop+'" name="radio">'+
-				 	 	'<button class="btn-danger offset1" onclick="removeChoice('+numDragDrop+');return false;"><i class="icon-remove"></i></button>'+
+				 	 	'<button class="btn-danger offset1" onclick="removeDragDropChoice('+numDragDrop+');return false;"><i class="icon-remove"></i></button>'+
 				 	 	'</div>';
 	
 	$("#formDragDrop #choicesDragDrop").append(extraDragDrop);
@@ -198,7 +198,7 @@ function addGap(){
 			}
 		}
 		var gap = '<button class="btn-danger" id="'+numGaps+'" onclick="removeGap('+numGaps+');return false;"><i class="icon-remove"></i></button>'+
-				  '<input type="hidden" id="'+numGaps+'" name="answer[]" value='+$('#clozequestion').selection()+'>';
+				  '<input type="hidden" id="'+numGaps+'" name="answerCloze[]" value='+$('#clozequestion').selection()+'>';
 		preview = before + gap + after;
 		numGaps++;
 		//console.log(takenGaps);
@@ -213,7 +213,7 @@ function addGap(){
  * @param id: the id of the extra gap which is removed
  */
 function removeGap(id){
-	$('input[type="hidden"][id="'+id+'"][name="answer[]"]').remove();
+	$('input[type="hidden"][id="'+id+'"][name="answerCloze[]"]').remove();
 	$("#"+id).replaceWith(takenGaps[id*3]);
 	numGaps--;
 	takenGaps[id*3] = null;
@@ -246,7 +246,7 @@ function removeChoice(id){
  */
 function removeDragDropChoice(id){
 	if($("#radio"+id).is(':checked')){
-		$('input[type="hidden"][value="'+$('textarea[name="choices['+id+']"]').val()+'"][name="answer"]').remove();
+		$('input[type="hidden"][value="'+$('textarea[name="choices['+id+']"]').val()+'"][name="answerDragDrop"]').remove();
 	} 
 	$("#"+id).remove();
 }
@@ -257,10 +257,10 @@ function removeDragDropChoice(id){
 $(document).ready(function(){
 	$('#choicesDragDrop').on('change', 'input:radio', function () {
 		if($(this).attr('checked')){
-			var answer = '<input type="hidden" name="answer" value='+$('textarea[name="choices['+$(this).val()+']"]').val()+'>';
-			$("#formDragDrop #choicesDragDrop").append(answer);
+			var answerDragDrop = '<input type="hidden" name="answerDragDrop" value='+$('textarea[name="choices['+$(this).val()+']"]').val()+'>';
+			$("#formDragDrop #choicesDragDrop").append(answerDragDrop);
 		}else{
-			$('input[type="hidden"][value="'+$(this).val()+'"]').remove();
+			$('input[type="hidden"][value="'+$(this).val()+'"][name="answerDragDrop"]').remove();
 		}
 	});
 	$('#choices').on('change', 'input:checkbox', function () {
@@ -268,7 +268,7 @@ $(document).ready(function(){
 			var answer = '<input type="hidden" name="answer[]" value='+$(this).val()+'>';
 			$("#formMultiple #choices").append(answer);
 		}else{
-			$('input[type="hidden"][value="'+$(this).val()+'"]').remove();
+			$('input[type="hidden"][value="'+$(this).val()+'"][name="answer[]"]').remove();
 		}
 	});
 	

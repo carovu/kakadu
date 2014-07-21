@@ -29,9 +29,6 @@
 					@if(!$right)
 						<input id="check<?php echo $count?>" name="right" class="offset1" type="radio" value="<?php echo $count?>" name="radio">
 					@endif
-					@if($count >= 2)
-						<button class="btn-danger offset1" onclick="removeDragDropChoice(<?php echo $count?>);return false;"><i class="icon-remove"></i></button>
-					@endif
 				</div>
 				<?php $count++?>
 			@endforeach

@@ -64,6 +64,7 @@ Route::filter('auth.basic', function() {
 	return Auth::basic();
 });
 
+
 /*
 |--------------------------------------------------------------------------
 | Guest Filter
@@ -93,7 +94,7 @@ Route::filter('guest', function()
 
 Route::filter('csrf', function()
 {
-    if (Session::token() != Input::get('_token')) {
-        return Response::view('error.500', array(), 404);
-    }
+    //if (Session::token() != Input::get('_token')) {
+    //    return Response::view('error.500', array(), 404);
+    //}
 });

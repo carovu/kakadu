@@ -36,6 +36,57 @@ class LearningController extends BaseKakaduController {
         $this->layout->content = $this->getLearningView('course', $catalogs);
     }
 
+    /**
+     * Gives JSON data of a course with the first question back
+     */
+    public function getCourseJSON($id) {
+        //Get course
+        $this->course = Course::find($id);
+
+        if($this->course === null) {
+            return Response::json(array('flash' => 'Course not found'), 500);
+        }
+
+/*
+        //Check permissions
+        $permission = $this->checkPermissions(ConstAction::LEARN);
+
+        if($permission !== ConstPermission::ALLOWED) {
+            return Response::json(array('flash' => 'You do not have the permission. Not allowed'), 500);
+        }
+*/
+        //Check favorites
+        $userSentry = Sentry::getUser();
+        $catalog = $this->course->catalog()->first(); 
+
+        //Get all catalogs
+        $catalogs = HelperCourse::getSubCatalogIDsOfCatalog($catalog);
+
+        //Create view
+        $this->layout->content = $this->getLearningView('course', $catalogs);
+
+        //Get the next question(get question and catalog)
+        $data = HelperFlashcard::getNextQuestion(Sentry::getUser(), $catalogs);
+
+        //No questions found
+        if($data === false) {
+            return Response::json(array('flash' => 'Question not found'), 500);
+        }
+
+        $question = $data['question'];
+        $questionType = QuestionType::getQuestionFromQuestion($question);
+
+        $catalog = $data['catalog'];
+        $course = HelperCourse::getCourseOfCatalog($catalog);
+        $response = array(
+            'question' => $data['question'], 
+            'course' => $course, 
+            'catalog' => $data['catalog'], 
+            'section' => $section
+        );
+
+        return Response::json($response);
+    }
 
     /**
      * Shows the learning view for a catalog with the first question
@@ -109,7 +160,6 @@ class LearningController extends BaseKakaduController {
      * Saves the answer of the last question and returns the next question as a JSON response
      */
     public function postNext() {
-
         //Validate input
         $rules = array(
             'question'          => 'required|integer',

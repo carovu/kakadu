@@ -10,7 +10,8 @@
 		"components/jquery": "1.9.1",
 		"twitter/bootstrap": "v3.0.3",
 		"jeremymlane/bootbox": "dev-master",
-		"components/backbone": "1.0.0"
+		"components/backbone": "1.0.0",
+		"barryvdh/laravel-cors": "0.2.x"
 	},
 	"autoload": {
 		"classmap": [

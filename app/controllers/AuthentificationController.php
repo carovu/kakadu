@@ -47,7 +47,6 @@ class AuthentificationController extends BaseController {
                         ->where('user_id', $user->getId())
                         ->first()->language;
                 Cookie::forever('language', $language);
-                
                 return Redirect::back();
             } else {
                 $messages = array(trans('authentification.email_or_password_not_correct'));
@@ -85,9 +84,58 @@ class AuthentificationController extends BaseController {
             return Redirect::back()->withErrors($messages)->withInput();
         }
     }
+
+    /**
+     * Log the user in from your AngularJS Client
+     */
+    public function postLoginJSON() {
+        //Validate input
+        $rules = array(
+            'email'         => 'required|email',
+            'password'      => 'required'
+        );
+
+        $validation = Validator::make(Input::all(), $rules);
+
+        if ($validation->fails()) {
+            return Response::json('Wrong email or password in Login');
+        }
+        try 
+        {
+            $user = Sentry::findUserByLogin(Input::get('email'));
+            if(Input::get('email') === $user->getLogin() && $user->checkPassword(Input::get('password'))){
+                Sentry::login($user, true);
+                return Response::json('Laravelserver: Success');
+            }else{
+                return Response::json('Wrong email or password in Login');
+            }
+        }
+        catch (Cartalyst\Sentry\Users\LoginRequiredException $e)
+        {
+            return Response::json('Wrong email or password in Login');
+        }
+        catch (Cartalyst\Sentry\Users\PasswordRequiredException $e)
+        {
+            return Response::json('Wrong email or password in Login');
+        }
+        catch (Cartalyst\Sentry\Users\UserExistsException $e)
+        {
+           return Response::json('Wrong email or password in Login');
+        }
+        catch (Cartalyst\Sentry\Users\LoginRequiredException $e)
+        {
+            return Response::json('Wrong email or password in Login');
+        }
+        catch (Cartalyst\Sentry\Users\UserNotActivatedException $e)
+        {
+            return Response::json('Wrong email or password in Login');
+        }
+        catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
+        {
+            return Response::json('Wrong email or password in Login');
+        }
+    }
     
-
-
     /**
      * Log the user out
      */

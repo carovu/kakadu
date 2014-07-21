@@ -123,9 +123,74 @@ Route::group(array('prefix' => 'api/v1'), function()
 	//Favorites
 	Route::post('favorites/add', array('uses' => 'FavoriteController@postAdd'));
 	Route::post('favorites/remove', array('uses' => 'FavoriteController@postRemove'));	
-
+	header('Access-Control-Allow-Origin: *');
 	//Learning
 	Route::post('learning/next', array('uses' => 'LearningController@postNext'));
-
-
 });
+
+//Route group for SPA client
+Route::group(array('prefix' => 'api/spa'), function()
+{ 	
+	if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+	    header('Access-Control-Allow-Origin: *');
+	    header('Access-Control-Allow-Headers: X-Requested-With, Origin, X-Csrftoken, Content-Type, Accept');
+        header('Access-Control-Request-Method: POST, PUT, DELETE');
+	    exit;
+	}
+	//Cors(Cross Origin Resource Sharing)
+	header('Access-Control-Allow-Origin: *');
+	header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+	header('Access-Control-Allow-Headers: *');
+	header('Access-Control-Allow-Credentials: true');
+	header('Access-Control-Max-Age: 1000'); //7200
+
+	//Login
+	Route::post('auth/login', array('uses' => 'AuthentificationController@postLoginJSON'));	
+
+	//Course
+	Route::get('courses', array('uses' => 'CourseController@getCoursesJSON'));
+
+	//Learning
+	Route::get('course/{num}/learning', array('uses' => 'LearningController@getCourseJSON'));
+
+	//Test
+	Route::get('/books', function() {
+	  return Response::json(array(
+	    array('title' => 'Great Expectations', 'author' => 'Dickens'),
+	    array('title' => 'Foundation', 'author' => 'Asimov'),
+		array('title' => 'Treasure Island', 'author' => 'Stephenson')
+	  ));
+	});
+
+	//need right csrf token
+	Route::get('/token', function() {
+	  return Response::json(Form::token());
+	});
+
+	Route::get('/testcourses', function() {
+	  return Course::all();
+	});
+
+	Route::post('auth/test', function(){
+        //Validate input
+        $rules = array(
+            'email'         => 'required|email',
+            'password'      => 'required'
+        );
+
+        $validation = Validator::make(Input::all(), $rules);
+
+        if ($validation->fails()) {
+            return Response::json('Wrong email or password in Login');
+        }
+
+        $user = Sentry::findUserByLogin(Input::get('email'));
+       	if(Input::get('email') === $user->getLogin() && $user->checkPassword(Input::get('password'))){
+			Sentry::login($user, true);
+			return Response::json('Laravelserver: Success');
+		}else{
+			return Response::json('Wrong email or password in Login');
+		}
+	});
+});
+

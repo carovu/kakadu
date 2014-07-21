@@ -39,6 +39,29 @@ class CourseController extends BaseKakaduController {
         
     }
 
+    /**
+     * Shows all courses in JSON format.
+     * 
+     * On a ajax request just the list will be returned
+     *
+     * GET variables:
+     * - sort: name, id, created_at (Sorting value)
+     * - sort_dir: asc, desc (Sorting direction)
+     * - per_page: number (20) (Items per page)
+     * - page: number (Actuall page)
+     */
+    public function getCoursesJSON() {
+
+        //Check permissions
+        $permission = $this->checkPermissions(ConstAction::ALL);
+
+        if($permission === ConstPermission::DENIED) {
+            return Response::json(array('flash' => 'Courses not allowed to see'), 500);
+        }
+        
+        return Course::all();
+        
+    }
 
     /**
      * Search all courses with a given text

@@ -10,7 +10,6 @@ class BaseController extends Controller {
     public function __construct(){
         //csrf
         $this->beforeFilter('csrf', array('on' => 'post'));
-
         Asset::add('jquery', 'js/jquery-1.8.2.js');
         Asset::add('underscore', 'js/underscore-min.js');
         Asset::add('backbone', 'js/backbone-min.js');
@@ -19,6 +18,7 @@ class BaseController extends Controller {
         Asset::add('jquery-ui', 'js/jquery-ui-1.10.0.js');
         Asset::add('sidebar', 'js/sidebar.js');
         Asset::add('cutString', 'js/cutString.js');
+
     }
 
     /**

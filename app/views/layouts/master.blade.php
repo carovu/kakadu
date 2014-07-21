@@ -9,7 +9,6 @@
 	{{HTML::style('css/bootstrap.css')}}
 	{{HTML::style('css/font-awesome.css')}} 
 	{{HTML::style('css/footer.css')}} 
-
 	<style>
 
     	/* A fixed navbar needs a padding-top of at least 40px (see: http://twitter.github.io/bootstrap/components.html#navbar)
