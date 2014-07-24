@@ -90,14 +90,21 @@ Route::filter('guest', function()
 | cross-site request forgery attacks. If this special token in a user
 | session does not match the one given in this request, we'll bail.
 |
-
-Route::filter('csrf', function()
-{
-   $token = Request::ajax() ? Request::header('X-CSRF-Token') : Input::get('_token');
-   if (Session::token() != $token) {
-      //throw new Illuminate\Session\TokenMismatchException;
-      return Session::all();
-      //return Response::view('error.500', array(), 404);
-   }
-});
 */
+Route::filter('csrf', function()
+{   
+    $token = Request::ajax() ? Request::header('X-CSRF-Token') : Input::get('_token');
+    //laravelclient
+    if($token){
+        if (Session::token() != $token) {
+          //throw new Illuminate\Session\TokenMismatchException;
+          return Response::view('error.500', array(), 404);
+      }
+    //angularjsclient
+    }else{
+        if (Session::token() != Request::header('X-CSRF-Token')) {
+          //throw new Illuminate\Session\TokenMismatchException;
+          return Response::view('error.500', array(), 404);
+      }
+    }
+});

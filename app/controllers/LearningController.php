@@ -86,7 +86,6 @@ class LearningController extends BaseKakaduController {
             'question' => $data['question'], 
             'course' => $course, 
             'catalog' => $data['catalog'], 
-            'section' => $section
         );
 
         return Response::json($response);

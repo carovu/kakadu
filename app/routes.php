@@ -132,15 +132,17 @@ Route::group(array('prefix' => 'api/v1'), function()
 Route::group(array('prefix' => 'api/spa'), function()
 { 	
 	if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-	    header('Access-Control-Allow-Origin: *');
-	    header('Access-Control-Allow-Headers: X-Requested-With, Origin, X-CSRF-Token, Content-Type, Accept');
-        header('Access-Control-Request-Method: POST, PUT, DELETE');
+	    header('Access-Control-Allow-Origin: http://localhost:9000');
+	    header('Access-Control-Request-Method: POST, PUT, DELETE');
+	    header('Access-Control-Allow-Headers: X-Requested-With, X-CSRF-Token, Content-Type, Accept, Host, Origin');
+        header('Access-Control-Allow-Credentials: true');
+       
 	    exit;
 	}
 	//Cors(Cross Origin Resource Sharing)
-	header('Access-Control-Allow-Origin: *');
+	header('Access-Control-Allow-Origin: http://localhost:9000');
 	header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-	header('Access-Control-Allow-Headers: *');
+	header('Access-Control-Allow-Headers: Accept, Host, Origin, Cookie');
 	header('Access-Control-Allow-Credentials: true');
 	header('Access-Control-Max-Age: 1000'); //7200
 

@@ -158,7 +158,7 @@ class AuthentificationController extends BaseController {
     public function getLogoutJSON() {
         if(Sentry::check()){
             Sentry::logout();
-      } else {
+        } else {
             return Response::json(array(
                 'code'      =>  404,
                 'message'   =>  'User not logged in'
