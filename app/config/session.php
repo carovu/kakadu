@@ -133,9 +133,9 @@ return array(
     |
     */
 
-    'payload' => 'laravel_payload',
+    //'payload' => 'laravel_payload',
 
-    'httponly' => true,
+    //'httponly' => true,
 
     'secure' => false,
 

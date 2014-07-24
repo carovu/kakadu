@@ -90,11 +90,14 @@ Route::filter('guest', function()
 | cross-site request forgery attacks. If this special token in a user
 | session does not match the one given in this request, we'll bail.
 |
-*/
 
 Route::filter('csrf', function()
 {
-    //if (Session::token() != Input::get('_token')) {
-    //    return Response::view('error.500', array(), 404);
-    //}
+   $token = Request::ajax() ? Request::header('X-CSRF-Token') : Input::get('_token');
+   if (Session::token() != $token) {
+      //throw new Illuminate\Session\TokenMismatchException;
+      return Session::all();
+      //return Response::view('error.500', array(), 404);
+   }
 });
+*/

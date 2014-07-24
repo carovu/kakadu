@@ -4,7 +4,6 @@
 
 	<meta charset="UTF-8" />        
 	<title>Kakadu</title>
-
 	{{Asset::scripts()}}
 	{{HTML::style('css/bootstrap.css')}}
 	{{HTML::style('css/font-awesome.css')}} 
@@ -52,9 +51,7 @@
 	        	$("#passwordLabel").hide();
 	        }
 	    });
-
 	    </script>
-
 	    @yield('scripts')
 
 

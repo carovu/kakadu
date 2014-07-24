@@ -133,7 +133,7 @@ Route::group(array('prefix' => 'api/spa'), function()
 { 	
 	if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 	    header('Access-Control-Allow-Origin: *');
-	    header('Access-Control-Allow-Headers: X-Requested-With, Origin, X-Csrftoken, Content-Type, Accept');
+	    header('Access-Control-Allow-Headers: X-Requested-With, Origin, X-CSRF-Token, Content-Type, Accept');
         header('Access-Control-Request-Method: POST, PUT, DELETE');
 	    exit;
 	}
@@ -146,7 +146,7 @@ Route::group(array('prefix' => 'api/spa'), function()
 
 	//Login
 	Route::post('auth/login', array('uses' => 'AuthentificationController@postLoginJSON'));	
-
+	Route::get('auth/logout', array('uses' => 'AuthentificationController@getLogoutJSON'));
 	//Course
 	Route::get('courses', array('uses' => 'CourseController@getCoursesJSON'));
 
@@ -164,7 +164,7 @@ Route::group(array('prefix' => 'api/spa'), function()
 
 	//need right csrf token
 	Route::get('/token', function() {
-	  return Response::json(Form::token());
+		return Response::json(Session::token());
 	});
 
 	Route::get('/testcourses', function() {

@@ -66,11 +66,15 @@ class LearningController extends BaseKakaduController {
         $this->layout->content = $this->getLearningView('course', $catalogs);
 
         //Get the next question(get question and catalog)
-        $data = HelperFlashcard::getNextQuestion(Sentry::getUser(), $catalogs);
+        $data = HelperFlashcard::getNextQuestion($userSentry, $catalogs);
 
         //No questions found
         if($data === false) {
-            return Response::json(array('flash' => 'Question not found'), 500);
+                        return Response::json(array(
+                'code'      =>  500,
+                'message'   =>  'Question not found'
+                ), 
+            500);    
         }
 
         $question = $data['question'];

@@ -40,7 +40,6 @@ class AuthentificationController extends BaseController {
                 }
 
             }
-
             if (Sentry::check()) {
                 //Set language
                 $language = DB::table('users_metadata')
@@ -98,41 +97,50 @@ class AuthentificationController extends BaseController {
         $validation = Validator::make(Input::all(), $rules);
 
         if ($validation->fails()) {
-            return Response::json('Wrong email or password in Login');
+            $messages = array($e->getMessage());
+            return Redirect::back()->withErrors($messages)->withInput();
         }
         try 
         {
             $user = Sentry::findUserByLogin(Input::get('email'));
             if(Input::get('email') === $user->getLogin() && $user->checkPassword(Input::get('password'))){
-                Sentry::login($user, true);
-                return Response::json('Laravelserver: Success');
-            }else{
-                return Response::json('Wrong email or password in Login');
+                Sentry::loginAndRemember($user); 
+            }
+            if (Sentry::check()) {
+                $user = Sentry::getUser();
+                return Response::json(Sentry::getUser());
+            } else {
+                return Response::json(array(
+                'code'      =>  404,
+                'message'   =>  'User not logged in'
+                ), 
+                404);
             }
         }
         catch (Cartalyst\Sentry\Users\LoginRequiredException $e)
         {
-            return Response::json('Wrong email or password in Login');
+            $messages = array($e->getMessage());
+            return Redirect::back()->withErrors($messages)->withInput();
         }
         catch (Cartalyst\Sentry\Users\PasswordRequiredException $e)
         {
-            return Response::json('Wrong email or password in Login');
+            $messages = array($e->getMessage());
+            return Redirect::back()->withErrors($messages)->withInput();
         }
         catch (Cartalyst\Sentry\Users\UserExistsException $e)
         {
-           return Response::json('Wrong email or password in Login');
-        }
-        catch (Cartalyst\Sentry\Users\LoginRequiredException $e)
-        {
-            return Response::json('Wrong email or password in Login');
+            $messages = array($e->getMessage());
+            return Redirect::back()->withErrors($messages)->withInput();
         }
         catch (Cartalyst\Sentry\Users\UserNotActivatedException $e)
         {
-            return Response::json('Wrong email or password in Login');
+            $messages = array($e->getMessage());
+            return Redirect::back()->withErrors($messages)->withInput();
         }
         catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
         {
-            return Response::json('Wrong email or password in Login');
+            $messages = array($e->getMessage());
+            return Redirect::back()->withErrors($messages)->withInput();
         }
     }
     
@@ -144,7 +152,21 @@ class AuthentificationController extends BaseController {
         return Redirect::route('home');
     }
 
-
+    /**
+     * Log the user out for AngularJS client
+     */
+    public function getLogoutJSON() {
+        if(Sentry::check()){
+            Sentry::logout();
+      } else {
+            return Response::json(array(
+                'code'      =>  404,
+                'message'   =>  'User not logged in'
+                ), 
+            404);      
+        }
+      
+    }
 
     /**
      * Show the registration site
