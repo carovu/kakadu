@@ -44,37 +44,49 @@ class LearningController extends BaseKakaduController {
         $this->course = Course::find($id);
 
         if($this->course === null) {
-            return Response::json(array('flash' => 'Course not found'), 500);
+            return Response::json(array(
+                'code'      =>  404,
+                'message'   =>  'Course not found'
+                ), 
+            404);
         }
 
-/*
         //Check permissions
         $permission = $this->checkPermissions(ConstAction::LEARN);
 
         if($permission !== ConstPermission::ALLOWED) {
-            return Response::json(array('flash' => 'You do not have the permission. Not allowed'), 500);
+            return Response::json(array(
+                'code'      =>  404,
+                'message'   =>  'You dont have permission'
+                ), 
+            404);
         }
-*/
+
         //Check favorites
         $userSentry = Sentry::getUser();
-        $catalog = $this->course->catalog()->first(); 
+        $catalog = $this->course->catalog()->first();
+
+        if(!HelperFavorite::isCatalogFavoriteOfUser($catalog, $userSentry)) {
+            //Get the user and the favorites
+            $favorites = $userSentry->favorites()->get();
+
+            //Save catalog as favorite
+            $userSentry->favorites()->attach($this->catalog);
+        }
 
         //Get all catalogs
         $catalogs = HelperCourse::getSubCatalogIDsOfCatalog($catalog);
-
-        //Create view
-        $this->layout->content = $this->getLearningView('course', $catalogs);
-
-        //Get the next question(get question and catalog)
+        
+        //Get the next question
         $data = HelperFlashcard::getNextQuestion($userSentry, $catalogs);
 
         //No questions found
         if($data === false) {
-                        return Response::json(array(
-                'code'      =>  500,
-                'message'   =>  'Question not found'
+            return Response::json(array(
+                'code'      =>  404,
+                'message'   =>  'question not found'
                 ), 
-            500);    
+            404);
         }
 
         $question = $data['question'];
@@ -82,10 +94,12 @@ class LearningController extends BaseKakaduController {
 
         $catalog = $data['catalog'];
         $course = HelperCourse::getCourseOfCatalog($catalog);
+
         $response = array(
-            'question' => $data['question'], 
-            'course' => $course, 
-            'catalog' => $data['catalog'], 
+            'question' => $questionType->getViewElement(), 
+            'course' => $this->getCourseArray($course), 
+            'catalog' => $this->getCatalogArray($catalog),
+            'section' => 'course'
         );
 
         return Response::json($response);
