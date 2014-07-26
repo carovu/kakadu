@@ -42,14 +42,13 @@ class FavoriteController extends BaseKakaduController {
         $user = User::find($this->user['id']);
         $favorites = $user->favorites()->get();
 
-
-        //Check if catalog is allready a favorite
+        //Check if catalog is already a favorite
         foreach($favorites as $favorite) {
             if($this->catalog->id === $favorite->id) {
                 return $this->getJsonInfoResponse(array(trans('profile.allready_favorite')));
             }
         }
-
+        
         //Save catalog as favorite
         $user->favorites()->attach($this->catalog);
 

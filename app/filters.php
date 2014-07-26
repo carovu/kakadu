@@ -95,8 +95,8 @@ Route::filter('csrf', function()
 {   
     $token = Request::ajax() ? Request::header('X-CSRF-Token') : Input::get('_token');
     //laravelclient
-    if($token){
-        if (Session::token() != $token) {
+    if(Input::get('_token')){
+        if (Session::token() != Input::get('_token')) {
           //throw new Illuminate\Session\TokenMismatchException;
           return Response::view('error.500', array(), 404);
       }

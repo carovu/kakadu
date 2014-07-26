@@ -68,10 +68,11 @@ class LearningController extends BaseKakaduController {
 
         if(!HelperFavorite::isCatalogFavoriteOfUser($catalog, $userSentry)) {
             //Get the user and the favorites
-            $favorites = $userSentry->favorites()->get();
+            $user = User::find($this->user['id']);
+            $favorites = $user->favorites()->get();
 
             //Save catalog as favorite
-            $userSentry->favorites()->attach($this->catalog);
+            $user->favorites()->attach($catalog);
         }
 
         //Get all catalogs
@@ -95,13 +96,21 @@ class LearningController extends BaseKakaduController {
         $catalog = $data['catalog'];
         $course = HelperCourse::getCourseOfCatalog($catalog);
 
-        $response = array(
-            'question' => $questionType->getViewElement(), 
-            'course' => $this->getCourseArray($course), 
-            'catalog' => $this->getCatalogArray($catalog),
-            'section' => 'course'
-        );
+        //can send all this, but need just question for AngularJSClient
+        //$response = array(
+       //     'question' => $questionType->getViewElement(), 
+       //     'course' => $this->getCourseArray($course), 
+       //     'catalog' => $this->getCatalogArray($catalog),
+       //     'section' => 'course'
+      //  );
 
+        $response = array(
+            'status'    => '',
+            'catalog'   => $catalog->id,
+            'course'    => $course->id,
+            'section'   => 'course'
+        );
+        $response = array_merge($response, $questionType->getViewElement());
         return Response::json($response);
     }
 
@@ -302,7 +311,6 @@ class LearningController extends BaseKakaduController {
 
         return Response::json($response);
     }
-
 
     /**
      * Gets the learning view with the first question
