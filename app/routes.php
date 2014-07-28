@@ -156,15 +156,6 @@ Route::group(array('prefix' => 'api/spa'), function()
 	Route::get('course/{num}/learning', array('uses' => 'LearningController@getCourseJSON'));
 	Route::post('learning/next', array('uses' => 'LearningController@postNext'));
 
-	//Test
-	Route::get('/books', function() {
-	  return Response::json(array(
-	    array('title' => 'Great Expectations', 'author' => 'Dickens'),
-	    array('title' => 'Foundation', 'author' => 'Asimov'),
-		array('title' => 'Treasure Island', 'author' => 'Stephenson')
-	  ));
-	});
-
 	//need right csrf token
 	Route::get('/token', function() {
 		return Response::json(Session::token());
@@ -174,26 +165,5 @@ Route::group(array('prefix' => 'api/spa'), function()
 	  return Course::all();
 	});
 
-	Route::post('auth/test', function(){
-        //Validate input
-        $rules = array(
-            'email'         => 'required|email',
-            'password'      => 'required'
-        );
-
-        $validation = Validator::make(Input::all(), $rules);
-
-        if ($validation->fails()) {
-            return Response::json('Wrong email or password in Login');
-        }
-
-        $user = Sentry::findUserByLogin(Input::get('email'));
-       	if(Input::get('email') === $user->getLogin() && $user->checkPassword(Input::get('password'))){
-			Sentry::login($user, true);
-			return Response::json('Laravelserver: Success');
-		}else{
-			return Response::json('Wrong email or password in Login');
-		}
-	});
 });
 

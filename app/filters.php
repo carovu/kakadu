@@ -93,7 +93,6 @@ Route::filter('guest', function()
 */
 Route::filter('csrf', function()
 {   
-    $token = Request::ajax() ? Request::header('X-CSRF-Token') : Input::get('_token');
     //laravelclient
     if(Input::get('_token')){
         if (Session::token() != Input::get('_token')) {

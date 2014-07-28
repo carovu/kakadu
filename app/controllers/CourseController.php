@@ -53,15 +53,15 @@ class CourseController extends BaseKakaduController {
     public function getCoursesJSON() {
 
         //Check permissions
-        //$permission = $this->checkPermissions(ConstAction::ALL);
+        $permission = $this->checkPermissions(ConstAction::ALL);
 
-        //if($permission === ConstPermission::DENIED) {
-         //   return Response::json(array(
-           //     'code'      =>  404,
-             //   'message'   =>  'Courses not allowed to see'
-              //  ), 
-            //404);      
-        //}
+        if($permission === ConstPermission::DENIED) {
+            return Response::json(array(
+                'code'      =>  404,
+                'message'   =>  'Courses not allowed to see'
+                ), 
+            404);      
+        }
         
         return Course::all();
         

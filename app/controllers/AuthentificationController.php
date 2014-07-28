@@ -98,7 +98,11 @@ class AuthentificationController extends BaseController {
 
         if ($validation->fails()) {
             $messages = array($e->getMessage());
-            return Redirect::back()->withErrors($messages)->withInput();
+                return Response::json(array(
+                'code'      =>  404,
+                'message'   =>  $messages
+                ), 
+                404);
         }
         try 
         {
