@@ -57,10 +57,10 @@ class CourseController extends BaseKakaduController {
 
         if($permission === ConstPermission::DENIED) {
             return Response::json(array(
-                'code'      =>  404,
+                'code'      =>  401,
                 'message'   =>  'Courses not allowed to see'
                 ), 
-            404);      
+            401);      
         }
         
         return Course::all();

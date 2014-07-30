@@ -67,11 +67,6 @@ class AuthentificationController extends BaseController {
             $messages = array($e->getMessage());
             return Redirect::back()->withErrors($messages)->withInput();
         }
-        catch (Cartalyst\Sentry\Users\LoginRequiredException $e)
-        {
-            $messages = array($e->getMessage());
-            return Redirect::back()->withErrors($messages)->withInput();
-        }
         catch (Cartalyst\Sentry\Users\UserNotActivatedException $e)
         {
             $messages = array($e->getMessage());
@@ -99,10 +94,10 @@ class AuthentificationController extends BaseController {
         if ($validation->fails()) {
             $messages = array($e->getMessage());
                 return Response::json(array(
-                'code'      =>  404,
+                'code'      =>  400,
                 'message'   =>  $messages
                 ), 
-                404);
+                400);
         }
         try 
         {
@@ -115,10 +110,10 @@ class AuthentificationController extends BaseController {
                 return Response::json(Sentry::getUser());
             } else {
                 return Response::json(array(
-                'code'      =>  404,
+                'code'      =>  400,
                 'message'   =>  'User not logged in'
                 ), 
-                404);
+                400);
             }
         }
         catch (Cartalyst\Sentry\Users\LoginRequiredException $e)

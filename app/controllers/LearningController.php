@@ -56,10 +56,10 @@ class LearningController extends BaseKakaduController {
 
         if($permission !== ConstPermission::ALLOWED) {
             return Response::json(array(
-                'code'      =>  404,
+                'code'      =>  401,
                 'message'   =>  'You dont have permission'
                 ), 
-            404);
+            401);
         }
 
         //Check favorites
