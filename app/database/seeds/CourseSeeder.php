@@ -169,6 +169,7 @@ class CourseSeeder extends Seeder {
         $question->type = 'simple';
         $question->question = json_encode($q);
         $question->answer = json_encode($a);
+        $question->learned = 'true';
         $question->save();
         return $question;
     }

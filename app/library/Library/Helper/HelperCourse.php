@@ -189,4 +189,45 @@ class HelperCourse {
         }
     }
 
+    /**
+     * Compute percentage of course
+     * 
+     * @param  Course $course 
+     */
+    public static function computePercentage($course) {
+        $overallQuestions = 0;
+        $correctQuestions = 0;
+        $tmpCourse = $course;
+
+        if($tmpCourse === null) {
+            return Response::json(array(
+                'code'      =>  404,
+                'message'   =>  'Course not found'
+                ), 
+            404);
+        }
+
+
+        $catalog = $tmpCourse->catalog()->first();
+        //Get all catalogs
+        $catalogs = HelperCourse::getSubCatalogIDsOfCatalog($catalog);
+
+        //Get all questions
+        $query = DB::table('questions')
+              ->whereIn('catalogs.id', $catalogs)
+              ->join('catalog_questions', 'catalog_questions.question_id', '=', 'questions.id')
+              ->join('catalogs', 'catalog_questions.catalog_id', '=', 'catalogs.id')
+              ->groupBy('questions.id');
+        $questions = $query->get(array('questions.id as question_id','questions.learned as question_learned'));
+
+        foreach($questions as $question){
+            $overallQuestions += 1;
+            if($question->question_learned === 'true'){
+                $correctQuestions += 1;
+            }
+        }
+
+        $tmpCourse->percentage = ($correctQuestions/$overallQuestions)*100;
+        $tmpCourse->save();
+    }
 }

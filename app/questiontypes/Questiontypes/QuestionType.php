@@ -8,6 +8,7 @@ abstract class QuestionType {
     protected $answer = null;
     protected $created_at = null;
     protected $updated_at = null;
+    protected $learned = null;  
     protected $catalogs = array();
 
 
@@ -61,6 +62,14 @@ abstract class QuestionType {
         return $this->updated_at;
     }
 
+    /**
+     * Returns user's answer of question
+     * 
+     * @return boolean If the user answered this question correct or wrong
+     */
+    public function getLearned() {
+        return $this->learned;
+    }
 
 
     /**
@@ -129,6 +138,7 @@ abstract class QuestionType {
         $this->id = $question->id;
         $this->created_at = $question->created_at;
         $this->updated_at = $question->updated_at;
+        $this->learned = $question->learned;
     }
 
     /**
@@ -156,8 +166,9 @@ abstract class QuestionType {
         $element = array(
             'id'            => $this->id,
             'type'          => $this->type,
-            'created_at'     => $this->created_at,
-            'updated_at'    => $this->updated_at
+            'created_at'    => $this->created_at,
+            'updated_at'    => $this->updated_at,
+            'learned'       => $this->learned
         );
 
         return $element;

@@ -62,11 +62,70 @@ class CourseController extends BaseKakaduController {
                 ), 
             401);      
         }
-        
+        $courses = Course::all();
+
+        foreach ($courses as $course) {
+            HelperCourse::computePercentage($course);
+        }
         return Course::all();
         
     }
 
+    /**
+     * Shows all courses in JSON format.
+     * 
+     * On a ajax request just the list will be returned
+     *
+     * GET variables:
+     * - sort: name, id, created_at (Sorting value)
+     * - sort_dir: asc, desc (Sorting direction)
+     * - per_page: number (20) (Items per page)
+     * - page: number (Actuall page)
+     */
+    public function resetCoursePercentageJSON($id) {
+        //Get course
+        $this->course = Course::find($id);
+
+        if($this->course === null) {
+            return Response::json(array(
+                'code'      =>  404,
+                'message'   =>  'Course not found'
+                ), 
+            404);
+        }
+
+        //Check permissions
+        $permission = $this->checkPermissions(ConstAction::LEARN);
+
+        if($permission !== ConstPermission::ALLOWED) {
+            return Response::json(array(
+                'code'      =>  401,
+                'message'   =>  'You dont have permission'
+                ), 
+            401);
+        }
+
+        $catalog = $this->course->catalog()->first();
+        //Get all catalogs
+        $catalogs = HelperCourse::getSubCatalogIDsOfCatalog($catalog);
+
+        //Get all questions
+        $query = DB::table('questions')
+              ->whereIn('catalogs.id', $catalogs)
+              ->join('catalog_questions', 'catalog_questions.question_id', '=', 'questions.id')
+              ->join('catalogs', 'catalog_questions.catalog_id', '=', 'catalogs.id')
+              ->groupBy('questions.id');
+        $questions = $query->get(array('questions.id as question_id','questions.learned as question_learned'));
+
+        foreach($questions as $question){
+            $changeQuestion = Question::find($question->question_id);
+            $changeQuestion->learned = 'false';
+            $changeQuestion->save();
+        }
+
+        return Course::all();
+        
+    }
     /**
      * Search all courses with a given text
      */
@@ -523,5 +582,4 @@ class CourseController extends BaseKakaduController {
 
         return true;
     }
-
 }

@@ -34,6 +34,7 @@ class TestdataSeeder extends Seeder {
         $question0->type = 'simple';
         $question0->question = json_encode($q);
         $question0->answer = json_encode($a);
+        $question0->learned = 'false';
         $question0->save();
 
         $q = array(
@@ -48,7 +49,8 @@ class TestdataSeeder extends Seeder {
         $question1->type = 'simple';
         $question1->question = json_encode($q);
         $question1->answer = json_encode($a);
-        $question0->save();
+        $question1->learned = 'false';
+        $question1->save();
         
         $q = array(
             'question' => 'Was ist die Hauptstadt von Griechenland?'
@@ -62,6 +64,7 @@ class TestdataSeeder extends Seeder {
         $question2->type = 'simple';
         $question2->question = json_encode($q);
         $question2->answer = json_encode($a);
+        $question2->learned = 'false';
         $question2->save();
         
         $q = array(
@@ -76,6 +79,7 @@ class TestdataSeeder extends Seeder {
         $question3->type = 'simple';
         $question3->question = json_encode($q);
         $question3->answer = json_encode($a);
+        $question3->learned = 'false';
         $question3->save();
         
         $q = array(
@@ -90,6 +94,7 @@ class TestdataSeeder extends Seeder {
         $question4->type = 'simple';
         $question4->question = json_encode($q);
         $question4->answer = json_encode($a);
+        $question4->learned = 'false';
         $question4->save();
 
 		//5 multiple question
@@ -113,6 +118,7 @@ class TestdataSeeder extends Seeder {
         $question5->type = 'multiple';
         $question5->question = json_encode($q);
         $question5->answer = json_encode($a);
+        $question5->learned = 'false';
         $question5->save();
 
         $q = array(
@@ -135,6 +141,7 @@ class TestdataSeeder extends Seeder {
         $question6->type = 'multiple';
         $question6->question = json_encode($q);
         $question6->answer = json_encode($a);
+        $question6->learned = 'false';
         $question6->save();
 
         $q = array(
@@ -157,6 +164,7 @@ class TestdataSeeder extends Seeder {
         $question7->type = 'multiple';
         $question7->question = json_encode($q);
         $question7->answer = json_encode($a);
+        $question7->learned = 'false';
         $question7->save();
 
         $q = array(
@@ -178,6 +186,7 @@ class TestdataSeeder extends Seeder {
         $question8->type = 'multiple';
         $question8->question = json_encode($q);
         $question8->answer = json_encode($a);
+        $question8->learned = 'false';
         $question8->save();
 
         $q = array(
@@ -200,6 +209,7 @@ class TestdataSeeder extends Seeder {
         $question9->type = 'multiple';
         $question9->question = json_encode($q);
         $question9->answer = json_encode($a);
+        $question9->learned = 'false';
         $question9->save();
 
         $q = array(
@@ -215,6 +225,7 @@ class TestdataSeeder extends Seeder {
         $question10->type = 'cloze';
         $question10->question = json_encode($q);
         $question10->answer = json_encode($a);
+        $question10->learned = 'false';
         $question10->save();
 
         $q = array(
@@ -232,6 +243,7 @@ class TestdataSeeder extends Seeder {
         $question11->type = 'cloze';
         $question11->question = json_encode($q);
         $question11->answer = json_encode($a);
+        $question11->learned = 'false';
         $question11->save();
 
         $q = array(
@@ -249,6 +261,7 @@ class TestdataSeeder extends Seeder {
         $question12->type = 'cloze';
         $question12->question = json_encode($q);
         $question12->answer = json_encode($a);
+        $question12->learned = 'false';
         $question12->save();
 
         $q = array(
@@ -267,6 +280,7 @@ class TestdataSeeder extends Seeder {
         $question13->type = 'cloze';
         $question13->question = json_encode($q);
         $question13->answer = json_encode($a);
+        $question13->learned = 'false';
         $question13->save();
 
         $q = array(
@@ -284,6 +298,7 @@ class TestdataSeeder extends Seeder {
         $question14->type = 'cloze';
         $question14->question = json_encode($q);
         $question14->answer = json_encode($a);
+        $question14->learned = 'false';
         $question14->save();
 
         $q = array(
@@ -304,6 +319,7 @@ class TestdataSeeder extends Seeder {
         $question15->type = 'dragdrop';
         $question15->question = json_encode($q);
         $question15->answer = json_encode($a);
+        $question15->learned = 'false';
         $question15->save();
 
         $q = array(
@@ -324,6 +340,7 @@ class TestdataSeeder extends Seeder {
         $question16->type = 'dragdrop';
         $question16->question = json_encode($q);
         $question16->answer = json_encode($a);
+        $question16->learned = 'false';
         $question16->save();
 
         $q = array(
@@ -344,6 +361,7 @@ class TestdataSeeder extends Seeder {
         $question17->type = 'dragdrop';
         $question17->question = json_encode($q);
         $question17->answer = json_encode($a);
+        $question17->learned = 'false';
         $question17->save();
 
         $q = array(
@@ -364,6 +382,7 @@ class TestdataSeeder extends Seeder {
         $question18->type = 'dragdrop';
         $question18->question = json_encode($q);
         $question18->answer = json_encode($a);
+        $question18->learned = 'false';
         $question18->save();
 
         $q = array(
@@ -384,6 +403,7 @@ class TestdataSeeder extends Seeder {
         $question19->type = 'dragdrop';
         $question19->question = json_encode($q);
         $question19->answer = json_encode($a);
+        $question19->learned = 'false';
         $question19->save();
 
         $catalog->questions()->save($question0);

@@ -105,10 +105,11 @@ class LearningController extends BaseKakaduController {
       //  );
 
         $response = array(
-            'status'    => '',
-            'catalog'   => $catalog->id,
-            'course'    => $course->id,
-            'section'   => 'course'
+            'status'        => '',
+            'catalog'       => $catalog->id,
+            'course'        => $course->id,
+            'percentage'    => $course->percentage,
+            'section'       => 'course'
         );
         $response = array_merge($response, $questionType->getViewElement());
         return Response::json($response);
@@ -305,6 +306,149 @@ class LearningController extends BaseKakaduController {
             'status'    => 'Ok',
             'catalog'   => $catalog->id,
             'course'    => $course->id
+        );
+
+        $response = array_merge($response, $questionType->getViewElement());
+
+        return Response::json($response);
+    }
+
+    /**
+     * Saves the answer of the last question and returns the next question as a JSON response
+     * Function for AJS client.
+     */
+    public function postNextJSON() {
+        //Validate input
+        $rules = array(
+            'question'          => 'required|integer',
+            'course'            => 'integer',
+            'catalog'           => 'integer',
+            'answer'            => 'required|in:true,false',
+            'section'           => 'required|in:course,catalog,favorites',         
+        );
+
+        $validation = Validator::make(Input::all(), $rules);
+
+        if ($validation->fails()) {
+            $errors = $validation->messages();
+            return $this->getJsonErrorResponse($errors);
+        }
+
+
+        //Get question
+        $question = Question::find(Input::get('question'));
+
+        if($question === null) {
+            return $this->getJsonErrorResponse(array(trans('question.question_not_found')));
+        }
+
+
+        //Get catalog and course
+        $section = Input::get('section');
+
+        if($section === 'course') {
+            $course = Course::find(Input::get('course'));
+
+            if($course === null) {
+                return $this->getJsonErrorResponse(array(trans('question.course_not_found')));
+            }
+            $catalog = $course->catalog()->first();
+            $check = HelperCourse::isQuestionPartOfCatalog($question, $catalog);
+            
+            if($check === false) {
+                return $this->getJsonErrorResponse(array(trans('question.catalog_not_valid')));
+            }
+
+        } else if($section === 'catalog') {
+            $catalog = Catalog::find(Input::get('catalog'));
+
+            if($catalog === null) {
+                return $this->getJsonErrorResponse(array(trans('question.catalog_not_found')));
+            }
+
+            $check = HelperCourse::isQuestionPartOfCatalog($question, $catalog);
+            
+            if($check === false) {
+                return $this->getJsonErrorResponse(array(trans('question.catalog_not_valid')));
+            }
+
+            $this->course = HelperCourse::getCourseOfCatalog($catalog);
+        }
+
+
+        //Check permissions
+        $permission = $this->checkPermissions(ConstAction::LEARN);
+
+        if($permission !== ConstPermission::ALLOWED) {
+            return $this->getJsonErrorResponse(array(trans('general.permission_denied')));
+        }
+
+
+        //Check favorites
+        $userSentry = Sentry::getUser();
+
+        if($section === 'course' || $section === 'catalog') {
+            if(!HelperFavorite::isCatalogFavoriteOfUser($catalog, $userSentry)) {
+                if($section === 'course' || !HelperFavorite::isParentCatalogFavoriteOfUser($catalog, $userSentry)) {
+                    return $this->getJsonErrorResponse(array(trans('general.permission_denied')));
+                }
+            }
+        }
+
+
+        //Get all catalogs
+        if($section === 'course' || $section === 'catalog') {
+            $catalogs = HelperCourse::getSubCatalogIDsOfCatalog($catalog);
+
+        } else if($section === 'favorites') {
+            $user = User::find($this->user['id']);
+
+            $catalogs = array();
+            foreach ($user->favorites()->get() as $favorite) {
+                $fav = HelperCourse::getSubCatalogIDsOfCatalog($favorite);
+                $catalogs = array_merge($catalogs, $fav);
+                $catalogs = array_unique($catalogs);
+            }
+
+            if(count($catalogs) <= 0) {
+                return $this->getJsonErrorResponse(array(trans('question.no_question_found')));
+            }
+        }
+        //save user answer
+        $this->saveQuestion = Question::find(Input::get('question'));
+        if($this->saveQuestion === null) {
+            return Response::json(array(
+                'code'      =>  404,
+                'message'   =>  'question not found'
+                ), 
+            404);
+        }
+        $this->saveQuestion->learned = Input::get('answer');
+        $this->saveQuestion->save(); 
+
+        //Save the answer of the last question
+        HelperFlashcard::saveFlashcard($userSentry, $question, Input::get('answer'), $catalogs);
+
+        //Get a new question
+        $data = HelperFlashcard::getNextQuestion($userSentry, $catalogs);
+
+        if($data === false) {
+            return $this->getJsonErrorResponse(array(trans('question.no_question_found')));
+        }
+
+        $question = $data['question'];
+        $questionType = QuestionType::getQuestionFromQuestion($question);
+
+        $catalog = $data['catalog'];
+        $course = HelperCourse::getCourseOfCatalog($catalog);
+        //update course percentage
+        HelperCourse::computePercentage($course);
+        
+        $response = array(
+            'status'        => 'Ok',
+            'catalog'       => $catalog->id,
+            'course'        => $course->id,
+            'percentage'    => $course->percentage,
         );
 
         $response = array_merge($response, $questionType->getViewElement());

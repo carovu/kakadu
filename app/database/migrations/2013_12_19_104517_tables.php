@@ -49,6 +49,7 @@ class Tables extends Migration {
                 array('name' => 'type', 'type' => 'string', 'length' => 10),
                 array('name' => 'question', 'type' => 'text'),
                 array('name' => 'answer', 'type' => 'text'),
+                array('name' => 'learned', 'type' => 'text'),
             );
         $this->createTable('questions', $attributes, array());
 
@@ -63,6 +64,7 @@ class Tables extends Migration {
         $attributes = array(
                 array('name' => 'name', 'type' => 'string', 'length' => 100),
                 array('name' => 'description', 'type' => 'string', 'length' => 500),
+                array('name' => 'percentage', 'type' => 'integer', 'unsigned' => true, 'nullable' => false),
             );
         $foreignKeys = array(
                 array('name' => 'catalog', 'type' => 'integer', 'unsigned' => true, 'nullable' => false, 'table' => 'catalogs', 'referenced' => true),
