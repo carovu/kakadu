@@ -43,6 +43,21 @@ class CourseWithPermissionsTest extends TestCaseCourse {
         $this->assertEquals('200', $response->getStatusCode());
     }
 
+    /**
+     * Test the route to show all courses
+     */
+    public function testCoursesJSONView() {
+        $response = $this->call('GET', 'api/spa/courses');
+        $this->assertEquals('200', $response->getStatusCode());
+    }
+
+    /**
+     * Test the route to reset a coursepercentage
+     */
+    public function testresetCoursePercentageJSON() {
+        $response = $this->call('GET', 'api/spa/course/' . $this->course->id . '/reset');
+        $this->assertEquals('200', $response->getStatusCode());
+    }
 
     /**
      * Test the view to show all courses with ajax

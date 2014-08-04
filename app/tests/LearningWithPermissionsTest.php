@@ -64,6 +64,14 @@ class LearningWithPermissionsTest extends TestCaseCourse {
     }
 
     /**
+     * Test the route to learn a course
+     */
+    public function testCoursesJSONView() {
+        $response = $this->call('GET', 'api/spa/course/' . $this->course->id . '/learning');
+        $this->assertEquals('200', $response->getStatusCode());
+    }
+
+    /**
      * Test the view to learn a catalog
      */
     public function testCatalogView() {
@@ -152,6 +160,35 @@ class LearningWithPermissionsTest extends TestCaseCourse {
         $this->assertEquals(0, $flashcard->number_incorrect);
     }
 
+    /**
+     * Test ajax get next question with valid data and right answer for AJSClient
+     *
+     * @depends testAjaxNextQuestionWithNotValidData
+     */
+    public function testAjaxNextQuestionJSONWithValidDataAndRightAnswer() {
+        $catalog = $this->course->catalog()->first();
+        $question = $catalog->questions()->first();
+
+        $post_data = array(
+            'question'  => $question->id,
+            'course'    => $this->course->id,
+            'answer'    => 'true',
+            'section'   => 'course'
+        );
+        $response = $this->call('POST', 'api/spa/learning/next', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $this->assertEquals('200', $response->getStatusCode());
+        $content = $response->getContent();
+        $this->assertContains('"status":"Ok"', $content);
+
+        //Check flashcard
+        $flashcard = Flashcard::where('question_id', '=', $question->id)
+                                ->where('user_id', '=', Sentry::getUser()->getId())
+                                ->first();
+
+        $this->assertEquals(1, $flashcard->index);
+        $this->assertEquals(1, $flashcard->number_correct);
+        $this->assertEquals(0, $flashcard->number_incorrect);
+    }
 
     /**
      * Test ajax get next question with valid data and wrong answer
