@@ -29,6 +29,7 @@ class HelperFavorite {
                         'id'            => $course->id,
                         'name'          => $course->name,
                         'description'   => $course->description,
+                        'percentage'    => $course->percentage,
                         'created_at'    => $course->created_at,
                         'updated_at'    => $course->updated_at
                     );
@@ -47,6 +48,7 @@ class HelperFavorite {
                                 'id'            => $course->id,
                                 'name'          => $course->name,
                                 'description'   => $course->description,
+                                'percentage'    => $course->percentage,
                                 'created_at'    => $course->created_at,
                                 'updated_at'    => $course->updated_at
                         )

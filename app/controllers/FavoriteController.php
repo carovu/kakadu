@@ -27,6 +27,16 @@ class FavoriteController extends BaseKakaduController {
         $view->catalogs = $data['catalogs'];
     }
 
+    /**
+     * Shows the response with all favorites of a user 
+     */
+    public function getFavoritesJSON() {
+        //Get user data
+        $userSentry = Sentry::getUser();
+        $data = HelperFavorite::getFavorites($userSentry);
+        
+        return Response::json($data['courses']);
+    }
 
     /**
      * Adds a course or a catalog to the favorite list of a user

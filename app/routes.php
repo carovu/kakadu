@@ -149,15 +149,21 @@ Route::group(array('prefix' => 'api/spa'), function()
 	//Authentification
 	Route::post('auth/login', array('uses' => 'AuthentificationController@postLoginJSON'));	
 	Route::get('auth/logout', array('uses' => 'AuthentificationController@getLogoutJSON'));
+
 	//Course
 	Route::get('courses', array('uses' => 'CourseController@getCoursesJSON'));
 	Route::get('course/{num}/reset', array('uses' => 'CourseController@resetCoursePercentageJSON'));
-
+	Route::get('courses/search', array('uses' => 'CourseController@getSearchJSON')); 
 	//Learning
 	Route::get('course/{num}/learning', array('uses' => 'LearningController@getCourseJSON'));
 	Route::post('learning/next', array('uses' => 'LearningController@postNextJSON'));
 
-	//need right csrf token
+	//Favorites
+	Route::get('favorites', array('uses' => 'FavoriteController@getFavoritesJSON'));
+	Route::post('favorites/add', array('uses' => 'FavoriteController@postAdd'));
+	Route::post('favorites/remove', array('uses' => 'FavoriteController@postRemove'));	
+	
+	//Csrf token
 	Route::get('/token', function() {
 		return Response::json(Session::token());
 	});

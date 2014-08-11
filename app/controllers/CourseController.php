@@ -43,12 +43,6 @@ class CourseController extends BaseKakaduController {
      * Shows all courses in JSON format.
      * 
      * On a ajax request just the list will be returned
-     *
-     * GET variables:
-     * - sort: name, id, created_at (Sorting value)
-     * - sort_dir: asc, desc (Sorting direction)
-     * - per_page: number (20) (Items per page)
-     * - page: number (Actuall page)
      */
     public function getCoursesJSON() {
 
@@ -67,7 +61,48 @@ class CourseController extends BaseKakaduController {
         foreach ($courses as $course) {
             HelperCourse::computePercentage($course);
         }
-        return Course::all();
+
+        //Get user id
+        $userID = null;
+
+        if($this->user !== null) {
+            $userID = $this->user['id'];
+        }
+
+        if(Input::has('per_page')) {
+            $per_page = Input::get('per_page');
+            $append['per_page'] = $per_page;
+        } else {
+            $per_page = 20;
+        }
+
+        //Query
+        $table = DB::table('courses');
+
+        $courses = $table->join('catalogs', 'courses.catalog', '=', 'catalogs.id')
+                        ->leftJoin('favorites', function($join) use($userID) {
+                            $join->on('catalogs.id', '=', 'favorites.catalog_id');
+
+                            if($userID === null) {
+                                $parameter = DB::raw('null');
+                            } else {
+                                $parameter = DB::raw($userID);
+                            }
+
+                            $join->on('favorites.user_id', '=', $parameter);
+                        })
+                        ->paginate($per_page, array(
+                                'courses.id',
+                                'courses.name',
+                                'courses.description',
+                                'courses.percentage',
+                                'courses.created_at',
+                                'courses.updated_at',
+                                'courses.catalog',
+                                'favorites.user_id',
+                        ));
+
+        return Response::json($courses);
         
     }
 
@@ -155,6 +190,61 @@ class CourseController extends BaseKakaduController {
         }
     }
 
+    /**
+     * Search all courses with a given text for AJS client
+     */
+    public function getSearchJSON() {
+    
+        //Validate
+        if(Input::get('search') === '') {
+            $search = false;
+        } else {
+            $search = Input::get('search');
+        }
+
+        //Get user id
+        $userID = null;
+
+        if($this->user !== null) {
+            $userID = $this->user['id'];
+        }
+
+        //Query
+        $table = DB::table('courses');
+
+        if($search !== false) {
+            $text = '%' . $search . '%';
+            $table->where('courses.name', 'LIKE', $text)
+                  ->orWhere('courses.description', 'LIKE', $text);
+        }
+
+        $courses = $table->join('catalogs', 'courses.catalog', '=', 'catalogs.id')
+                        ->leftJoin('favorites', function($join) use($userID) {
+                            $join->on('catalogs.id', '=', 'favorites.catalog_id');
+
+                            if($userID === null) {
+                                $parameter = DB::raw('null');
+                            } else {
+                                $parameter = DB::raw($userID);
+                            }
+
+                            $join->on('favorites.user_id', '=', $parameter);
+                        })
+                        ->paginate(20, array(
+                                'courses.id',
+                                'courses.name',
+                                'courses.description',
+                                'courses.percentage',
+                                'courses.created_at',
+                                'courses.updated_at',
+                                'courses.catalog',
+                                'favorites.user_id',
+                        ));
+
+
+        return Response::json($courses);
+        
+    }
 
     private function getListOfCourses($search = false) {
         

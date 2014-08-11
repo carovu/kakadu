@@ -9,16 +9,7 @@ class UserSeeder extends Seeder {
 	 */
 	public function run()
 	{
-		//deletes created test data - by first db:seed you must comment it out
-		//$user_sentry = Sentry::findUserByLogin('alex@example.com');
-       // User::find($user_sentry->getId())->delete();
-       //	$user_sentry = Sentry::findUserByLogin('georg@example.com');
-      // 	User::find($user_sentry->getId())->delete();
-		//$user_sentry = Sentry::findUserByLogin('a@example.com');
-	 //   User::find($user_sentry->getId())->delete();
-
-        //create test data
-      // Create the user
+      	// Create the user
 		$user = Sentry::createUser(array(
 			'email'     => 'alex@example.com',
 			'password'  => 'password',

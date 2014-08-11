@@ -11,8 +11,8 @@ return array(
 'profile_delete_failure'			=> 'Deleting the profile faild',
 
 //Favorites
-'allready_favorite'                 => 'The catalog is allready saved as a favorite',
-'course_allready_favorite'          => 'The course is allready saved as a favorite',
+'allready_favorite'                 => 'The catalog is already saved as a favorite',
+'course_allready_favorite'          => 'The course is already saved as a favorite',
 
 //View
 'profile_header'  		=> 'Your profile',

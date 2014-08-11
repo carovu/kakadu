@@ -9,8 +9,10 @@ class CourseSeeder extends Seeder {
 	 */
 	public function run()
 	{
-        $this->createCourseSeeder('Test 1');
-        $this->createCourseSeeder('Test 2');
+        DB::disableQueryLog();
+        for($i = 1; $i <= 100; $i++){
+            $this->createCourseSeeder('Test ' . $i);
+        }
 	}
 
 
@@ -20,7 +22,7 @@ class CourseSeeder extends Seeder {
         $role = Role::where('name', 'LIKE', 'admin')->first();
             $group = new Learngroup();
             $group->name = 'Group ' . $name;
-            $group->description = 'This is the description of group ' . $name . '. It has to be very long.';
+            $group->description = 'This is the description of group ' . $name . '. Filler text, so you have an impression, how it will look for real courses. Filler text, so you have an impression, how it will look for real courses. Filler text, so you have an impression, how it will look for real courses. Filler text, so you have an impression, how it will look for real courses. Filler text, so you have an impression, how it will look for real courses. Filler text, so you have an impression, how it will look for real courses. Filler text, so you have an impression, how it will look for real courses. Filler text, so you have an impression, how it will look for real courses. Filler text, so you have an impression, how it will look for real courses.';
             $group->save();
 
             //Add admin
@@ -68,9 +70,9 @@ class CourseSeeder extends Seeder {
                 $catalog2->parent = $catalog->id;
                 $catalog2->save();
 
-                $question21 = $this->createSimpleQuestion($i, $name, '2.1');
-                $question22 = $this->createMultipleQuestion($i, $name, '2.2');
-                $question23 = $this->createClozeQuestion($i, $name, '2.3');
+                $question21 = $this->createDragDropQuestion($i, $name, '2.1');
+                $question22 = $this->createDragDropQuestion($i, $name, '2.2');
+                $question23 = $this->createDragDropQuestion($i, $name, '2.3');
                 $question24 = $this->createDragDropQuestion($i, $name, '2.4');
 
                 $catalog2->questions()->save($question21);
@@ -83,7 +85,7 @@ class CourseSeeder extends Seeder {
                 
                 //Kurs 1
                 $description = 'This is the description of course ' . $i . ' - group '
-                                . $name . '. It has to be very long.';
+                                . $name . '. Filler text, so you have an impression, how it will look for real courses. Filler text, so you have an impression, how it will look for real courses. Filler text, so you have an impression, how it will look for real courses. Filler text, so you have an impression, how it will look for real courses. Filler text, so you have an impression, how it will look for real courses. Filler text, so you have an impression, how it will look for real courses. Filler text, so you have an impression, how it will look for real courses.';
 
                 $course = new Course();
                 $course->name = 'Course ' . $i . ' of group ' . $name;
