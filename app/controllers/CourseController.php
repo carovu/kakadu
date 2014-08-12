@@ -52,7 +52,7 @@ class CourseController extends BaseKakaduController {
         if($permission === ConstPermission::DENIED) {
             return Response::json(array(
                 'code'      =>  401,
-                'message'   =>  'Courses not allowed to see'
+                'message'   =>  'courses not allowed to see'
                 ), 
             401);      
         }
@@ -124,7 +124,7 @@ class CourseController extends BaseKakaduController {
         if($this->course === null) {
             return Response::json(array(
                 'code'      =>  404,
-                'message'   =>  'Course not found'
+                'message'   =>  'course not found'
                 ), 
             404);
         }
@@ -135,7 +135,7 @@ class CourseController extends BaseKakaduController {
         if($permission !== ConstPermission::ALLOWED) {
             return Response::json(array(
                 'code'      =>  401,
-                'message'   =>  'You dont have permission'
+                'message'   =>  'you dont have permission'
                 ), 
             401);
         }

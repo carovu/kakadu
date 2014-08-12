@@ -92,12 +92,11 @@ class AuthentificationController extends BaseController {
         $validation = Validator::make(Input::all(), $rules);
 
         if ($validation->fails()) {
-            $messages = array($e->getMessage());
-                return Response::json(array(
-                'code'      =>  400,
-                'message'   =>  $messages
-                ), 
-                400);
+            return Response::json(array(
+            'code'      =>  400,
+            'message'   =>  'email required'
+            ), 
+            400);
         }
         try 
         {
@@ -111,55 +110,50 @@ class AuthentificationController extends BaseController {
             } else {
                 return Response::json(array(
                 'code'      =>  400,
-                'message'   =>  'User not logged in'
+                'message'   =>  'you have given a wrong password'
                 ), 
                 400);
             }
         }
         catch (Cartalyst\Sentry\Users\LoginRequiredException $e)
         {
-            $messages = array($e->getMessage());
-                return Response::json(array(
-                'code'      =>  404,
-                'message'   =>  'LoginRequiredException'
-                ), 
-                404);
+            return Response::json(array(
+            'code'      =>  404,
+            'message'   =>  'LoginRequiredException'
+            ), 
+            404);
         }
         catch (Cartalyst\Sentry\Users\PasswordRequiredException $e)
         {
-            $messages = array($e->getMessage());
-                return Response::json(array(
-                'code'      =>  404,
-                'message'   =>  'PasswordRequiredException'
-                ), 
-                404);
+            return Response::json(array(
+            'code'      =>  404,
+            'message'   =>  'PasswordRequiredException'
+            ), 
+            404);
         }
         catch (Cartalyst\Sentry\Users\UserExistsException $e)
         {
-            $messages = array($e->getMessage());
-                return Response::json(array(
-                'code'      =>  404,
-                'message'   =>  'UserExistsException'
-                ), 
-                404);
+            return Response::json(array(
+            'code'      =>  404,
+            'message'   =>  'UserExistsException'
+            ), 
+            404);
         }
         catch (Cartalyst\Sentry\Users\UserNotActivatedException $e)
         {
-            $messages = array($e->getMessage());
-                return Response::json(array(
-                'code'      =>  404,
-                'message'   =>  'User not activated'
-                ), 
-                404);
+            return Response::json(array(
+            'code'      =>  404,
+            'message'   =>  'user not activated'
+            ), 
+            404);
         }
         catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
         {
-            $messages = array($e->getMessage());
-                return Response::json(array(
-                'code'      =>  404,
-                'message'   =>  'User not found'
-                ), 
-                404);
+            return Response::json(array(
+            'code'      =>  404,
+            'message'   =>  'user not found'
+            ), 
+            404);
         }
     }
     
