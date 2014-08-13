@@ -34,7 +34,12 @@ class FavoriteController extends BaseKakaduController {
         //Get user data
         $userSentry = Sentry::getUser();
         $data = HelperFavorite::getFavorites($userSentry);
-        
+        $courses = array_fetch($data['courses'], 'id');
+        //compute percentage
+        foreach($courses as $id){
+            HelperCourse::computePercentage(Course::find($id));
+        }
+        $data = HelperFavorite::getFavorites($userSentry);
         return Response::json($data['courses']);
     }
 
@@ -64,7 +69,6 @@ class FavoriteController extends BaseKakaduController {
 
         return $this->getJsonOkResponse();
     }
-
 
     /**
      * Removes a course or a catalog to the favorite list of a user

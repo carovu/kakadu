@@ -56,12 +56,7 @@ class CourseController extends BaseKakaduController {
                 ), 
             401);      
         }
-        $courses = Course::all();
-
-        foreach ($courses as $course) {
-            HelperCourse::computePercentage($course);
-        }
-
+        
         //Get user id
         $userID = null;
 
@@ -101,7 +96,6 @@ class CourseController extends BaseKakaduController {
                                 'courses.catalog',
                                 'favorites.user_id',
                         ));
-
         return Response::json($courses);
         
     }
@@ -158,7 +152,11 @@ class CourseController extends BaseKakaduController {
             $changeQuestion->save();
         }
 
-        return Course::all();
+        //Get user data
+        $userSentry = Sentry::getUser();
+        $data = HelperFavorite::getFavorites($userSentry);
+        
+        return Response::json($data['courses']);
         
     }
     /**
