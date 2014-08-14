@@ -161,7 +161,7 @@ Route::group(array('prefix' => 'api/spa'), function()
 	//Favorites
 	Route::get('favorites', array('uses' => 'FavoriteController@getFavoritesJSON'));
 	Route::post('favorites/add', array('uses' => 'FavoriteController@postAdd'));
-	Route::post('favorites/remove', array('uses' => 'FavoriteController@postRemove'));	
+	Route::post('favorites/remove', array('uses' => 'FavoriteController@postRemoveJSON'));	
 	
 	//Csrf token
 	Route::get('/token', function() {

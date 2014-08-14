@@ -64,9 +64,20 @@ class CourseController extends BaseKakaduController {
             $userID = $this->user['id'];
         }
 
+        if(Input::has('sort')) {
+            $sort = Input::get('sort');
+        } else {
+            $sort = 'id';
+        }
+
+        if(Input::has('sort_dir')) {
+            $sort_dir = Input::get('sort_dir');
+        } else {
+            $sort_dir = 'asc';
+        }
+
         if(Input::has('per_page')) {
             $per_page = Input::get('per_page');
-            $append['per_page'] = $per_page;
         } else {
             $per_page = 20;
         }
@@ -86,6 +97,7 @@ class CourseController extends BaseKakaduController {
 
                             $join->on('favorites.user_id', '=', $parameter);
                         })
+                        ->orderBy('courses.' . $sort, $sort_dir)
                         ->paginate($per_page, array(
                                 'courses.id',
                                 'courses.name',
@@ -155,7 +167,12 @@ class CourseController extends BaseKakaduController {
         //Get user data
         $userSentry = Sentry::getUser();
         $data = HelperFavorite::getFavorites($userSentry);
-        
+        $courses = array_fetch($data['courses'], 'id');
+        //compute percentage
+        foreach($courses as $id){
+            HelperCourse::computePercentage(Course::find($id));
+        }
+        $data = HelperFavorite::getFavorites($userSentry);
         return Response::json($data['courses']);
         
     }

@@ -89,6 +89,33 @@ class FavoriteController extends BaseKakaduController {
         return $this->getJsonOkResponse();
     }
 
+    /**
+     * Removes a course or a catalog to the favorite list of a user
+     */
+    public function postRemoveJSON() {
+        $response = $this->checkInputAndPermissions();
+
+        if($response !== true) {
+            return $response;
+        }
+
+        //Get the user and the favorites
+        $user = User::find($this->user['id']);
+
+        //Remove catalog as favorite
+        $user->favorites()->detach($this->catalog);
+
+        //Get user data
+        $userSentry = Sentry::getUser();
+        $data = HelperFavorite::getFavorites($userSentry);
+        $courses = array_fetch($data['courses'], 'id');
+        //compute percentage
+        foreach($courses as $id){
+            HelperCourse::computePercentage(Course::find($id));
+        }
+        $data = HelperFavorite::getFavorites($userSentry);
+        return Response::json($data['courses']);
+    }
 
     /**
      * Check the input and the permissions
