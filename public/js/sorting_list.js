@@ -55,7 +55,7 @@ function change_page(page, url){
 	}
 	
 	//if the next link is pressed
-	var length = $(".pagination").find("a").size()-2;
+	var length = $(".pagination").find("a").size();
 	console.log(length);
 	if(page == -1 && current_page < length){
 		console.log("get");

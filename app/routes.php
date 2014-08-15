@@ -131,16 +131,16 @@ Route::group(array('prefix' => 'api/v1'), function()
 //Route group for SPA client
 Route::group(array('prefix' => 'api/spa'), function()
 { 	
-/*	if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-	    header('Access-Control-Allow-Origin: http://dbis-fw.uibk.ac.at:6680/spa/dist/#/');
+	if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+	    header('Access-Control-Allow-Origin: http://localhost:9000');
 	    header('Access-Control-Request-Method: POST, PUT, DELETE');
 	    header('Access-Control-Allow-Headers: X-Requested-With, X-CSRF-Token, Content-Type, Accept, Host, Origin');
         header('Access-Control-Allow-Credentials: true');
        
 	    exit;
 	}
-*/	//Cors(Cross Origin Resource Sharing)
-	header('Access-Control-Allow-Origin: http://dbis-fw.uibk.ac.at:6680/spa/dist/#/');
+	//Cors(Cross Origin Resource Sharing)
+	header('Access-Control-Allow-Origin: http://localhost:9000');
 	header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 	header('Access-Control-Allow-Headers: Accept, Host, Origin, Cookie');
 	header('Access-Control-Allow-Credentials: true');
