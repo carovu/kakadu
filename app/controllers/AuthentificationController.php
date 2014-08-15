@@ -94,7 +94,7 @@ class AuthentificationController extends BaseController {
         if ($validation->fails()) {
             return Response::json(array(
             'code'      =>  400,
-            'message'   =>  'email required'
+            'message'   =>  'Email required.'
             ), 
             400);
         }
@@ -110,7 +110,7 @@ class AuthentificationController extends BaseController {
             } else {
                 return Response::json(array(
                 'code'      =>  400,
-                'message'   =>  'you have given a wrong password'
+                'message'   =>  'You have given a wrong password.'
                 ), 
                 400);
             }
@@ -119,7 +119,7 @@ class AuthentificationController extends BaseController {
         {
             return Response::json(array(
             'code'      =>  404,
-            'message'   =>  'LoginRequiredException'
+            'message'   =>  'Login required.'
             ), 
             404);
         }
@@ -127,7 +127,7 @@ class AuthentificationController extends BaseController {
         {
             return Response::json(array(
             'code'      =>  404,
-            'message'   =>  'PasswordRequiredException'
+            'message'   =>  'Password required.'
             ), 
             404);
         }
@@ -135,7 +135,7 @@ class AuthentificationController extends BaseController {
         {
             return Response::json(array(
             'code'      =>  404,
-            'message'   =>  'UserExistsException'
+            'message'   =>  'User already exists.'
             ), 
             404);
         }
@@ -143,7 +143,7 @@ class AuthentificationController extends BaseController {
         {
             return Response::json(array(
             'code'      =>  404,
-            'message'   =>  'user not activated'
+            'message'   =>  'User not activated.'
             ), 
             404);
         }
@@ -151,7 +151,7 @@ class AuthentificationController extends BaseController {
         {
             return Response::json(array(
             'code'      =>  404,
-            'message'   =>  'user not found'
+            'message'   =>  'User not found.'
             ), 
             404);
         }
@@ -174,7 +174,7 @@ class AuthentificationController extends BaseController {
         } else {
             return Response::json(array(
                 'code'      =>  401,
-                'message'   =>  'User not logged in'
+                'message'   =>  'User not logged in.'
                 ), 
             401);      
         }

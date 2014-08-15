@@ -71,6 +71,88 @@ class FavoriteController extends BaseKakaduController {
     }
 
     /**
+     * Adds a course or a catalog to the favorite list of a user for AJSclient
+     */
+    public function postAddJSON() {
+        $response = $this->checkInputAndPermissions();
+
+        if($response !== true) {
+            return $response;
+        }
+
+        //Get the user and the favorites
+        $user = User::find($this->user['id']);
+        $favorites = $user->favorites()->get();
+
+        //Check if catalog is already a favorite not necessary, done in client
+        //Save catalog as favorite
+        $user->favorites()->attach($this->catalog);
+
+        //Check permissions
+        $permission = $this->checkPermissions(ConstAction::ALL);
+
+        if($permission === ConstPermission::DENIED) {
+            return Response::json(array(
+                'code'      =>  401,
+                'message'   =>  'Courses not allowed to see.'
+                ), 
+            401);      
+        }
+        
+        //Get user id
+        $userID = null;
+
+        if($this->user !== null) {
+            $userID = $this->user['id'];
+        }
+
+        if(Input::has('sort')) {
+            $sort = Input::get('sort');
+        } else {
+            $sort = 'id';
+        }
+
+        if(Input::has('sort_dir')) {
+            $sort_dir = Input::get('sort_dir');
+        } else {
+            $sort_dir = 'asc';
+        }
+
+        if(Input::has('per_page')) {
+            $per_page = Input::get('per_page');
+        } else {
+            $per_page = 20;
+        }
+
+        //Query
+        $table = DB::table('courses');
+
+        $courses = $table->join('catalogs', 'courses.catalog', '=', 'catalogs.id')
+                        ->leftJoin('favorites', function($join) use($userID) {
+                            $join->on('catalogs.id', '=', 'favorites.catalog_id');
+
+                            if($userID === null) {
+                                $parameter = DB::raw('null');
+                            } else {
+                                $parameter = DB::raw($userID);
+                            }
+
+                            $join->on('favorites.user_id', '=', $parameter);
+                        })
+                        ->orderBy('courses.' . $sort, $sort_dir)
+                        ->paginate($per_page, array(
+                                'courses.id',
+                                'courses.name',
+                                'courses.description',
+                                'courses.percentage',
+                                'courses.created_at',
+                                'courses.updated_at',
+                                'courses.catalog',
+                                'favorites.user_id',
+                        ));
+        return Response::json($courses);  
+    }
+    /**
      * Removes a course or a catalog to the favorite list of a user
      */
     public function postRemove() {
@@ -90,7 +172,7 @@ class FavoriteController extends BaseKakaduController {
     }
 
     /**
-     * Removes a course or a catalog to the favorite list of a user
+     * Removes a course or a catalog to the favorite list of a user for AJS client
      */
     public function postRemoveJSON() {
         $response = $this->checkInputAndPermissions();
