@@ -11,16 +11,16 @@ class DatabaseSeeder extends Seeder {
 	{
 		Eloquent::unguard();
 		$this->call('UserSeeder');
-		$this->call('DefaultGroupSeeder');
-		$this->call('LearngroupSeeder');
+		//$this->call('DefaultGroupSeeder');
+		//$this->call('LearngroupSeeder');
 		//$this->call('QuestiontypeDragDropSeeder');
 		//$this->call('QuestiontypeClozeSeeder');
 		//$this->call('QuestiontypeMultipleSeeder');
 		//$this->call('QuestiontypeSimpleSeeder');
-		$this->call('CourseSeeder');
-		$this->call('FavoriteSeeder');
+		//$this->call('CourseSeeder');
+		//$this->call('FavoriteSeeder');
 		$this->call('TestdataSeeder');
-
+		$this->call('TestCourseSeeder');
 	}
 
 }

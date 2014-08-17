@@ -50,6 +50,30 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
         //$this->assertCount(1, $data['catalogs']);
     }
 
+    /**
+     * Test the view to show all favorites
+     */
+    public function testFavoritesJSON() {
+        //Add favorite
+        $userID = Sentry::getUser()->getId();
+        $user = User::find($userID);
+        $course2 = Course::where('name', 'LIKE', 'Course 2 of group Test xy')->first();
+        $catalog2 = $course2->catalog()->first();
+        $subcatalog2 = $catalog2->children()->first();
+        $user->favorites()->attach($subcatalog2);
+
+        $course1 = Course::where('name', 'LIKE', 'Course 1 of group Test xy')->first();
+        $catalog1 = $course1->catalog()->first();
+        $user->favorites()->attach($catalog1);
+
+
+        //Send get request
+        $response = $this->call('GET', 'api/spa/favorites');
+        $this->assertEquals('200', $response->getStatusCode());
+        $data = $response->getContent();
+        //$this->assertCount(1, $data['courses']);
+        //$this->assertCount(1, $data['catalogs']);
+    }
 
     /**
      * Test ajax add favorite with no valid type
@@ -144,6 +168,96 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
         $this->assertTrue($check);
     }
 
+    /**
+     * Test ajax add favorite with no valid type
+     */
+    public function testAjaxAddFavoriteWithNoValidTypeJSON() {
+        $post_data = array(
+            'id'    => '1',
+            'type'  => 'question'
+        );
+        $response = $this->call('POST', 'api/spa/favorites/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $this->assertEquals('200', $response->getStatusCode());
+        $content = $response->getContent();
+        $this->assertContains('"status":"Error"', $content);
+        $this->assertContains('errors', $content);
+    }
+
+
+    /**
+     * Test ajax add favorite with no existing course
+     */
+    public function testAjaxAddFavoriteNotExistingCourseJSON() {
+        $id = $this->getNotExistingID('Course');
+
+        $post_data = array(
+            'id'    => $id,
+            'type'  => 'course'
+        );
+        $response = $this->call('POST', 'api/spa/favorites/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $this->assertEquals('200', $response->getStatusCode());
+        $content = $response->getContent();
+        $this->assertContains('"status":"Error"', $content);
+        $this->assertContains('errors', $content);
+    }
+
+
+    /**
+     * Test ajax add favorite with no existing catalog
+     */
+    public function testAjaxAddFavoriteNotExistingCatalogJSON() {
+        $id = $this->getNotExistingID('Catalog');
+
+        $post_data = array(
+            'id'    => $id,
+            'type'  => 'catalog'
+        );
+        $response = $this->call('POST', 'api/spa/favorites/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $this->assertEquals('200', $response->getStatusCode());
+        $content = $response->getContent();
+        $this->assertContains('"status":"Error"', $content);
+        $this->assertContains('errors', $content);
+    }
+
+
+    /**
+     * Test ajax add favorite course
+     */
+    public function testAjaxAddFavoriteCourseJSON() {
+        $post_data = array(
+            'id'    => $this->course->id,
+            'type'  => 'course'
+        );
+        $response = $this->call('POST', 'api/spa/favorites/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $this->assertEquals('200', $response->getStatusCode());
+        $content = $response->getContent();
+
+        //Check if favorite is saved
+        $id = $this->course->catalog()->first()->id;
+        $check = $this->isSavedAsFavorite($id);
+        $this->assertTrue($check);
+    }
+
+
+    /**
+     * Test ajax add favorite catalog
+     */
+    public function testAjaxAddFavoriteCatalogJSON() {
+        $catalog1 = $this->course->catalog()->first();
+        $catalog2 = $catalog1->children()->first();
+
+        $post_data = array(
+            'id'    => $catalog2->id,
+            'type'  => 'catalog'
+        );
+        $response = $this->call('POST', 'api/spa/favorites/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $this->assertEquals('200', $response->getStatusCode());
+        $content = $response->getContent();
+
+        //Check if favorite is saved
+        $check = $this->isSavedAsFavorite($catalog2->id);
+        $this->assertTrue($check);
+    }
 
     /**
      * Test ajax remove favorite with no valid type
@@ -251,4 +365,108 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
         $this->assertFalse($check);
     }
 
+
+
+    /**
+     * Test ajax remove favorite with no valid type
+     */
+    public function testAjaxRemoveFavoriteWithNoValidTypeJSON() {
+        $post_data = array(
+            'id'    => '1',
+            'type'  => 'question'
+        );
+        $response = $this->call('POST', 'api/spa/favorites/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $this->assertEquals('200', $response->getStatusCode());
+        $content = $response->getContent();
+        $this->assertContains('"status":"Error"', $content);
+        $this->assertContains('errors', $content);
+    }
+
+
+    /**
+     * Test ajax remove favorite with no existing course
+     */
+    public function testAjaxRemoveFavoriteNotExistingCourseJSON() {
+        $id = $this->getNotExistingID('Course');
+
+        $post_data = array(
+            'id'    => $id,
+            'type'  => 'course'
+        );
+        $response = $this->call('POST', 'api/spa/favorites/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $this->assertEquals('200', $response->getStatusCode());
+        $content = $response->getContent();
+        $this->assertContains('"status":"Error"', $content);
+        $this->assertContains('errors', $content);
+    }
+
+
+    /**
+     * Test ajax remove favorite with no existing catalog
+     */
+    public function testAjaxRemoveFavoriteNotExistingCatalogJSON() {
+        $id = $this->getNotExistingID('Catalog');
+
+        $post_data = array(
+            'id'    => $id,
+            'type'  => 'catalog'
+        );
+        $response = $this->call('POST', 'api/spa/favorites/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $this->assertEquals('200', $response->getStatusCode());
+        $content = $response->getContent();
+        $this->assertContains('"status":"Error"', $content);
+        $this->assertContains('errors', $content);
+    }
+
+
+    /**
+     * Test ajax remove favorite course
+     */
+    public function testAjaxRemoveFavoriteCourseJSON() {
+        //Add favorite
+        $userID = Sentry::getUser()->getId();
+        $user = User::find($userID);
+        $course = Course::where('name', 'LIKE', 'Course 2 of group Test xy')->first();
+        $catalog = $course->catalog()->first();
+        $user->favorites()->attach($catalog);
+
+        //Send post request
+        $post_data = array(
+            'id'    => $course->id,
+            'type'  => 'course'
+        );
+        $response = $this->call('POST', 'api/spa/favorites/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $this->assertEquals('200', $response->getStatusCode());
+        $content = $response->getContent();
+
+        //Check if favorite is saved
+        $check = $this->isSavedAsFavorite($catalog->id);
+        $this->assertFalse($check);
+    }
+
+
+    /**
+     * Test ajax remove favorite catalog
+     */
+    public function testAjaxRemoveFavoriteCatalogJSON() {
+        //Add favorite
+        $userID = Sentry::getUser()->getId();
+        $user = User::find($userID);
+        $course = Course::where('name', 'LIKE', 'Course 2 of group Test xy')->first();
+        $catalog = $course->catalog()->first();
+        $catalog2 = $catalog->children()->first();
+        $user->favorites()->attach($catalog2);
+
+
+        $post_data = array(
+            'id'    => $catalog2->id,
+            'type'  => 'catalog'
+        );
+        $response = $this->call('POST', 'api/spa/favorites/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $this->assertEquals('200', $response->getStatusCode());
+        $content = $response->getContent();
+
+        //Check if favorite is saved
+        $check = $this->isSavedAsFavorite($catalog2->id);
+    }
 }

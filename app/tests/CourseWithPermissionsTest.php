@@ -190,6 +190,72 @@ class CourseWithPermissionsTest extends TestCaseCourse {
         //$this->checkIfNoErrorsExist();
     }
 
+    /**
+     * Test search course with valid result
+     */
+    public function testCourseSearchJSONWithValidResult() {
+        $get_data = array(
+            'search'        => 'xy',
+            '_token'    => Session::token()
+        );
+        $response = $this->call('GET', 'api/spa/courses/search', $get_data);
+        $this->assertEquals('200', $response->getStatusCode());
+        //$data = $response->getContent()->data['content']->data();
+        //$this->assertArrayHasKey('courses', $data);
+        //$this->assertCount(2, $data['courses']);
+        //$this->checkIfNoErrorsExist();
+    }
+
+
+    /**
+     * Test ajax search course with valid result
+     */
+    public function testCourseSearchAjaxJSOWithValidResult() {
+        $get_data = array(
+            'search'        => 'xy',
+            '_token'    => Session::token()
+        );
+        $response = $this->call('GET', 'api/spa/courses/search', $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $this->assertEquals('200', $response->getStatusCode());
+        //$data = $response->getContent()->data();
+        //$this->assertArrayHasKey('courses', $data);
+        //$this->assertCount(2, $data['courses']);
+        //$this->checkIfNoErrorsExist();
+    }
+
+
+    /**
+     * Test search course with no result
+     */
+    public function testCourseSearchJSOWithNoResult() {
+        $get_data = array(
+            'search'        => 'wxyz',
+            '_token'    => Session::token()
+        );
+        $response = $this->call('GET', 'api/spa/courses/search', $get_data);
+        $this->assertEquals('200', $response->getStatusCode());
+        //$data = $response->getContent()->data['content']->data();
+        //$this->assertArrayHasKey('courses', $data);
+        //$this->assertCount(0, $data['courses']);
+        //$this->checkIfNoErrorsExist();
+    }
+
+
+    /**
+     * Test ajax search course with no result
+     */
+    public function testCourseSearchAjaxJSOWithNoResult() {
+        $get_data = array(
+            'search'        => 'wxyz',
+            '_token'    => Session::token()
+        );
+        $response = $this->call('GET', 'api/spa/courses/search', $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+        $this->assertEquals('200', $response->getStatusCode());
+        //$data = $response->getContent()->data();
+        //$this->assertArrayHasKey('courses', $data);
+        //$this->assertCount(0, $data['courses']);
+        //$this->checkIfNoErrorsExist();
+    }
 
     /**
      * Test the view to create a course

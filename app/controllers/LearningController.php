@@ -42,7 +42,7 @@ class LearningController extends BaseKakaduController {
     public function getCourseJSON($id) {
         //Get course
         $this->course = Course::find($id);
-
+        HelperCourse::computePercentage($this->course);        
         if($this->course === null) {
             return Response::json(array(
                 'code'      =>  404,

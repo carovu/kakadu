@@ -67,7 +67,7 @@ class CourseController extends BaseKakaduController {
         if(Input::has('sort')) {
             $sort = Input::get('sort');
         } else {
-            $sort = 'id';
+            $sort = 'name';
         }
 
         if(Input::has('sort_dir')) {
@@ -107,7 +107,8 @@ class CourseController extends BaseKakaduController {
                                 'courses.updated_at',
                                 'courses.catalog',
                                 'favorites.user_id',
-                        ));               
+                        )); 
+     
         return Response::json($courses);    
     }
 
