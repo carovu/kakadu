@@ -49,7 +49,6 @@ class Tables extends Migration {
                 array('name' => 'type', 'type' => 'string', 'length' => 10),
                 array('name' => 'question', 'type' => 'text'),
                 array('name' => 'answer', 'type' => 'text'),
-                array('name' => 'learned', 'type' => 'text'),
             );
         $this->createTable('questions', $attributes, array());
 
@@ -64,7 +63,6 @@ class Tables extends Migration {
         $attributes = array(
                 array('name' => 'name', 'type' => 'string', 'length' => 100),
                 array('name' => 'description', 'type' => 'string', 'length' => 500),
-                array('name' => 'percentage', 'type' => 'integer', 'unsigned' => true, 'nullable' => false),
             );
         $foreignKeys = array(
                 array('name' => 'catalog', 'type' => 'integer', 'unsigned' => true, 'nullable' => false, 'table' => 'catalogs', 'referenced' => true),
@@ -122,6 +120,20 @@ class Tables extends Migration {
             $table->engine = 'InnoDB';
         });
 
+        Schema::table('favorites', function($table)
+        {
+            $table->integer('percentage');
+        });
+
+        Schema::create('favorite_questions', function($table)
+        {
+            $table->increments('id')->unsigned();
+            $table->integer('user_id')->unsigned();
+            $table->integer('question_id');
+            $table->integer('catalog_id');
+            $table->string('learned');
+        });
+
     }
 
 	/**
@@ -143,6 +155,8 @@ class Tables extends Migration {
         Schema::drop('roles');
         Schema::drop('users_metadata');
         Schema::drop('users_suspended');
+        Schema::drop('favorite_questions');
+
 	}
 
     /**

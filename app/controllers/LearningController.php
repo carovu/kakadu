@@ -42,7 +42,8 @@ class LearningController extends BaseKakaduController {
     public function getCourseJSON($id) {
         //Get course
         $this->course = Course::find($id);
-        HelperCourse::computePercentage($this->course);        
+        HelperFavorite::computePercentage($this->user['id'], $this->course);        
+        $percentage = DB::table('favorites')->where('user_id', $this->user['id'])->where('catalog_id', $this->course->id)->pluck('percentage');
         if($this->course === null) {
             return Response::json(array(
                 'code'      =>  404,
@@ -108,7 +109,7 @@ class LearningController extends BaseKakaduController {
             'status'        => '',
             'catalog'       => $catalog->id,
             'course'        => $course->id,
-            'percentage'    => $course->percentage,
+            'percentage'    => $percentage,
             'section'       => 'course'
         );
         $response = array_merge($response, $questionType->getViewElement());
@@ -264,7 +265,6 @@ class LearningController extends BaseKakaduController {
                 }
             }
         }
-
 
         //Get all catalogs
         if($section === 'course' || $section === 'catalog') {
@@ -423,7 +423,7 @@ class LearningController extends BaseKakaduController {
                 ), 
             404);
         }
-        $this->saveQuestion->learned = Input::get('answer');
+        DB::table('favorite_questions')->where('question_id', Input::get('question'))->where('user_id', $this->user['id'])->update(array('learned' => Input::get('answer')));
         $this->saveQuestion->save(); 
 
         //Save the answer of the last question
@@ -441,14 +441,16 @@ class LearningController extends BaseKakaduController {
 
         $catalog = $data['catalog'];
         $course = HelperCourse::getCourseOfCatalog($catalog);
+
         //update course percentage
-        HelperCourse::computePercentage($course);
-        
+        HelperFavorite::computePercentage($this->user['id'], $course);
+        $percentage = DB::table('favorites')->where('user_id', $this->user['id'])->where('catalog_id', $course->id)->pluck('percentage');
+
         $response = array(
             'status'        => 'Ok',
             'catalog'       => $catalog->id,
             'course'        => $course->id,
-            'percentage'    => $course->percentage,
+            'percentage'    => $percentage,
         );
 
         $response = array_merge($response, $questionType->getViewElement());

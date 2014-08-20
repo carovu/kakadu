@@ -33,13 +33,7 @@ class FavoriteController extends BaseKakaduController {
     public function getFavoritesJSON() {
         //Get user data
         $userSentry = Sentry::getUser();
-        $data = HelperFavorite::getFavorites($userSentry);
-        $courses = array_fetch($data['courses'], 'id');
-        //compute percentage
-        foreach($courses as $id){
-            HelperCourse::computePercentage(Course::find($id));
-        }
-        $data = HelperFavorite::getFavorites($userSentry);
+        $data = HelperFavorite::getFavoritesJSON($userSentry);
         return Response::json($data['courses']);
     }
 
@@ -84,9 +78,21 @@ class FavoriteController extends BaseKakaduController {
         $user = User::find($this->user['id']);
         $favorites = $user->favorites()->get();
 
-        //Check if catalog is already a favorite not necessary, done in client
+        //save favoritequestions for percentage
         //Save catalog as favorite
         $user->favorites()->attach($this->catalog);
+
+        //Get all questionsid of favorite catalog of user
+        $query = DB::table('catalog_questions')
+              ->join('favorites', 'favorites.catalog_id', '=', 'catalog_questions.catalog_id')
+              ->where('favorites.catalog_id', '=', $this->catalog->id)
+              ->where('favorites.user_id', '=', $this->user['id'])
+              ->groupBy('catalog_questions.question_id');
+        $questions = $query->get(array('catalog_questions.question_id as question_id'));
+        
+        foreach($questions as $question){
+            DB::table('favorite_questions')->insert(array('user_id' => $this->user['id'], 'question_id' => $question->question_id, 'catalog_id' => $this->catalog->id, 'learned' => 'false'));
+        }
 
         //Check permissions
         $permission = $this->checkPermissions(ConstAction::ALL);
@@ -109,7 +115,7 @@ class FavoriteController extends BaseKakaduController {
         if(Input::has('sort')) {
             $sort = Input::get('sort');
         } else {
-            $sort = 'id';
+            $sort = 'name';
         }
 
         if(Input::has('sort_dir')) {
@@ -144,7 +150,6 @@ class FavoriteController extends BaseKakaduController {
                                 'courses.id',
                                 'courses.name',
                                 'courses.description',
-                                'courses.percentage',
                                 'courses.created_at',
                                 'courses.updated_at',
                                 'courses.catalog',
@@ -184,18 +189,24 @@ class FavoriteController extends BaseKakaduController {
         //Get the user and the favorites
         $user = User::find($this->user['id']);
 
+        //Get all questionsid of favorite catalog of user
+        $query = DB::table('catalog_questions')
+              ->join('favorites', 'favorites.catalog_id', '=', 'catalog_questions.catalog_id')
+              ->where('favorites.catalog_id', '=', $this->catalog->id)
+              ->where('favorites.user_id', '=', $this->user['id'])
+              ->groupBy('catalog_questions.question_id');
+        $questions = $query->get(array('catalog_questions.question_id as question_id'));
+        
+        foreach($questions as $question){
+            DB::table('favorite_questions')->where('user_id', '=', $this->user['id'])->where('question_id', '=', $question->question_id)->where('catalog_id', '=', $this->catalog->id)->delete();
+        }
+
         //Remove catalog as favorite
         $user->favorites()->detach($this->catalog);
 
         //Get user data
         $userSentry = Sentry::getUser();
-        $data = HelperFavorite::getFavorites($userSentry);
-        $courses = array_fetch($data['courses'], 'id');
-        //compute percentage
-        foreach($courses as $id){
-            HelperCourse::computePercentage(Course::find($id));
-        }
-        $data = HelperFavorite::getFavorites($userSentry);
+        $data = HelperFavorite::getFavoritesJSON($userSentry);
         return Response::json($data['courses']);
     }
 

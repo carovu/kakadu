@@ -21,6 +21,16 @@ class TestCourseSeeder extends Seeder {
         $this->createCourseSeeder('German');
         $this->createCourseSeeder('Music');
         $this->createCourseSeeder('Latin');
+        $this->createCourseSeeder('History America');
+        $this->createCourseSeeder('Chinese');
+        $this->createCourseSeeder('History Austria');
+        $this->createCourseSeeder('History England');
+        $this->createCourseSeeder('Christianity');
+        $this->createCourseSeeder('Buddhism ');
+        $this->createCourseSeeder('Japanese');
+        $this->createCourseSeeder('History Japan');
+        $this->createCourseSeeder('History China');
+        $this->createCourseSeeder('Culture');
 
 
     }
