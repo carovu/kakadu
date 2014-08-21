@@ -42,8 +42,7 @@ class LearningController extends BaseKakaduController {
     public function getCourseJSON($id) {
         //Get course
         $this->course = Course::find($id);
-        HelperFavorite::computePercentage($this->user['id'], $this->course);        
-        $percentage = DB::table('favorites')->where('user_id', $this->user['id'])->where('catalog_id', $this->course->id)->pluck('percentage');
+        
         if($this->course === null) {
             return Response::json(array(
                 'code'      =>  404,
@@ -74,8 +73,21 @@ class LearningController extends BaseKakaduController {
 
             //Save catalog as favorite
             $user->favorites()->attach($catalog);
-        }
 
+            //Get all questionsid of favorite catalog of user
+            $query = DB::table('catalog_questions')
+                  ->join('favorites', 'favorites.catalog_id', '=', 'catalog_questions.catalog_id')
+                  ->where('favorites.catalog_id', '=', $catalog->id)
+                  ->where('favorites.user_id', '=', $this->user['id'])
+                  ->groupBy('catalog_questions.question_id');
+            $questions = $query->get(array('catalog_questions.question_id as question_id'));
+            
+            foreach($questions as $question){
+                DB::table('favorite_questions')->insert(array('user_id' => $this->user['id'], 'question_id' => $question->question_id, 'catalog_id' => $catalog->id, 'learned' => 'false'));
+            }
+        }
+        HelperFavorite::computePercentage($this->user['id'], $this->course);        
+        $percentage = DB::table('favorites')->where('user_id', $this->user['id'])->where('catalog_id', $this->course->id)->pluck('percentage');
         //Get all catalogs
         $catalogs = HelperCourse::getSubCatalogIDsOfCatalog($catalog);
         
