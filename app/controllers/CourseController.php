@@ -242,7 +242,6 @@ class CourseController extends BaseKakaduController {
                                 'courses.id',
                                 'courses.name',
                                 'courses.description',
-                                'courses.percentage',
                                 'courses.created_at',
                                 'courses.updated_at',
                                 'courses.catalog',
