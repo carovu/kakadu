@@ -105,8 +105,15 @@ class AuthentificationController extends BaseController {
                 Sentry::loginAndRemember($user); 
             }
             if (Sentry::check()) {
-                $user = Sentry::getUser();
-                return Response::json(Sentry::getUser());
+                //send this information back for userprofile
+                $array = array(
+                    'id'            => Sentry::getUser()->id,
+                    'displayname'   => DB::table('users_metadata')->where('user_id', Sentry::getUser()->id)->pluck('displayname'),
+                    'email'         => Input::get('email'),
+                    'language'      => DB::table('users_metadata')->where('user_id', Sentry::getUser()->id)->pluck('language')
+
+                );
+                return Response::json($array);
             } else {
                 return Response::json(array(
                 'code'      =>  400,
@@ -207,7 +214,6 @@ class AuthentificationController extends BaseController {
         );
 
         $validation = Validator::make(Input::all(), $rules);
-
         if ($validation->fails()) {
             $messages = $validation->messages();
             return $this->redirectWithErrors($redirect_error, $messages);
@@ -218,16 +224,15 @@ class AuthentificationController extends BaseController {
         try
         {
             // create the user
-            $user = Sentry::createUser(array(
+            $user = Sentry::register(array(
                 'email'     => trim(Input::get('email')),
                 'password'  => Input::get('password'),
                 'permissions' => array('admin' => 1),
-                'activated' => true,
             ));
 
             DB::table('users_metadata')->insert(array(
                 'user_id'       => $user->getId(),
-                'displayname'   => 'Alex',
+                'displayname'   => Input::get('displayname'),
                 'language'      => 'en'
                 ));
 
@@ -237,7 +242,7 @@ class AuthentificationController extends BaseController {
             if ($user) {
                 //Sending activation link
                 $link = URL::to('auth/activate/' . $user['hash']);
-               
+        
                 $mailer = new PHPMailer;
                 
                 //no configurationfile in package -> set config here
@@ -280,6 +285,75 @@ class AuthentificationController extends BaseController {
     }
 
 
+    /**
+     * Register the user for AJS, because sending activationemail does not work, we will leave it out completly
+     */
+    public function postRegisterJSON() {
+        
+        //Validate input
+        $rules = array(
+            'displayname'   => 'required',
+            'email'         => 'required|email',
+            'password'      => 'required|confirmed'
+        );
+
+        $validation = Validator::make(Input::all(), $rules);
+
+        if ($validation->fails()) {
+            $messages = $validation->messages();
+            return Response::json(array(
+                'code'      =>  400,
+                'message'   =>  'Your password or email is wrong.'
+                ), 
+            400);
+        }
+
+
+        //Try to register the user
+        try
+        {
+            // create the user
+            $user = Sentry::createUser(array(
+                'email'     => trim(Input::get('email')),
+                'password'  => Input::get('password'),
+                'permissions' => array('admin' => 1),
+                'activated' => true,
+            ));
+
+            DB::table('users_metadata')->insert(array(
+                'user_id'       => $user->getId(),
+                'displayname'   => Input::get('displayname'),
+                'language'      => 'en'
+                ));
+
+            $group = Sentry::findGroupByName('admin');
+            $user->addGroup($group);
+        }
+        catch (Cartalyst\Sentry\Users\LoginRequiredException $e)
+        {
+            return Response::json(array(
+            'code'      =>  404,
+            'message'   =>  'Login required.'
+            ), 
+            404);
+        }
+        catch (Cartalyst\Sentry\Users\PasswordRequiredException $e)
+        {
+            return Response::json(array(
+            'code'      =>  404,
+            'message'   =>  'Password required.'
+            ), 
+            404);
+        }
+        catch (Cartalyst\Sentry\Users\UserExistsException $e)
+        {
+            return Response::json(array(
+            'code'      =>  404,
+            'message'   =>  'User already exists.'
+            ), 
+            404);
+        }
+    }
 
     /**
      * Activate the user

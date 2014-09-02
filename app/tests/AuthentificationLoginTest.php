@@ -33,7 +33,7 @@ class AuthentificationLoginTest extends TestCaseUser {
 
         $response = $this->call('POST', 'auth/register', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
-        //////$this->checkResponseLocation('auth/register', $response);
+        //$this->checkResponseLocation('auth/register', $response);
         
     }
 
@@ -50,7 +50,7 @@ class AuthentificationLoginTest extends TestCaseUser {
         );
         $response = $this->call('POST', 'auth/register', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
-        ////$this->checkResponseLocation('auth/register', $response);
+        //$this->checkResponseLocation('auth/register', $response);
         
     }
 
@@ -67,7 +67,7 @@ class AuthentificationLoginTest extends TestCaseUser {
         );
         $response = $this->call('POST', 'auth/register', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
-        //////$this->checkResponseLocation('auth/register', $response);
+        //$this->checkResponseLocation('auth/register', $response);
         
     }
 
@@ -85,7 +85,7 @@ class AuthentificationLoginTest extends TestCaseUser {
         );
         $response = $this->call('POST', 'auth/register', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
-        ////$this->checkResponseLocation('auth/register', $response);
+        //$this->checkResponseLocation('auth/register', $response);
         
     }
 
@@ -104,7 +104,7 @@ class AuthentificationLoginTest extends TestCaseUser {
         );
         $response = $this->call('POST', 'auth/register', $post_data);
         $this->assertEquals('302', $response->getStatusCode());
-        ////$this->checkResponseLocation('auth/confirmemail', $response);
+        //$this->checkResponseLocation('auth/confirmemail', $response);
         
         //Clear the old request
         Request::flush();
@@ -121,11 +121,38 @@ class AuthentificationLoginTest extends TestCaseUser {
         $link = explode('auth/activate', $mailer->Body, 2);
         //$response = $this->call('GET', 'auth/activate' . $link[1]);
         //$this->assertEquals('302', $response->getStatusCode());
-        ////$this->checkResponseLocation('auth/activate', $response);
+        //$this->checkResponseLocation('auth/activate', $response);
         
     }
 
+    /**
+     * Test register with valid data.
+     *
+     * @depends testRegisterWithPassword
+     */
+    public function testRegisterWithValidDataJSON()
+    {
+        $post_data = array(
+            'displayname'           => 'Test',
+            'email'                 => 'test@example.com',
+            'password'              => 'testpassword',
+            'password_confirmation' => 'testpassword'
+        );
+        $response = $this->call('POST', 'api/spa/auth/register', $post_data);
+        $this->assertEquals('200', $response->getStatusCode());
 
+        //delted user test
+        $user = Sentry::findUserByLogin('test@example.com');
+        Sentry::login($user, false);
+        $userSentry = Sentry::getUser();
+        DB::table('favorites')->where('user_id', $userSentry->id)->delete(); 
+        DB::table('favorite_questions')->where('user_id', $userSentry->id)->delete(); 
+        DB::table('users_metadata')->where('user_id', $userSentry->id)->delete(); 
+        DB::table('flashcards')->where('user_id', $userSentry->id)->delete(); 
+        if ($userSentry->delete()) {
+            Sentry::logout();
+        }
+    }
     /**
      * Test the confirmemail view
      */

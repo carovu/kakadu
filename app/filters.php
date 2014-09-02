@@ -12,23 +12,15 @@
 */
 
 App::before(function($request)
-{
-    //Set the language
-    $language = 'en';
-
-    if(Cookie::has('language')) {
-        $tmp = Cookie::get('language');
-        $accepted = Config::get('app.languages_accepted');
-
-        foreach($accepted as $key => $value) {
-            if($tmp === $key) {
-                $language = $tmp;
-                break;
-            }
-        }
+{   //this filter is necessary for other domains post request. a optionsrequest is sent before post.
+    if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+      header('Access-Control-Allow-Origin: http://localhost:9000');
+      header('Access-Control-Request-Method: POST, PUT, DELETE');
+      header('Access-Control-Allow-Headers: X-Requested-With, X-CSRF-Token, Content-Type, Accept, Host, Origin');
+      header('Access-Control-Allow-Credentials: true');
+       
+      exit;
     }
-
-    Config::set('app.language', $language);
 });
 
 App::after(function($request, $response)
@@ -55,13 +47,13 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Sentry::check() === FALSE) {
-		return Redirect::to('auth/login');
+  if (Sentry::check() === FALSE) {
+    return Redirect::to('auth/login');
     }
 });
 
 Route::filter('auth.basic', function() {
-	return Auth::basic();
+  return Auth::basic();
 });
 
 
@@ -78,7 +70,7 @@ Route::filter('auth.basic', function() {
 
 Route::filter('guest', function()
 {
-	if (Auth::check()) return Redirect::to('/');
+  if (Auth::check()) return Redirect::to('/');
 });
 
 /*
@@ -106,4 +98,23 @@ Route::filter('csrf', function()
           return Response::view('error.500', array(), 404);
       }
     }
+});
+
+/*
+|--------------------------------------------------------------------------
+| CORS Filter
+|--------------------------------------------------------------------------
+|
+|Because our client runs parallel to our existing laravel-client, the sent 
+|requests are going between two different domains, which is why we need cross
+|origin resource sharing (CORS) between our server and client.
+|
+*/
+
+Route::filter('cors', function($response){
+  header('Access-Control-Allow-Origin: http://localhost:9000');
+  header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+  header('Access-Control-Allow-Headers: Accept, Host, Origin, Cookie');
+  header('Access-Control-Allow-Credentials: true');
+  header('Access-Control-Max-Age: 7200'); 
 });

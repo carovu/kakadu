@@ -39,7 +39,6 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
         $catalog1 = $course1->catalog()->first();
         $user->favorites()->attach($catalog1);
 
-
         //Send get request
         $response = $this->call('GET', 'profile/favorites');
         $this->assertEquals('200', $response->getStatusCode());
@@ -62,17 +61,39 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
         $subcatalog2 = $catalog2->children()->first();
         $user->favorites()->attach($subcatalog2);
 
+        //Get all questionsid of favorite catalog of user
+        $query = DB::table('catalog_questions')
+              ->join('favorites', 'favorites.catalog_id', '=', 'catalog_questions.catalog_id')
+              ->where('favorites.catalog_id', '=', $catalog2->id)
+              ->where('favorites.user_id', '=', $userID)
+              ->groupBy('catalog_questions.question_id');
+        $questions = $query->get(array('catalog_questions.question_id as question_id'));
+        
+        foreach($questions as $question){
+            DB::table('favorite_questions')->insert(array('user_id' => $userID, 'question_id' => $question->question_id, 'catalog_id' => $catalog2->id, 'learned' => 'false'));
+        }
+
         $course1 = Course::where('name', 'LIKE', 'Course 1 of group Test xy')->first();
         $catalog1 = $course1->catalog()->first();
         $user->favorites()->attach($catalog1);
 
+        //Get all questionsid of favorite catalog of user
+        $query = DB::table('catalog_questions')
+              ->join('favorites', 'favorites.catalog_id', '=', 'catalog_questions.catalog_id')
+              ->where('favorites.catalog_id', '=', $catalog1->id)
+              ->where('favorites.user_id', '=', $userID)
+              ->groupBy('catalog_questions.question_id');
+        $questions = $query->get(array('catalog_questions.question_id as question_id'));
+        
+        foreach($questions as $question){
+            DB::table('favorite_questions')->insert(array('user_id' => $userID, 'question_id' => $question->question_id, 'catalog_id' => $catalog1->id, 'learned' => 'false'));
+        }
 
         //Send get request
         $response = $this->call('GET', 'api/spa/favorites');
         $this->assertEquals('200', $response->getStatusCode());
         $data = $response->getContent();
-        //$this->assertCount(1, $data['courses']);
-        //$this->assertCount(1, $data['catalogs']);
+        $this->assertContains('"name":"Course 1 of group Test xy"', $data);
     }
 
     /**
@@ -231,7 +252,7 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
         $response = $this->call('POST', 'api/spa/favorites/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
-
+        $this->assertContains('"total":4', $content);
         //Check if favorite is saved
         $id = $this->course->catalog()->first()->id;
         $check = $this->isSavedAsFavorite($id);
@@ -253,7 +274,7 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
         $response = $this->call('POST', 'api/spa/favorites/add', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
-
+        $this->assertContains('"total":4', $content);
         //Check if favorite is saved
         $check = $this->isSavedAsFavorite($catalog2->id);
         $this->assertTrue($check);
@@ -438,7 +459,7 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
         $response = $this->call('POST', 'api/spa/favorites/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
-
+        $this->assertContains('[]', $content);
         //Check if favorite is saved
         $check = $this->isSavedAsFavorite($catalog->id);
         $this->assertFalse($check);
@@ -465,7 +486,7 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
         $response = $this->call('POST', 'api/spa/favorites/remove', $post_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
-
+        $this->assertContains('[]', $content);
         //Check if favorite is saved
         $check = $this->isSavedAsFavorite($catalog2->id);
     }

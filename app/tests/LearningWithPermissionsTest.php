@@ -35,6 +35,17 @@ class LearningWithPermissionsTest extends TestCaseCourse {
         $catalog = $this->course->catalog()->first();
         $user->favorites()->attach($catalog);
 
+        //Get all questionsid of favorite catalog of user
+        $query = DB::table('catalog_questions')
+              ->join('favorites', 'favorites.catalog_id', '=', 'catalog_questions.catalog_id')
+              ->where('favorites.catalog_id', '=', $catalog->id)
+              ->where('favorites.user_id', '=', $userID)
+              ->groupBy('catalog_questions.question_id');
+        $questions = $query->get(array('catalog_questions.question_id as question_id'));
+        
+        foreach($questions as $question){
+            DB::table('favorite_questions')->insert(array('user_id' => $userID, 'question_id' => $question->question_id, 'catalog_id' => $catalog->id, 'learned' => 'false'));
+        }
         //Generate flashcard
         $question = Question::where('question', 'LIKE', '%This is question 1.1 of course 1 - group Test xy%')
                             ->first();
@@ -69,6 +80,17 @@ class LearningWithPermissionsTest extends TestCaseCourse {
     public function testCoursesJSONView() {
         $response = $this->call('GET', 'api/spa/course/' . $this->course->id . '/learning');
         $this->assertEquals('200', $response->getStatusCode());
+        $content = $response->getContent();
+        $this->assertContains('status', $content);
+        $this->assertContains('catalog', $content);
+        $this->assertContains('course', $content);
+        $this->assertContains('percentage', $content);
+        $this->assertContains('"section":"course"', $content);
+        $this->assertContains('id', $content);
+        $this->assertContains('type', $content);
+        $this->assertContains('"learned":null', $content);
+        $this->assertContains('question', $content);
+        $this->assertContains('answer', $content);
     }
 
     /**
@@ -149,7 +171,13 @@ class LearningWithPermissionsTest extends TestCaseCourse {
         $this->assertEquals('200', $response->getStatusCode());
         $content = $response->getContent();
         $this->assertContains('"status":"Ok"', $content);
-
+        $this->assertContains('catalog', $content);
+        $this->assertContains('course', $content);
+        $this->assertContains('id', $content);
+        $this->assertContains('type', $content);
+        $this->assertContains('"learned":null', $content);
+        $this->assertContains('question', $content);
+        $this->assertContains('answer', $content);
         //Check flashcard
         $flashcard = Flashcard::where('question_id', '=', $question->id)
                                 ->where('user_id', '=', Sentry::getUser()->getId())

@@ -150,17 +150,16 @@ class CourseController extends BaseKakaduController {
         $catalogs = HelperCourse::getSubCatalogIDsOfCatalog($catalog);
 
         //Get all questions
-        $query = DB::table('questions')
-              ->whereIn('catalogs.id', $catalogs)
-              ->join('catalog_questions', 'catalog_questions.question_id', '=', 'questions.id')
-              ->join('catalogs', 'catalog_questions.catalog_id', '=', 'catalogs.id')
-              ->groupBy('questions.id');
-        $questions = $query->get(array('questions.id as question_id','questions.learned as question_learned'));
-
+        //Get all questionsid of favorite catalog of user
+        $query = DB::table('catalog_questions')
+              ->join('favorites', 'favorites.catalog_id', '=', 'catalog_questions.catalog_id')
+              ->where('favorites.catalog_id', '=', $catalog->id)
+              ->where('favorites.user_id', '=', $this->user['id'])
+              ->groupBy('catalog_questions.question_id');
+        $questions = $query->get(array('catalog_questions.question_id as question_id'));
+        
         foreach($questions as $question){
-            $changeQuestion = Question::find($question->question_id);
-            $changeQuestion->learned = 'false';
-            $changeQuestion->save();
+            DB::table('favorite_questions')->where('user_id', '=', $this->user['id'])->where('catalog_id', '=', $catalog->id)->update(array('learned' => 'false'));
         }
 
         //Get user data

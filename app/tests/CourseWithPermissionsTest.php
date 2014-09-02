@@ -49,6 +49,13 @@ class CourseWithPermissionsTest extends TestCaseCourse {
     public function testCoursesJSONView() {
         $response = $this->call('GET', 'api/spa/courses');
         $this->assertEquals('200', $response->getStatusCode());
+        $content = $response->getContent();
+        $this->assertContains('total', $content);
+        $this->assertContains('"per_page":20', $content);
+        $this->assertContains('last_page', $content);
+        $this->assertContains('from', $content);
+        $this->assertContains('to', $content);
+        $this->assertContains('data', $content);
     }
 
     /**
@@ -57,6 +64,8 @@ class CourseWithPermissionsTest extends TestCaseCourse {
     public function testresetCoursePercentageJSON() {
         $response = $this->call('GET', 'api/spa/course/' . $this->course->id . '/reset');
         $this->assertEquals('200', $response->getStatusCode());
+        $content = $response->getContent();
+        $this->assertContains('[]', $content);
     }
 
     /**
@@ -200,61 +209,29 @@ class CourseWithPermissionsTest extends TestCaseCourse {
         );
         $response = $this->call('GET', 'api/spa/courses/search', $get_data);
         $this->assertEquals('200', $response->getStatusCode());
-        //$data = $response->getContent()->data['content']->data();
-        //$this->assertArrayHasKey('courses', $data);
-        //$this->assertCount(2, $data['courses']);
-        //$this->checkIfNoErrorsExist();
+        $content = $response->getContent();
+        $this->assertContains('total', $content);
+        $this->assertContains('"per_page":20', $content);
+        $this->assertContains('last_page', $content);
+        $this->assertContains('from', $content);
+        $this->assertContains('to', $content);
+        $this->assertContains('data', $content);
+        $this->assertContains('group Test xy', $content);
+
     }
-
-
-    /**
-     * Test ajax search course with valid result
-     */
-    public function testCourseSearchAjaxJSOWithValidResult() {
-        $get_data = array(
-            'search'        => 'xy',
-            '_token'    => Session::token()
-        );
-        $response = $this->call('GET', 'api/spa/courses/search', $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
-        $this->assertEquals('200', $response->getStatusCode());
-        //$data = $response->getContent()->data();
-        //$this->assertArrayHasKey('courses', $data);
-        //$this->assertCount(2, $data['courses']);
-        //$this->checkIfNoErrorsExist();
-    }
-
 
     /**
      * Test search course with no result
      */
-    public function testCourseSearchJSOWithNoResult() {
+    public function testCourseSearchJSONWithNoResult() {
         $get_data = array(
             'search'        => 'wxyz',
             '_token'    => Session::token()
         );
         $response = $this->call('GET', 'api/spa/courses/search', $get_data);
         $this->assertEquals('200', $response->getStatusCode());
-        //$data = $response->getContent()->data['content']->data();
-        //$this->assertArrayHasKey('courses', $data);
-        //$this->assertCount(0, $data['courses']);
-        //$this->checkIfNoErrorsExist();
-    }
-
-
-    /**
-     * Test ajax search course with no result
-     */
-    public function testCourseSearchAjaxJSOWithNoResult() {
-        $get_data = array(
-            'search'        => 'wxyz',
-            '_token'    => Session::token()
-        );
-        $response = $this->call('GET', 'api/spa/courses/search', $get_data, [], ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
-        $this->assertEquals('200', $response->getStatusCode());
-        //$data = $response->getContent()->data();
-        //$this->assertArrayHasKey('courses', $data);
-        //$this->assertCount(0, $data['courses']);
-        //$this->checkIfNoErrorsExist();
+        $content = $response->getContent();
+        $this->assertContains('"data":[]', $content);
     }
 
     /**
