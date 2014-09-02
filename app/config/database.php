@@ -55,9 +55,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'database', 
-			'username'  => 'root', 
-			'password'  => 'root', 
+			'database'  => 'kakadu', 
+			'username'  => 'kakadu', 
+			'password'  => 'kakadu', 
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
