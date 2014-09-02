@@ -455,7 +455,7 @@ class LearningController extends BaseKakaduController {
         $course = HelperCourse::getCourseOfCatalog($catalog);
 
         //update course percentage
-        HelperFavorite::computePercentage($this->user['id'], $course);
+        HelperFavorite::computePercentage($this->user['id'], Course::find(Input::get('course')));
         $percentage = DB::table('favorites')->where('user_id', $this->user['id'])->where('catalog_id', $course->id)->pluck('percentage');
 
         $response = array(

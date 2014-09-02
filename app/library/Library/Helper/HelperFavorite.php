@@ -187,7 +187,13 @@ class HelperFavorite {
                 $correctQuestions += 1;
             }
         }
-       
+        if($overallQuestions === 0){
+            return Response::json(array(
+                'code'      =>  404,
+                'message'   =>  'Course questions not found.'
+                ), 
+            404);
+        }
         DB::table('favorites')->where('user_id', $userId)->where('catalog_id', $tmpCourse->id)->update(array('percentage' => ($correctQuestions/$overallQuestions)*100));
 
     }
