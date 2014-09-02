@@ -346,7 +346,6 @@ class LearningController extends BaseKakaduController {
             return $this->getJsonErrorResponse($errors);
         }
 
-
         //Get question
         $question = Question::find(Input::get('question'));
 
@@ -354,40 +353,21 @@ class LearningController extends BaseKakaduController {
             return $this->getJsonErrorResponse(array(trans('question.question_not_found')));
         }
 
-
         //Get catalog and course
         $section = Input::get('section');
 
-        if($section === 'course') {
-            $course = Course::find(Input::get('course'));
+        $course = Course::find(Input::get('course'));
 
-            if($course === null) {
-                return $this->getJsonErrorResponse(array(trans('question.course_not_found')));
-            }
-            $catalog = $course->catalog()->first();
-            $check = HelperCourse::isQuestionPartOfCatalog($question, $catalog);
-            
-            if($check === false) {
-                return $this->getJsonErrorResponse(array(trans('question.catalog_not_valid')));
-            }
-
-        } else if($section === 'catalog') {
-            $catalog = Catalog::find(Input::get('catalog'));
-
-            if($catalog === null) {
-                return $this->getJsonErrorResponse(array(trans('question.catalog_not_found')));
-            }
-
-            $check = HelperCourse::isQuestionPartOfCatalog($question, $catalog);
-            
-            if($check === false) {
-                return $this->getJsonErrorResponse(array(trans('question.catalog_not_valid')));
-            }
-
-            $this->course = HelperCourse::getCourseOfCatalog($catalog);
+        if($course === null) {
+            return $this->getJsonErrorResponse(array(trans('question.course_not_found')));
         }
+        $catalog = $course->catalog()->first();
+        $check = HelperCourse::isQuestionPartOfCatalog($question, $catalog);
 
-
+        if($check === false) {
+            return $this->getJsonErrorResponse(array(trans('question.catalog_not_valid')));
+        }
+        
         //Check permissions
         $permission = $this->checkPermissions(ConstAction::LEARN);
 
@@ -395,37 +375,19 @@ class LearningController extends BaseKakaduController {
             return $this->getJsonErrorResponse(array(trans('general.permission_denied')));
         }
 
-
         //Check favorites
         $userSentry = Sentry::getUser();
 
-        if($section === 'course' || $section === 'catalog') {
-            if(!HelperFavorite::isCatalogFavoriteOfUser($catalog, $userSentry)) {
-                if($section === 'course' || !HelperFavorite::isParentCatalogFavoriteOfUser($catalog, $userSentry)) {
-                    return $this->getJsonErrorResponse(array(trans('general.permission_denied')));
-                }
+        if(!HelperFavorite::isCatalogFavoriteOfUser($catalog, $userSentry)) {
+            if($section === 'course' || !HelperFavorite::isParentCatalogFavoriteOfUser($catalog, $userSentry)) {
+                return $this->getJsonErrorResponse(array(trans('general.permission_denied')));
             }
         }
-
 
         //Get all catalogs
-        if($section === 'course' || $section === 'catalog') {
-            $catalogs = HelperCourse::getSubCatalogIDsOfCatalog($catalog);
+        $catalogs = HelperCourse::getSubCatalogIDsOfCatalog($catalog);
 
-        } else if($section === 'favorites') {
-            $user = User::find($this->user['id']);
-
-            $catalogs = array();
-            foreach ($user->favorites()->get() as $favorite) {
-                $fav = HelperCourse::getSubCatalogIDsOfCatalog($favorite);
-                $catalogs = array_merge($catalogs, $fav);
-                $catalogs = array_unique($catalogs);
-            }
-
-            if(count($catalogs) <= 0) {
-                return $this->getJsonErrorResponse(array(trans('question.no_question_found')));
-            }
-        }
+        
         //save user answer
         $this->saveQuestion = Question::find(Input::get('question'));
         if($this->saveQuestion === null) {
