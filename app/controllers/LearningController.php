@@ -87,7 +87,7 @@ class LearningController extends BaseKakaduController {
             }
         }
         HelperFavorite::computePercentage($this->user['id'], $this->course);        
-        $percentage = DB::table('favorites')->where('user_id', $this->user['id'])->where('catalog_id', $this->course->id)->pluck('percentage');
+        $percentage = DB::table('favorites')->where('user_id', $this->user['id'])->where('catalog_id', $catalog->id)->pluck('percentage');
         //Get all catalogs
         $catalogs = HelperCourse::getSubCatalogIDsOfCatalog($catalog);
         
@@ -120,7 +120,7 @@ class LearningController extends BaseKakaduController {
         $response = array(
             'status'        => '',
             'catalog'       => $catalog->id,
-            'course'        => $course->id,
+            'course'        => $this->course->id,
             'percentage'    => $percentage,
             'section'       => 'course'
         );
@@ -418,12 +418,13 @@ class LearningController extends BaseKakaduController {
 
         //update course percentage
         HelperFavorite::computePercentage($this->user['id'], Course::find(Input::get('course')));
-        $percentage = DB::table('favorites')->where('user_id', $this->user['id'])->where('catalog_id', $course->id)->pluck('percentage');
+        $percentage = DB::table('favorites')->where('user_id', $this->user['id'])->where('catalog_id', $catalog->id)->pluck('percentage');
 
         $response = array(
             'status'        => 'Ok',
             'catalog'       => $catalog->id,
-            'course'        => $course->id,
+            //'course'        => $course->id,
+            'course'        => Input::get('course'),
             'percentage'    => $percentage,
         );
 

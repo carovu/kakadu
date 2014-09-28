@@ -36,7 +36,7 @@ class AuthentificationController extends BaseController {
                 if(Input::get('remember')){
                     Sentry::loginAndRemember($user);    
                 } else {
-                    Sentry::login($user, true);
+                    Sentry::login($user, false);
                 }
 
             }

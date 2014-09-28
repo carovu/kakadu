@@ -39,8 +39,8 @@ class UserSeeder extends Seeder {
 	    $user->addGroup($group);
 	    
 		$user = Sentry::createUser(array(
-			'email'     => 'a@example.com',
-			'password'  => 'password1',
+			'email'     => 'caro@example.com',
+			'password'  => 'password',
 			'permissions' => array('admin' => 1),
             'activated' => true
 			));

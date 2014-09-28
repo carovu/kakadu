@@ -14,7 +14,7 @@
 App::before(function($request)
 {   //this filter is necessary for other domains post request. a optionsrequest is sent before post.
     if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-      header('Access-Control-Allow-Origin: http://dbis-fw.uibk.ac.at:6680/spa/dist/#/');
+      header('Access-Control-Allow-Origin: http://dbis-fw.uibk.ac.at:6680');
       header('Access-Control-Request-Method: POST, PUT, DELETE');
       header('Access-Control-Allow-Headers: X-Requested-With, X-CSRF-Token, Content-Type, Accept, Host, Origin');
       header('Access-Control-Allow-Credentials: true');
@@ -112,7 +112,7 @@ Route::filter('csrf', function()
 */
 
 Route::filter('cors', function($response){
-  header('Access-Control-Allow-Origin: http://dbis-fw.uibk.ac.at:6680/spa/dist/#/');
+  header('Access-Control-Allow-Origin: http://dbis-fw.uibk.ac.at:6680');
   header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
   header('Access-Control-Allow-Headers: Accept, Host, Origin, Cookie');
   header('Access-Control-Allow-Credentials: true');
