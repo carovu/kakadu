@@ -182,18 +182,6 @@ class QuestionController extends BaseKakaduController {
         $question = $questionType->save();
         $question->catalogs()->sync($catalogs);
 
-        if (Input::hasFile('questionImage')){
-            $file = Input::file('questionImage');
-            $destinationPath = 'uploads/';
-            $filename = $question->id . 'q';
-            Input::file('questionImage')->move($destinationPath, $filename);
-        } else if (Input::hasFile('answerImage')){
-            $file = Input::file('answerImage');
-            $destinationPath = 'uploads/';
-            $filename = $question->id . 'a';
-            Input::file('answerImage')->move($destinationPath, $filename);
-        }
-
         return Redirect::route($redirect_success, array($catalogs[0]));
     }
 

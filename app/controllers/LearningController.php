@@ -73,21 +73,9 @@ class LearningController extends BaseKakaduController {
 
             //Save catalog as favorite
             $user->favorites()->attach($catalog);
-
-            //Get all questionsid of favorite catalog of user
-            $query = DB::table('catalog_questions')
-                  ->join('favorites', 'favorites.catalog_id', '=', 'catalog_questions.catalog_id')
-                  ->where('favorites.catalog_id', '=', $catalog->id)
-                  ->where('favorites.user_id', '=', $this->user['id'])
-                  ->groupBy('catalog_questions.question_id');
-            $questions = $query->get(array('catalog_questions.question_id as question_id'));
-            
-            foreach($questions as $question){
-                DB::table('favorite_questions')->insert(array('user_id' => $this->user['id'], 'question_id' => $question->question_id, 'catalog_id' => $catalog->id, 'learned' => 'false'));
-            }
         }
-        HelperFavorite::computePercentage($this->user['id'], $this->course);        
-        $percentage = DB::table('favorites')->where('user_id', $this->user['id'])->where('catalog_id', $catalog->id)->pluck('percentage');
+    
+        
         //Get all catalogs
         $catalogs = HelperCourse::getSubCatalogIDsOfCatalog($catalog);
         
@@ -108,20 +96,11 @@ class LearningController extends BaseKakaduController {
 
         $catalog = $data['catalog'];
         $course = HelperCourse::getCourseOfCatalog($catalog);
-
-        //can send all this, but need just question for AngularJSClient
-        //$response = array(
-       //     'question' => $questionType->getViewElement(), 
-       //     'course' => $this->getCourseArray($course), 
-       //     'catalog' => $this->getCatalogArray($catalog),
-       //     'section' => 'course'
-      //  );
-
+        
         $response = array(
             'status'        => '',
             'catalog'       => $catalog->id,
             'course'        => $this->course->id,
-            'percentage'    => $percentage,
             'section'       => 'course'
         );
         $response = array_merge($response, $questionType->getViewElement());
@@ -193,8 +172,62 @@ class LearningController extends BaseKakaduController {
 
         //Create view
         $this->layout->content = $this->getLearningView('favorites', $catalogs);
+
     }
 
+    /**
+     * Shows the learning view for all favorites
+     */
+    public function getFavoritesJSON() {
+        
+        //Check permissions
+        $permission = $this->checkPermissions(ConstAction::LEARN);
+
+        if($permission !== ConstPermission::ALLOWED) {
+            return View::make('general.permission');
+        }
+
+
+        //Get user
+        $user = User::find($this->user['id']);
+
+        //Get favorite catalogs
+        $catalogs = array();
+
+        foreach ($user->favorites()->get() as $favorite) {
+            $fav = HelperCourse::getSubCatalogIDsOfCatalog($favorite);
+            $catalogs = array_merge($catalogs, $fav);
+            $catalogs = array_unique($catalogs);
+        }
+
+        $userSentry = Sentry::getUser();
+        //Get the next question
+        $data = HelperFlashcard::getNextQuestion($userSentry, $catalogs);
+
+        //No questions found
+        if($data === false) {
+            return Response::json(array(
+                'code'      =>  404,
+                'message'   =>  'question not found'
+                ), 
+            404);
+        }
+
+        $question = $data['question'];
+        $questionType = QuestionType::getQuestionFromQuestion($question);
+
+        $catalog = $data['catalog'];
+        $course = HelperCourse::getCourseOfCatalog($catalog);
+
+        $response = array(
+            'status'        => '',
+            'catalog'       => $catalog->id,
+            'course'        => $course->id,
+            'section'       => 'favorites'
+        );
+        $response = array_merge($response, $questionType->getViewElement());
+        return Response::json($response);
+    }
 
     /**
      * Saves the answer of the last question and returns the next question as a JSON response
@@ -336,7 +369,7 @@ class LearningController extends BaseKakaduController {
             'course'            => 'integer',
             'catalog'           => 'integer',
             'answer'            => 'required|in:true,false',
-            'section'           => 'required|in:course,catalog,favorites',         
+            'section'           => 'required|in:course,favorites',         
         );
 
         $validation = Validator::make(Input::all(), $rules);
@@ -385,8 +418,23 @@ class LearningController extends BaseKakaduController {
         }
 
         //Get all catalogs
-        $catalogs = HelperCourse::getSubCatalogIDsOfCatalog($catalog);
+        if($section === 'course' || $section === 'catalog') {
+            $catalogs = HelperCourse::getSubCatalogIDsOfCatalog($catalog);
 
+        } else if($section === 'favorites') {
+            $user = User::find($this->user['id']);
+
+            $catalogs = array();
+            foreach ($user->favorites()->get() as $favorite) {
+                $fav = HelperCourse::getSubCatalogIDsOfCatalog($favorite);
+                $catalogs = array_merge($catalogs, $fav);
+                $catalogs = array_unique($catalogs);
+            }
+
+            if(count($catalogs) <= 0) {
+                return $this->getJsonErrorResponse(array(trans('question.no_question_found')));
+            }
+        }
         
         //save user answer
         $this->saveQuestion = Question::find(Input::get('question'));
@@ -397,8 +445,6 @@ class LearningController extends BaseKakaduController {
                 ), 
             404);
         }
-        DB::table('favorite_questions')->where('question_id', Input::get('question'))->where('user_id', $this->user['id'])->update(array('learned' => Input::get('answer')));
-        $this->saveQuestion->save(); 
 
         //Save the answer of the last question
         HelperFlashcard::saveFlashcard($userSentry, $question, Input::get('answer'), $catalogs);
@@ -416,16 +462,11 @@ class LearningController extends BaseKakaduController {
         $catalog = $data['catalog'];
         $course = HelperCourse::getCourseOfCatalog($catalog);
 
-        //update course percentage
-        HelperFavorite::computePercentage($this->user['id'], Course::find(Input::get('course')));
-        $percentage = DB::table('favorites')->where('user_id', $this->user['id'])->where('catalog_id', $catalog->id)->pluck('percentage');
-
         $response = array(
             'status'        => 'Ok',
             'catalog'       => $catalog->id,
-            //'course'        => $course->id,
-            'course'        => Input::get('course'),
-            'percentage'    => $percentage,
+            'course'        => $course->id,
+            //'course'        => Input::get('course'),
         );
 
         $response = array_merge($response, $questionType->getViewElement());

@@ -28,7 +28,6 @@ class QuestiontypeDragDropSeeder extends Seeder {
         $this->question->type = 'dragdrop';
         $this->question->question = $jsonQuestion;
         $this->question->answer = $jsonAnswer;
-        $this->question->learned = 'false';
         $this->question->save();
 
 	}

@@ -138,7 +138,6 @@ Route::group(array('prefix' => 'api/spa', 'after' => 'cors'), function()
 
 	//Course
 	Route::get('courses', array('uses' => 'CourseController@getCoursesJSON'));
-	Route::get('course/{num}/reset', array('uses' => 'CourseController@resetCoursePercentageJSON'));
 	Route::get('courses/search', array('uses' => 'CourseController@getSearchJSON')); 
 
 	//Profile
@@ -148,6 +147,7 @@ Route::group(array('prefix' => 'api/spa', 'after' => 'cors'), function()
 	
 	//Learning
 	Route::get('course/{num}/learning', array('uses' => 'LearningController@getCourseJSON'));
+	Route::get('favorites/learning', array('uses' => 'LearningController@getFavoritesJSON'));
 	Route::post('learning/next', array('uses' => 'LearningController@postNextJSON'));
 
 	//Favorites

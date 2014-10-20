@@ -120,20 +120,6 @@ class Tables extends Migration {
             $table->engine = 'InnoDB';
         });
 
-        Schema::table('favorites', function($table)
-        {
-            $table->integer('percentage');
-        });
-
-        Schema::create('favorite_questions', function($table)
-        {
-            $table->increments('id')->unsigned();
-            $table->integer('user_id')->unsigned();
-            $table->integer('question_id');
-            $table->integer('catalog_id');
-            $table->string('learned');
-        });
-
     }
 
 	/**
@@ -155,8 +141,6 @@ class Tables extends Migration {
         Schema::drop('roles');
         Schema::drop('users_metadata');
         Schema::drop('users_suspended');
-        Schema::drop('favorite_questions');
-
 	}
 
     /**

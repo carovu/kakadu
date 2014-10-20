@@ -27,7 +27,6 @@ class QuestiontypeSimpleSeeder extends Seeder {
         $this->question->type = 'simple';
         $this->question->question = $jsonQuestion1;
         $this->question->answer = $jsonAnswer;
-        $this->question->learned = 'false';
         $this->question->save();
 	}
 

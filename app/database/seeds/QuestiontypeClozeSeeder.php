@@ -26,7 +26,6 @@ class QuestiontypeClozeSeeder extends Seeder {
         $this->question->type = 'cloze';
         $this->question->question = $jsonQuestion;
         $this->question->answer = $jsonAnswer;
-        $this->question->learned = 'false';
         $this->question->save();
 	}
 

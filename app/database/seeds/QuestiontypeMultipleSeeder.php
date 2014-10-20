@@ -36,7 +36,6 @@ class QuestiontypeMultipleSeeder extends Seeder {
         $this->question->type = 'multiple';
         $this->question->question = $jsonQuestion1;
         $this->question->answer = $jsonAnswer;
-        $this->question->learned = 'false';
         $this->question->save();
 	}
 

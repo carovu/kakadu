@@ -108,7 +108,4 @@
 		{{ Form::close() }}	
 	</div>
 </div>
-<!--  Testing for image -->
-	<!-- {{ HTML::image('uploads/dog.jpg')}} -->
-	
 @stop
