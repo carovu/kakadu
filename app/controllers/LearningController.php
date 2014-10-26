@@ -96,11 +96,17 @@ class LearningController extends BaseKakaduController {
 
         $catalog = $data['catalog'];
         $course = HelperCourse::getCourseOfCatalog($catalog);
-        
+        $data = HelperFavorite::computePercentage($this->user['id'], $this->course);
+   
         $response = array(
             'status'        => '',
             'catalog'       => $catalog->id,
             'course'        => $this->course->id,
+            'iteration'     => $data['iteration'],
+            'percentage'    => $data['percentage'],
+            'numCorrect'    => $data['numCorrect'],
+            'numIncorrect'  => $data['numIncorrect'],
+            'numAnswered'   => $data['numAnswered'],
             'section'       => 'course'
         );
         $response = array_merge($response, $questionType->getViewElement());
@@ -217,6 +223,7 @@ class LearningController extends BaseKakaduController {
         $questionType = QuestionType::getQuestionFromQuestion($question);
 
         $catalog = $data['catalog'];
+        
         $course = HelperCourse::getCourseOfCatalog($catalog);
 
         $response = array(
@@ -368,6 +375,8 @@ class LearningController extends BaseKakaduController {
             'question'          => 'required|integer',
             'course'            => 'integer',
             'catalog'           => 'integer',
+            'percentage'        => 'integer',
+            'iteration'         => 'integer',
             'answer'            => 'required|in:true,false',
             'section'           => 'required|in:course,favorites',         
         );
@@ -461,11 +470,17 @@ class LearningController extends BaseKakaduController {
 
         $catalog = $data['catalog'];
         $course = HelperCourse::getCourseOfCatalog($catalog);
+        $data = HelperFavorite::computePercentage($this->user['id'], $course);
 
         $response = array(
             'status'        => 'Ok',
             'catalog'       => $catalog->id,
             'course'        => $course->id,
+            'iteration'     => $data['iteration'],
+            'percentage'    => $data['percentage'],
+            'numCorrect'    => $data['numCorrect'],
+            'numIncorrect'  => $data['numIncorrect'],
+            'numAnswered'   => $data['numAnswered'],
             //'course'        => Input::get('course'),
         );
 

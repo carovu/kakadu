@@ -61,33 +61,9 @@ class FavoriteWithPermissionsTest extends TestCaseCourse {
         $subcatalog2 = $catalog2->children()->first();
         $user->favorites()->attach($subcatalog2);
 
-        //Get all questionsid of favorite catalog of user
-        $query = DB::table('catalog_questions')
-              ->join('favorites', 'favorites.catalog_id', '=', 'catalog_questions.catalog_id')
-              ->where('favorites.catalog_id', '=', $catalog2->id)
-              ->where('favorites.user_id', '=', $userID)
-              ->groupBy('catalog_questions.question_id');
-        $questions = $query->get(array('catalog_questions.question_id as question_id'));
-        
-        foreach($questions as $question){
-            DB::table('favorite_questions')->insert(array('user_id' => $userID, 'question_id' => $question->question_id, 'catalog_id' => $catalog2->id, 'learned' => 'false'));
-        }
-
         $course1 = Course::where('name', 'LIKE', 'Course 1 of group Test xy')->first();
         $catalog1 = $course1->catalog()->first();
         $user->favorites()->attach($catalog1);
-
-        //Get all questionsid of favorite catalog of user
-        $query = DB::table('catalog_questions')
-              ->join('favorites', 'favorites.catalog_id', '=', 'catalog_questions.catalog_id')
-              ->where('favorites.catalog_id', '=', $catalog1->id)
-              ->where('favorites.user_id', '=', $userID)
-              ->groupBy('catalog_questions.question_id');
-        $questions = $query->get(array('catalog_questions.question_id as question_id'));
-        
-        foreach($questions as $question){
-            DB::table('favorite_questions')->insert(array('user_id' => $userID, 'question_id' => $question->question_id, 'catalog_id' => $catalog1->id, 'learned' => 'false'));
-        }
 
         //Send get request
         $response = $this->call('GET', 'api/spa/favorites');

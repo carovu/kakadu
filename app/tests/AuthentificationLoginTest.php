@@ -146,7 +146,6 @@ class AuthentificationLoginTest extends TestCaseUser {
         Sentry::login($user, false);
         $userSentry = Sentry::getUser();
         DB::table('favorites')->where('user_id', $userSentry->id)->delete(); 
-        DB::table('favorite_questions')->where('user_id', $userSentry->id)->delete(); 
         DB::table('users_metadata')->where('user_id', $userSentry->id)->delete(); 
         DB::table('flashcards')->where('user_id', $userSentry->id)->delete(); 
         if ($userSentry->delete()) {

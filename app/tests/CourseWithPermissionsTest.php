@@ -59,16 +59,6 @@ class CourseWithPermissionsTest extends TestCaseCourse {
     }
 
     /**
-     * Test the route to reset a coursepercentage
-     */
-    public function testresetCoursePercentageJSON() {
-        $response = $this->call('GET', 'api/spa/course/' . $this->course->id . '/reset');
-        $this->assertEquals('200', $response->getStatusCode());
-        $content = $response->getContent();
-        $this->assertContains('[]', $content);
-    }
-
-    /**
      * Test the view to show all courses with ajax
      */
     public function testCoursesViewWithAjax() {

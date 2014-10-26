@@ -282,7 +282,6 @@ class ProfileController extends BaseController {
 
         //Delete all related data
         DB::table('favorites')->where('user_id', $userSentry->id)->delete(); 
-        DB::table('favorite_questions')->where('user_id', $userSentry->id)->delete(); 
         DB::table('users_metadata')->where('user_id', $userSentry->id)->delete(); 
         DB::table('flashcards')->where('user_id', $userSentry->id)->delete(); 
 
