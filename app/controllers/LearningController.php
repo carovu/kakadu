@@ -96,7 +96,8 @@ class LearningController extends BaseKakaduController {
 
         $catalog = $data['catalog'];
         $course = HelperCourse::getCourseOfCatalog($catalog);
-        $data = HelperFavorite::computePercentage($this->user['id'], $this->course);
+        $userID = $userSentry->getId();
+        $data = HelperFavorite::computePercentage($userID, $this->course);
    
         $response = array(
             'status'        => '',
@@ -470,7 +471,8 @@ class LearningController extends BaseKakaduController {
 
         $catalog = $data['catalog'];
         $course = HelperCourse::getCourseOfCatalog($catalog);
-        $data = HelperFavorite::computePercentage($this->user['id'], $course);
+        $userID = $userSentry->getId();
+        $data = HelperFavorite::computePercentage($userID, $course);
 
         $response = array(
             'status'        => 'Ok',
