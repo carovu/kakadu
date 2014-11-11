@@ -492,7 +492,8 @@ class LearningController extends BaseKakaduController {
             );
 
         } else if($section === 'favorites') {
-
+            
+            $course = HelperCourse::getCourseOfCatalog($catalog);
             $response = array(
                 'status'            => 'Ok',
                 'catalog'           => $catalog->id,
