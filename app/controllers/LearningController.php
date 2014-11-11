@@ -100,15 +100,15 @@ class LearningController extends BaseKakaduController {
         $data = HelperFavorite::computePercentage($userID, $this->course);
    
         $response = array(
-            'status'        => '',
-            'catalog'       => $catalog->id,
-            'course'        => $this->course->id,
-            'iteration'     => $data['iteration'],
-            'percentage'    => $data['percentage'],
-            'numCorrect'    => $data['numCorrect'],
-            'numIncorrect'  => $data['numIncorrect'],
-            'numAnswered'   => $data['numAnswered'],
-            'section'       => 'course'
+            'status'            => '',
+            'catalog'           => $catalog->id,
+            'course'            => $this->course->id,
+            'iterations'        => $data['iterations'],
+            'quantity'          => $data['quantity'],
+            'zeroPercentage'    => $data['zeroPercentage'],
+            'onePercentage'     => $data['onePercentage'],
+            'threePercentage'   => $data['threePercentage'],
+            'section'           => 'course'
         );
         $response = array_merge($response, $questionType->getViewElement());
         return Response::json($response);
@@ -210,7 +210,7 @@ class LearningController extends BaseKakaduController {
         $userSentry = Sentry::getUser();
         //Get the next question
         $data = HelperFlashcard::getNextQuestion($userSentry, $catalogs);
-
+        $tmpData = HelperFavorite::computePercentageCatalogs($userSentry->getId(), $catalogs);
         //No questions found
         if($data === false) {
             return Response::json(array(
@@ -228,10 +228,15 @@ class LearningController extends BaseKakaduController {
         $course = HelperCourse::getCourseOfCatalog($catalog);
 
         $response = array(
-            'status'        => '',
-            'catalog'       => $catalog->id,
-            'course'        => $course->id,
-            'section'       => 'favorites'
+            'status'            => '',
+            'catalog'           => $catalog->id,
+            'course'            => $course->id,
+            'section'           => 'favorites',
+            'iterations'        => $tmpData['iterations'],
+            'quantity'          => $tmpData['quantity'],
+            'zeroPercentage'    => $tmpData['zeroPercentage'],
+            'onePercentage'     => $tmpData['onePercentage'],
+            'threePercentage'   => $tmpData['threePercentage']
         );
         $response = array_merge($response, $questionType->getViewElement());
         return Response::json($response);
@@ -341,7 +346,7 @@ class LearningController extends BaseKakaduController {
 
         //Save the answer of the last question
         HelperFlashcard::saveFlashcard($userSentry, $question, Input::get('answer'), $catalogs);
-
+        
         //Get a new question
         $data = HelperFlashcard::getNextQuestion($userSentry, $catalogs);
 
@@ -376,8 +381,6 @@ class LearningController extends BaseKakaduController {
             'question'          => 'required|integer',
             'course'            => 'integer',
             'catalog'           => 'integer',
-            'percentage'        => 'integer',
-            'iteration'         => 'integer',
             'answer'            => 'required|in:true,false',
             'section'           => 'required|in:course,favorites',         
         );
@@ -428,7 +431,7 @@ class LearningController extends BaseKakaduController {
         }
 
         //Get all catalogs
-        if($section === 'course' || $section === 'catalog') {
+        if($section === 'course') {
             $catalogs = HelperCourse::getSubCatalogIDsOfCatalog($catalog);
 
         } else if($section === 'favorites') {
@@ -444,6 +447,7 @@ class LearningController extends BaseKakaduController {
             if(count($catalogs) <= 0) {
                 return $this->getJsonErrorResponse(array(trans('question.no_question_found')));
             }
+            $tmpData = HelperFavorite::computePercentageCatalogs($userSentry->getId(), $catalogs);
         }
         
         //save user answer
@@ -455,7 +459,7 @@ class LearningController extends BaseKakaduController {
                 ), 
             404);
         }
-
+        
         //Save the answer of the last question
         HelperFlashcard::saveFlashcard($userSentry, $question, Input::get('answer'), $catalogs);
 
@@ -465,29 +469,43 @@ class LearningController extends BaseKakaduController {
         if($data === false) {
             return $this->getJsonErrorResponse(array(trans('question.no_question_found')));
         }
-
         $question = $data['question'];
         $questionType = QuestionType::getQuestionFromQuestion($question);
 
         $catalog = $data['catalog'];
         $course = HelperCourse::getCourseOfCatalog($catalog);
-        $userID = $userSentry->getId();
-        $data = HelperFavorite::computePercentage($userID, $course);
 
-        $response = array(
-            'status'        => 'Ok',
-            'catalog'       => $catalog->id,
-            'course'        => $course->id,
-            'iteration'     => $data['iteration'],
-            'percentage'    => $data['percentage'],
-            'numCorrect'    => $data['numCorrect'],
-            'numIncorrect'  => $data['numIncorrect'],
-            'numAnswered'   => $data['numAnswered'],
-            //'course'        => Input::get('course'),
-        );
+        if($section === 'course') {
+            $userID = $userSentry->getId();
+            $course = Course::find(Input::get('course'));
+            $tmpData = HelperFavorite::computePercentage($userID, $course);
+
+            $response = array(
+                'status'            => 'Ok',
+                'catalog'           => $catalog->id,
+                'course'            => Input::get('course'),
+                'iterations'        => $tmpData['iterations'],
+                'quantity'          => $tmpData['quantity'],
+                'zeroPercentage'    => $tmpData['zeroPercentage'],
+                'onePercentage'     => $tmpData['onePercentage'],
+                'threePercentage'   => $tmpData['threePercentage']
+            );
+
+        } else if($section === 'favorites') {
+
+            $response = array(
+                'status'            => 'Ok',
+                'catalog'           => $catalog->id,
+                'course'            => $course->id,
+                'iterations'        => $tmpData['iterations'],
+                'quantity'          => $tmpData['quantity'],
+                'zeroPercentage'    => $tmpData['zeroPercentage'],
+                'onePercentage'     => $tmpData['onePercentage'],
+                'threePercentage'   => $tmpData['threePercentage']
+            );
+        }
 
         $response = array_merge($response, $questionType->getViewElement());
-
         return Response::json($response);
     }
 
