@@ -184,7 +184,7 @@
 							@if($roleSystem !== ConstRole::GUEST)
 							<br>
 							@endif
-							Version 1.0 of Kakadu 
+							Version 2.0 of Kakadu 
 							<a href="http://uibk.ac.at/">Universit&auml;t Innsbruck</a> - <a href="http://informatik.uibk.ac.at/">Institut f&uuml;r Informatik</a> - <a href="http://dbis-informatik.uibk.ac.at/">Databases and Information Systems</a>       		
 						</p>
 					</div>
