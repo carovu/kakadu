@@ -27,7 +27,9 @@ Kakadu is based on the following open source projects:
   - app/config/database_kakadu.php
   - app/config/app.php
 There are two possible ways to install Kakadu
-- per Installer
+
+per Installer:
+
 Installer creates a user account for you and connects to your created
 MySQL database
   - Create your MySQL database
@@ -46,7 +48,8 @@ your user account
   - Input your Host(e.g. localhost), MySQL database name,
 username and password
   - Go to app/filters.php and make sure to write the url of your client in Access-Control-Allow-Origin.
-- per Controller
+
+per Controller:
   - Go to app/config/database.php
 In connections by mysql: write in the assignments "host", "database", "username", "password" your MySQL host, database, username and password.
   - Go to app/database/seeds/UserSeeder.php
