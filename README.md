@@ -12,20 +12,27 @@ Kakadu is based on the following open source projects:
 - Backbone - A JavaScript library with a RESTful JSON interface
 
 ## Requirements
-- Apache web server with PHP 5.3
+- Apache web server with PHP >= 5.3.7
 - MySQL Database
-- [Laravel Requirements](http://laravel.com/docs/install#requirements)
-
+- Composer
+- HP >= 5.3.7
+- MCrypt PHP Extension
+- Git
 
 ## Installation
 - Download Kakadu
-- Upload the content to your web server
+- Upload content to your web server
 - Verify that the following directories and files are writeable:
   - storage/view
-  - application/config/kakadu
-  - application/config/application.php
-- Point your Apache VirtualHost configuration to the public folder
-
+  - app/config/database_kakadu.php
+  - app/config/app.php
+There are two possible ways to install Kakadu
+- per Installer
+Installer creates a user account for you and connects to your created
+MySQL database
+  - Create your MySQL database
+  - Point your Apache VirtualHost configuration to the public
+folder
 <pre><code>
     &lt;VirtualHost *:80&gt;
         DocumentRoot /Users/Kakadu/Sites/kakadu/public
@@ -33,11 +40,23 @@ Kakadu is based on the following open source projects:
     &lt;/VirtualHost&gt;
     
 </code></pre>
-
-- Open the installation with our browser and fill out all settings: http://yourwebsite.com/install
-- Remove the installation routes form the file kakadu/application/routes.php
-
-
+  - Open the installation with your browser at http://yourwebsite.com/install
+  - Input your desired display name, e-mail and password for
+your user account
+  - Input your Host(e.g. localhost), MySQL database name,
+username and password
+  - Go to app/filters.php and make sure to write the url of your client in Access-Control-Allow-Origin.
+- per Controller
+  - Go to app/config/database.php
+In connections by mysql: write in the assignments "host", "database", "username", "password" your MySQL host, database, username and password.
+  - Go to app/database/seeds/UserSeeder.php
+Create your user account with desired email and password
+  - Go back to your root folder and write following commands
+  - php artisan key:generate
+  - php artisan migrate --package=cartalyst/sentry
+  - php artisan migrate
+  - php artisan db:seed
+  - Go to app/filters.php and make sure to write the url of your client in Access-Control-Allow-Origin.
 
 ## License
 Kakadu is open-sourced software licensed under the MIT License.
